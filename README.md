@@ -1,3 +1,7 @@
 # SSD-DBportal
 
-An web portal to access the inventory of various detectors used in SSD operations. 
+An web portal to access the inventory of various detectors used in SSD operations.
+
+# Database 
+
+PostgreSQL version 11. 

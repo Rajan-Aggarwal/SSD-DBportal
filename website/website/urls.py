@@ -15,10 +15,20 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
-from detectors import views
+from django.conf.urls import url, include
+from django.contrib.auth.views import LoginView
+from detectors.views import logout_view
+from detectors.forms import LoginForm
 
+# customize the admin page
+admin.site.site_header 	= 'SSD Administration'
+admin.site.site_title 	= 'SSD Administration'
+admin.site.index_title	= ''
+
+# url routing end-points 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.index, name='index')
+    url(r'^admin/', admin.site.urls, name='admin'),
+    url(r'^login/$', LoginView.as_view(), {'template_name': 'login.html', 'authentication_form': LoginForm}, name='user_login'),
+    url(r'^logout/$', logout_view, name='user_logout'),
+    url(r'', include('detectors.urls')),
 ]

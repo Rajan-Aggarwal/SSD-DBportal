@@ -1,0 +1,8 @@
+{% extends "admin/base_site.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+  Hi {{ user.username }}!
+  <p><a href="{% url 'user_logout' %}">logout</a></p>
+{% endblock %}

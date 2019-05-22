@@ -3,7 +3,7 @@
 {% block title %}{{ title }} | {{ site_title|default:_('SDD DB Portal') }}{% endblock %}
 
 {% block branding %}
-<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('SSD Database Portal') }}</a></h1>
+<h1 id="site-name"><a href="{% url 'home' %}">{{ site_header|default:_('SSD Database Portal') }}</a></h1>
 {% endblock %}
 
 {% block nav-global %}{% endblock %}

@@ -1,8 +1,30 @@
 {% extends "admin/base_site.html" %}
+{% block branding %}
 
-{% block title %}Home{% endblock %}
+<div id="container">
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+        
+			<h1 id="site-name"><a href="/">SSD Database Portal</a></h1>
+
+        </div>
+        
+        
+        <div id="user-tools">
+     
+            <a href="{% url 'user_logout' %}">Log out</a>
+            
+        </div>
+        
+        
+        
+    </div>
+</div>
+{% endblock %}
 
 {% block content %}
-  Hi {{ user.username }}!
-  <p><a href="{% url 'user_logout' %}">logout</a></p>
+
+
+	
 {% endblock %}

@@ -2,8 +2,14 @@
 
 {% block title %}{{ title }} | {{ site_title|default:_('SDD DB Portal') }}{% endblock %}
 
-{% block branding %}
-<h1 id="site-name"><a href="{% url 'home' %}">{{ site_header|default:_('SSD Database Portal') }}</a></h1>
+
+{% block pretitle %}{% if user.is_authenticated %}
+{% else %}
+Click <a href="{% url 'user_login'%}">here</a> to login as a user
+{% endif %}
 {% endblock %}
 
-{% block nav-global %}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">{{ site_header|default:_('SSD Database Portal') }}</a></h1>
+{% endblock %}

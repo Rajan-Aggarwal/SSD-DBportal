@@ -2,8 +2,10 @@
 {% load i18n %}
 
 {% block breadcrumbs %}<div class="breadcrumbs"><a href="/">{% trans 'Home' %}</a></div>{% endblock %}
+{% block pretitle %}{% endblock %}
 
 {% block content %}
 <p>Thanks for using the site.</p>
 <p><a href="{% url 'user_login' %}">Log in again</a></p>
+<p><a href="{% url 'admin:login' %}">Log in as an admin</a></p>
 {% endblock %}

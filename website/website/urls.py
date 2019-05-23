@@ -15,9 +15,9 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.conf.urls import url, include
+from django.conf.urls import url
 from django.contrib.auth.views import LoginView
-from detectors.views import logout_view
+from detectors.views import logout_view, home
 from detectors.forms import LoginForm
 
 # customize the admin page
@@ -30,5 +30,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls, name='admin'),
     url(r'^login/$', LoginView.as_view(), {'template_name': 'login.html', 'authentication_form': LoginForm}, name='user_login'),
     url(r'^logout/$', logout_view, name='user_logout'),
-    url(r'', include('detectors.urls')),
+    url(r'', home, name='home'),
+    url(r'^search/$', home, name='search')
 ]

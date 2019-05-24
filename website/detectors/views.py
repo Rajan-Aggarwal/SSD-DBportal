@@ -34,3 +34,7 @@ class DetectorView(SingleTableMixin, FilterView, LoginRequiredMixin):
 def logout_view(request):
 	logout(request)
 	return render(request, 'logout.html')
+
+@login_required(login_url='login/')
+def more(request, detector_id):
+	return render(request, 'more.html', {'detector_id': detector_id})

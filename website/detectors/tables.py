@@ -4,7 +4,10 @@ from .models import Detector
 
 class DetectorTable(tables.Table):
 
-	more_info = tables.TemplateColumn('<a href="/home/{{record.id}}">More</a>')
+	more = tables.LinkColumn('more', args=[A('pk')], orderable=False, empty_values=())
+
+	def render_more(self):
+		return "More"
 
 	class Meta:
 		model 		= Detector

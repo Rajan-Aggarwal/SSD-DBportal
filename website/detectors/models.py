@@ -17,11 +17,13 @@ class Detector(models.Model):
 	run_number 		= models.CharField(max_length=256)
 	wafer_number 	= models.CharField(max_length=256)
 	trec_id 		= models.CharField('TREC ID', max_length=256)
+
 	# detector characteristics
 	area 					= models.FloatField('Area (in cm sq)', blank=True)
 	thickness 				= models.FloatField('Thickness (in micrometer)',blank=True)
 	support_wafer_thickness = models.FloatField('Support wafer thickness (in micrometer)',blank=True)
 	resistivity 			= models.FloatField('Resistivity (in ohm-cm)',blank=True)
+
 	# detector status
 	dead_or_alive = models.CharField(max_length=1, choices= [
 											('D', 'Dead'), ('A', 'Alive')])
@@ -42,7 +44,6 @@ class LocationTransfer(models.Model):
 	'''
 	detector_id 			= models.ForeignKey('Detector', on_delete=models.CASCADE)
 	transfer_datetime 		= models.DateTimeField('Date and time', default=datetime.now)
-	source_location 		= models.CharField('From', max_length=256)
 	destination_location 	= models.CharField('To', max_length=256)
 	internal_or_external 	= models.CharField(max_length=10, choices = [
 												('External', 'External'),

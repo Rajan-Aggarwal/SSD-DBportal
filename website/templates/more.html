@@ -1,0 +1,10 @@
+{% extends "admin/base_site.html" %}
+
+{% block pretitle %}{% endblock %}
+
+{% block content %}
+<p>More information available for the detector <strong>{{ detector_id }}</strong>.</p>
+<p><a href="{% url 'home' %}">Click here to view its location history</a></p>
+<p><a href="{% url 'home' %}">Click here to view its annealing history</a></p>
+<p><a href="{% url 'home' %}">Click here to view its irradiation history</a></p>
+{% endblock %}

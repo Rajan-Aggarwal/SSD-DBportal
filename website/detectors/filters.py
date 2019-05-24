@@ -1,5 +1,5 @@
 import django_filters
-from .models import Detector
+from .models import Detector, LocationTransfer
 
 class DetectorFilter(django_filters.FilterSet):
 	'''
@@ -16,3 +16,10 @@ class DetectorFilter(django_filters.FilterSet):
 			'current_location': ['icontains'],
 		}
 
+class LocationTransferFilter(django_filters.FilterSet):
+
+	class Meta:
+		model = LocationTransfer
+		fields = {
+			'destination_location': ['icontains'],
+		}

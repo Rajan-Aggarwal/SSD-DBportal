@@ -13,5 +13,6 @@ class DetectorFilter(django_filters.FilterSet):
 			'producer': ['icontains'],
 			'project': ['icontains'],
 			'run_number': ['icontains'],
+			'current_location': ['icontains'],
 		}
 

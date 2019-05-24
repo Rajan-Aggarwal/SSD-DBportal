@@ -17,8 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls import url
 from django.contrib.auth.views import LoginView
-from detectors.views import logout_view, home, more#, location_history
-from detectors.views import DetectorView, LocationTransferView
+from detectors.views import logout_view, more
+from detectors.views import DetectorView, LocationTransferView, AnnealingView, IrradiationView
 from detectors.forms import LoginForm
 
 # customize the admin page
@@ -32,7 +32,9 @@ urlpatterns = [
     url(r'^login/$', LoginView.as_view(), {'template_name': 'login.html', 'authentication_form': LoginForm}, name='user_login'),
     url(r'^logout/$', logout_view, name='user_logout'),
     url(r'^more/(?P<detector_id>\w+)/$', more, name='more'),
-    url(r'^more/(?P<detector_id>\w+)/location_history$', LocationTransferView.as_view(), name='location_transfer'),
+    url(r'^more/(?P<detector_id>\w+)/lt$', LocationTransferView.as_view(), name='location_transfer'),
+    url(r'^more/(?P<detector_id>\w+)/an$', AnnealingView.as_view(), name='annealing'),
+    url(r'^more/(?P<detector_id>\w+)/ir$', IrradiationView.as_view(), name='irradiation'),
     url(r'', DetectorView.as_view(), name='home'),
-    url(r'^search/$', home, name='search')
+    url(r'^search/$', DetectorView.as_view(), name='search')
 ]

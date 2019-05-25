@@ -1,6 +1,5 @@
 from django.contrib import admin
 from .models import Detector, LocationTransfer, Irradiation, Annealing
-# Register your models here.
 
 class LocationTransferModelAdmin(admin.ModelAdmin):
 	'''
@@ -17,7 +16,7 @@ class LocationTransferModelAdmin(admin.ModelAdmin):
 						]
 	readonly_fields = ['source_location']
 
-
+# register your models here
 admin.site.register(Detector)
 admin.site.register(LocationTransfer, LocationTransferModelAdmin)
 admin.site.register(Irradiation)

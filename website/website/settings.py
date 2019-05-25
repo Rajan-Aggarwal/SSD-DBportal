@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'bootstrapform',
     'bootstrap3',
     'crispy_forms',
+    'admin_reorder',
 
 ]
 
@@ -59,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'admin_reorder.middleware.ModelAdminReorder',
 ]
 
 ROOT_URLCONF = 'website.urls'
@@ -113,6 +115,20 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+]
+
+ADMIN_REORDER = [
+    
+    # keep original label and models
+    'sites',
+
+    # reorder app models
+    {'app': 'auth', 'models': ('auth.User', 'auth.Group')},
+    {'app': 'detectors', 'models': ('detectors.Detector', 
+                                    'detectors.LocationTransfer',
+                                    'detectors.Annealing',
+                                    'detectors.Irradiation',    
+                                    )}
 ]
 
 

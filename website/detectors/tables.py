@@ -31,7 +31,7 @@ class LocationTransferTable(tables.Table):
 		model 		= LocationTransfer
 		attrs		= {'class': 'paleblue'}
 		empty_text	= EMPTY_TEXT
-		exclude		= ('id',)
+		exclude		= ('id', 'detector_id',)
 
 
 class AnnealingTable(tables.Table):
@@ -44,7 +44,7 @@ class AnnealingTable(tables.Table):
 		model  		= Annealing
 		attrs 		= {'class': 'paleblue'}
 		empty_text 	= EMPTY_TEXT
-		exclude 	= ('id',)
+		exclude 	= ('id', 'detector_id',)
 
 
 class IrradiationTable(tables.Table):
@@ -57,6 +57,6 @@ class IrradiationTable(tables.Table):
 		model 		= Irradiation
 		attrs 		= {'class': 'paleblue'}
 		empty_text 	= EMPTY_TEXT
-		exclude 	= ('id',)
+		exclude 	= ('id', 'detector_id',)
 
 		

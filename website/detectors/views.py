@@ -34,98 +34,75 @@ class DetectorView(SingleTableMixin, FilterView, LoginRequiredMixin):
 	filterset_class		= DetectorFilter
 	paginate_by 		= 20
 
+class GenericDetectorInfoTableView(SingleTableMixin, FilterView, LoginRequiredMixin):
 
-class LocationTransferView(SingleTableMixin, FilterView, LoginRequiredMixin):
+	'''
+		generic view for the all the tables in the more information section for each detector
+			--> generates a table (use render_table in the template) using django-tables2
+			--> creates a small filter using django-filters
+			--> paginates using django-tables2
+	'''
+
+	paginate_by = 20 # set pagination rows to 20
+
+	def get(self, request, **kwargs):
+		'''
+			override get in order to get the url parameter i.e detector_id
+		'''
+		self.detector_id = self.kwargs['detector_id']
+		return super(GenericDetectorInfoTableView, self).get(self, request, **kwargs)
+
+	def get_queryset(self):
+		'''
+			override get_queryset in order to filter the queryset according to the url parameter i.e detector_id
+		'''
+		queryset = super(GenericDetectorInfoTableView, self).get_queryset()
+		queryset = queryset.filter(detector_id=self.detector_id)
+		return queryset
+
+	def get_context_data(self, **kwargs):
+		'''
+			override get_context_data to provide an extra context of the detector's id
+		'''
+		context = super(GenericDetectorInfoTableView, self).get_context_data(**kwargs)
+		context.update({'detector_id': self.detector_id})
+		return context
+
+
+class LocationTransferView(GenericDetectorInfoTableView):
 
 	'''
 		generic view for the location transfer table
-			--> generates a table (use render_table in the template) using django-tables2
-			--> creates a small filter for you using django-filters
-			--> paginates using django-tables2
 	'''
 
 	table_class			= LocationTransferTable
 	model 				= LocationTransfer
 	template_name		= 'location_transfer.html'
 	filterset_class		= LocationTransferFilter
-	paginate_by			= 20
-
-	def get(self, request, **kwargs):
-		'''
-			override get in order to get the url parameter i.e detector_id
-		'''
-		self.detector_id = self.kwargs['detector_id']
-		return super(LocationTransferView, self).get(self, request, **kwargs)
-
-	def get_queryset(self):
-		'''
-			override get_queryset in order to filter the queryset according to the url parameter i.e detector_id
-		'''
-		queryset = super(LocationTransferView, self).get_queryset()
-		queryset = queryset.filter(detector_id=self.detector_id)
-		return queryset
 
 
-class AnnealingView(SingleTableMixin, FilterView, LoginRequiredMixin):
+class AnnealingView(GenericDetectorInfoTableView):
 
 	'''
 		generic view for the annealing table
-			--> generates a table (use render_table in the template) using django-tables2
-			--> creates a small filter for you using django-filters
-			--> paginates using django-tables2
 	'''
 
 	table_class			= AnnealingTable
 	model 				= Annealing
 	template_name		= 'annealing.html'
 	filterset_class		= AnnealingFilter
-	paginate_by			= 20
-
-	def get(self, request, **kwargs):
-		'''
-			override get in order to get the url parameter i.e detector_id
-		'''
-		self.detector_id = self.kwargs['detector_id']
-		return super(AnnealingView, self).get(self, request, **kwargs)
-
-	def get_queryset(self):
-		'''
-			override get_queryset in order to filter the queryset according to the url parameter i.e detector_id
-		'''
-		queryset = super(AnnealingView, self).get_queryset()
-		queryset = queryset.filter(detector_id=self.detector_id)
-		return queryset
 
 
-class IrradiationView(SingleTableMixin, FilterView, LoginRequiredMixin):
+class IrradiationView(GenericDetectorInfoTableView):
 
 	'''
 		generic view for the irradiation table
-			--> generates a table (use render_table in the template) using django-tables2
-			--> creates a small filter for you using django-filters
-			--> paginates using django-tables2
 	'''
 
 	table_class			= IrradiationTable
 	model 				= Irradiation
 	template_name		= 'irradiation.html'
 	filterset_class		= LocationTransferFilter
-	paginate_by			= 20
-
-	def get(self, request, **kwargs):
-		'''
-			override get in order to get the url parameter i.e detector_id
-		'''
-		self.detector_id = self.kwargs['detector_id']
-		return super(IrradiationView, self).get(self, request, **kwargs)
-
-	def get_queryset(self):
-		'''
-			override get_queryset in order to filter the queryset according to the url parameter i.e detector_id
-		'''
-		queryset = super(IrradiationView, self).get_queryset()
-		queryset = queryset.filter(detector_id=self.detector_id)
-		return queryset
 
 
 @login_required(login_url='login/')

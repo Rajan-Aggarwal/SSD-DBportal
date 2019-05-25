@@ -45,7 +45,10 @@ class LocationTransfer(models.Model):
 	'''
 	detector_id 			= models.ForeignKey('Detector', on_delete=models.CASCADE)
 	transfer_datetime 		= models.DateTimeField('Date and time', default=datetime.now)
-	source_location 		= models.CharField('From', max_length=256, editable=False)	
+	source_location 		= models.CharField('From', default='The current location of this detector (auto-fill)', 
+												max_length=256, 
+												editable=False,
+												)	
 	# non-editable since source location can only be the current location of the detector
 	destination_location 	= models.CharField('To', max_length=256)
 	internal_or_external 	= models.CharField(max_length=10, choices = [

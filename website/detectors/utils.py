@@ -4,6 +4,10 @@ from django_tables2 import RequestConfig
 
 
 class PagedFilteredTableView(SingleTableView):
+	'''
+		In-case default pagination doesn't work
+		(not-utilized yet in the views.py)
+	'''
 	filter_class 		= None
 	formhelper_class 	= None
 	context_filter_name = 'filter'

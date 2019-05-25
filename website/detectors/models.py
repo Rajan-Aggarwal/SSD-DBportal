@@ -45,6 +45,8 @@ class LocationTransfer(models.Model):
 	'''
 	detector_id 			= models.ForeignKey('Detector', on_delete=models.CASCADE)
 	transfer_datetime 		= models.DateTimeField('Date and time', default=datetime.now)
+	source_location 		= models.CharField('From', max_length=256, editable=False)	
+	# non-editable since source location can only be the current location of the detector
 	destination_location 	= models.CharField('To', max_length=256)
 	internal_or_external 	= models.CharField(max_length=10, choices = [
 												('External', 'External'),
@@ -58,10 +60,14 @@ class LocationTransfer(models.Model):
 	def save(self, *args, **kwargs):
 		'''
 			overriding the save method:
+			--> makes the source location same as the current_location of the pertinent detector
+			--> call the save method
 			--> changes the current_location of detector, once a location transfer is done
 		'''
-		location_transfer 	= super(LocationTransfer, self).save(*args, **kwargs)
-		Detector.objects.filter(pk=self.detector_id).update(current_location=self.destination_location)
+		self.source_location 	= Detector.objects.get(pk=self.detector_id).current_location			# make the source same as current location
+		location_transfer 		= super(LocationTransfer, self).save(*args, **kwargs)
+		Detector.objects.filter(pk=self.detector_id).update(current_location=self.destination_location) 
+		# update the detector's current location to destination location
 		return location_transfer
 
 

@@ -1,4 +1,5 @@
 from django.db import models
+from django.shortcuts import get_object_or_404
 from datetime import date, datetime
 
 # by default each field is mandatory
@@ -19,10 +20,10 @@ class Detector(models.Model):
 	trec_id 		= models.CharField('TREC ID', max_length=256)
 
 	# detector characteristics
-	area 					= models.FloatField('Area (in cm sq)', blank=True)
-	thickness 				= models.FloatField('Thickness (in micrometer)',blank=True)
-	support_wafer_thickness = models.FloatField('Support wafer thickness (in micrometer)',blank=True)
-	resistivity 			= models.FloatField('Resistivity (in ohm-cm)',blank=True)
+	area 					= models.FloatField('Area (in cm sq)', blank=True, null=True)
+	thickness 				= models.FloatField('Thickness (in micrometer)', blank=True, null=True)
+	support_wafer_thickness = models.FloatField('Support wafer thickness (in micrometer)', blank=True, null=True)
+	resistivity 			= models.FloatField('Resistivity (in ohm-cm)',blank=True, null=True)
 
 	# detector status
 	dead_or_alive = models.CharField(max_length=1, choices= [
@@ -52,7 +53,17 @@ class LocationTransfer(models.Model):
 	comment		 			= models.TextField(max_length=1024, blank=True)
 
 	def __str__(self):
-		return "Transfer of {} on {}".format(self.detector_id, self.transfer_datetime)
+		return "Transfer of {} to {}".format(self.detector_id, self.destination_location)
+
+	def save(self, *args, **kwargs):
+		'''
+			overriding the save method:
+			--> changes the current_location of detector, once a location transfer is done
+		'''
+		location_transfer 	= super(LocationTransfer, self).save(*args, **kwargs)
+		Detector.objects.filter(pk=self.detector_id).update(current_location=self.destination_location)
+		return location_transfer
+
 
 class Annealing(models.Model):
 	'''

@@ -14,7 +14,7 @@ class Detector(models.Model):
 	producer 		= models.CharField(max_length=256)
 	project 		= models.CharField(max_length=256)
 	bulk_type 		= models.CharField(max_length=256)
-	type 			= models.CharField(max_length=256)
+	type 			= models.CharField('Sensor type', max_length=256) # refers to the sensor type
 	run_number 		= models.CharField(max_length=256)
 	wafer_number 	= models.CharField(max_length=256)
 	trec_id 		= models.CharField('TREC ID', max_length=256, blank=True, null=True)
@@ -102,6 +102,7 @@ class Irradiation(models.Model):
 	fluence_or_dose 		= models.DecimalField(max_digits=20, decimal_places=10)
 	energy_magnitude 		= models.FloatField('Energy')
 	energy_unit 			= models.CharField('Unit of energy', max_length=10)
+	hardness_factor			= models.FloatField(blank=True, null=True)
 	irradiation_datetime 	= models.DateTimeField('Date and time', default=datetime.now)
 
 	def __str__(self):

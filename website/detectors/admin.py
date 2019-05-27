@@ -19,11 +19,11 @@ class LocationTransferModelAdmin(ImportExportModelAdmin):
 		---> adds search bar and its fields
 		---> adds export and import options
 	'''
-	fields 			= ['detector_id__id', 
-						'transfer_datetime__iexact', 
+	fields 			= ['detector_id', 
+						'transfer_datetime', 
 						'source_location',
 						'destination_location',
-						'internal_or_external__iexact',
+						'internal_or_external',
 						'responsible_party',
 						'comment',
 						]

@@ -5,23 +5,15 @@
 <div id="container">
     <!-- Header -->
     <div id="header">
-        <div id="branding">
-        
+        <div id="branding">     
 			<h1 id="site-name"><a href="/">SSD Database Portal</a></h1>
-
         </div>
-        
-        
         <div id="user-tools">
-     
             <strong>Welcome to the portal.</strong> 
             <strong>        To add or edit information, login as an 
         		<a href="{% url 'admin:login' %}">Admin</a></strong> /
         	<strong> <a href="{% url 'user_logout' %}">Log out</a></strong>	
-        </div>
-        
-        
-        
+        </div>     
     </div>
 </div>
 {% endblock %}
@@ -30,8 +22,8 @@
 {% block pretitle %}{% endblock %}
 
 {% block content %}
-<p>More information available for the detector <strong>{{ detector_id }}</strong>.</p>
-<p><a href="{% url 'location_transfer' detector_id %}">Click here to view its location history</a></p>
-<p><a href="{% url 'annealing' detector_id %}">Click here to view its annealing history</a></p>
-<p><a href="{% url 'irradiation' detector_id %}">Click here to view its irradiation history</a></p>
+    <p>More information available for the detector <strong>{{ detector_id }}</strong>.</p>
+    <p><a href="{% url 'location_transfer' detector_id %}">Click here to view its location history</a></p>
+    <p><a href="{% url 'annealing' detector_id %}">Click here to view its annealing history</a></p>
+    <p><a href="{% url 'irradiation' detector_id %}">Click here to view its irradiation history</a></p>
 {% endblock %}

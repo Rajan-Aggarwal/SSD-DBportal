@@ -5,49 +5,35 @@
 {% load bootstrap3 %}
 
 {% block branding %}
-
-<div id="container">
-    <!-- Header -->
-    <div id="header">
-        <div id="branding">
-        
-			<h1 id="site-name"><a href="/">SSD Database Portal</a></h1>
-
+    <div id="container">
+        <!-- Header -->
+        <div id="header">
+            <div id="branding">       
+    			<h1 id="site-name"><a href="/">SSD Database Portal</a></h1>
+            </div>      
+            <div id="user-tools">   
+                <strong>Welcome to the portal.</strong> 
+                <strong>        To add or edit information, login as an 
+            		<a href="{% url 'admin:login' %}">Admin</a></strong> /
+            	<strong> <a href="{% url 'user_logout' %}">Log out</a></strong>	
+            </div>        
         </div>
-        
-        
-        <div id="user-tools">
-     
-            <strong>Welcome to the portal.</strong> 
-            <strong>        To add or edit information, login as an 
-        		<a href="{% url 'admin:login' %}">Admin</a></strong> /
-        	<strong> <a href="{% url 'user_logout' %}">Log out</a></strong>	
-        </div>
-        
-        
-        
     </div>
-</div>
 {% endblock %}
 
 {% block pretitle%}
-{% if filter %}
-<div class="object-tools">
-    <form method="GET" class="action-counter">
-        {{ filter.form|crispy }}
-        <button class="button" type="submit" class="btn btn-primary">Search</button>
-    </form>
-</div>
-{% endif %}
+    {% if filter %}
+        <div class="object-tools">
+            <form method="GET" class="action-counter">
+                {{ filter.form|crispy }}
+                <button class="button" type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+    {% endif %}
 {% endblock %}
 
 
 {% block content %}
-
-<p>Irradiation history for the detector <strong>{{ detector_id }}</strong>.</p>   
-    
-
-{% render_table table 'django_tables2/bootstrap.html' %}
-    
-	
+    <p>Irradiation history for the detector <strong>{{ detector_id }}</strong>.</p>       
+    {% render_table table 'django_tables2/bootstrap.html' %}
 {% endblock %}

@@ -28,13 +28,32 @@ admin.site.index_title	= ''
 
 # url routing end-points 
 urlpatterns = [
+
+    # main admin page
     url(r'^admin/', admin.site.urls, name='admin'),
+
+    # login page for the normal user
     url(r'^login/$', LoginView.as_view(), {'template_name': 'login.html', 'authentication_form': LoginForm}, name='user_login'),
+
+    # logout message page for the normal user
     url(r'^logout/$', logout_view, name='user_logout'),
+
+    # page showing more info about each detector
     url(r'^more/(?P<detector_id>\w+)/$', more, name='more'),
+
+    # page showing the table enlisting the location transfer history of a given detector
     url(r'^more/(?P<detector_id>\w+)/lt$', LocationTransferView.as_view(), name='location_transfer'),
+
+    # page showing the table enlisting the annealing history of a given detector
     url(r'^more/(?P<detector_id>\w+)/an$', AnnealingView.as_view(), name='annealing'),
+
+    # page showing the table enlisting the irradiation history of a given detector
     url(r'^more/(?P<detector_id>\w+)/ir$', IrradiationView.as_view(), name='irradiation'),
+
+    # home page enlisting all the detectors in the database 
     url(r'', DetectorView.as_view(), name='home'),
-    url(r'^search/$', DetectorView.as_view(), name='search')
+
+    # route enabling the search filter on each of the tables 
+    url(r'^search/$', DetectorView.as_view(), name='search'),
+
 ]

@@ -37,6 +37,7 @@ class DetectorView(SingleTableMixin, FilterView, LoginRequiredMixin):
 class GenericDetectorInfoTableView(SingleTableMixin, FilterView, LoginRequiredMixin):
 
 	'''
+		(This is an abstract view class: is not used for any routes)
 		generic view for the all the tables in the more information section for each detector
 			--> generates a table (use render_table in the template) using django-tables2
 			--> creates a small filter using django-filters
@@ -111,12 +112,14 @@ def more(request, detector_id):
 		view displaying options for each detector entry in the main table
 		leads to different tables and data corresponding to the detector entry for which option "More" was selected
 	'''
-	return render(request, 'more.html', {'detector_id': detector_id})
+	template_name = 'more.html'
+	return render(request, template_name, {'detector_id': detector_id})
 	
 
 def logout_view(request):
 	'''
 		logout functionality
 	'''
+	template_name = 'logout.html'
 	logout(request)
-	return render(request, 'logout.html')
+	return render(request, template_name)

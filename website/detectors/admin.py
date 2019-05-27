@@ -7,6 +7,7 @@ class DetectorModelAdmin(ImportExportModelAdmin):
 	'''
 		custom admin model for detectors
 		---> adds search bar and its fields
+		---> adds export and import options
 	'''
 	search_fields = ('id',)
 
@@ -16,6 +17,7 @@ class LocationTransferModelAdmin(ImportExportModelAdmin):
 		custom admin model for location transfer
 		---> adds the read-only field source location 
 		---> adds search bar and its fields
+		---> adds export and import options
 	'''
 	fields 			= ['detector_id__id', 
 						'transfer_datetime__iexact', 
@@ -39,6 +41,7 @@ class AnnealingModelAdmin(ImportExportModelAdmin):
 	'''
 		custom admin model for annealings 
 		---> adds search bar and its fields
+		---> adds export and import options
 	'''
 	search_fields = ('detector_id__id',
 						'annealing_datetime__iexact',
@@ -51,6 +54,7 @@ class IrradiationModelAdmin(ImportExportModelAdmin):
 	'''
 		custom admin model for irradiations
 		---> adds search bar and its fields
+		---> adds export and import options
 	'''
 	search_fields = ('detector_id__id',
 						'location',

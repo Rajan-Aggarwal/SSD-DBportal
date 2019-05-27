@@ -17,8 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls import url
 from django.contrib.auth.views import LoginView
-from detectors.views import logout_view, more
-from detectors.views import DetectorView, LocationTransferView, AnnealingView, IrradiationView
+from detectors.views import logout_view, more # function-based views
+from detectors.views import DetectorView, LocationTransferView, AnnealingView, IrradiationView # class-based views
 from detectors.forms import LoginForm
 
 # customize the admin page

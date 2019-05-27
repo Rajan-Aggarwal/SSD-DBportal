@@ -6,6 +6,7 @@ from .models import Detector, LocationTransfer, Annealing, Irradiation
 from .tables import DetectorTable, LocationTransferTable, AnnealingTable, IrradiationTable
 from .filters import DetectorFilter, LocationTransferFilter, AnnealingFilter, IrradiationFilter
 
+from django_tables2 import SingleTableView
 from django.views import View
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
@@ -13,13 +14,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin
 
-
-
 PER_PAGE_ROWS = 25
 
 # Create your views here.
 
-class DetectorView(SingleTableMixin, FilterView, LoginRequiredMixin):
+class DetectorView(LoginRequiredMixin, SingleTableMixin, FilterView):
 
 	'''
 		generic view for the detector table
@@ -34,7 +33,8 @@ class DetectorView(SingleTableMixin, FilterView, LoginRequiredMixin):
 	filterset_class		= DetectorFilter
 	paginate_by 		= 20
 
-class GenericDetectorInfoTableView(SingleTableMixin, FilterView, LoginRequiredMixin):
+
+class GenericDetectorInfoTableView(LoginRequiredMixin, SingleTableMixin, FilterView):
 
 	'''
 		(This is an abstract view class: is not used for any routes)

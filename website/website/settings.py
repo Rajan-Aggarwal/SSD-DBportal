@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'bootstrap3',
     'crispy_forms',
     'admin_reorder',
-
+    'tablib',
 ]
 
 MIDDLEWARE = [
@@ -151,6 +151,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# Redirect to home URL after login (Default redirects ti /accounts/profile/)
+# Redirect to the login URL to access any file 
+
+LOGIN_URL = '/login/'
+
+# Redirect to home URL after login (Default redirects to /accounts/profile/)
 
 LOGIN_REDIRECT_URL = '/'

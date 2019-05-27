@@ -11,7 +11,6 @@ class DetectorTable(tables.Table):
 	'''
 
 	more = tables.LinkColumn('more', args=[A('pk')], orderable=False, empty_values=()) # add a hyper-link to more.html enlisting other tables
-
 	def render_more(self):
 		return "More"
 

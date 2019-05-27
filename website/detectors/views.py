@@ -118,7 +118,7 @@ def more(request, detector_id):
 
 def logout_view(request):
 	'''
-		logout functionality
+		logout functionality rendering the logout page
 	'''
 	template_name = 'logout.html'
 	logout(request)

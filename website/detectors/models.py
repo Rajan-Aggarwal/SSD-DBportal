@@ -17,7 +17,7 @@ class Detector(models.Model):
 	type 			= models.CharField(max_length=256)
 	run_number 		= models.CharField(max_length=256)
 	wafer_number 	= models.CharField(max_length=256)
-	trec_id 		= models.CharField('TREC ID', max_length=256)
+	trec_id 		= models.CharField('TREC ID', max_length=256, blank=True, null=True)
 
 	# detector characteristics
 	area 					= models.FloatField('Area (in cm sq)', blank=True, null=True)
@@ -58,7 +58,10 @@ class LocationTransfer(models.Model):
 	comment		 			= models.TextField(max_length=1024, blank=True)
 
 	def __str__(self):
-		return "Transfer of {} to {}".format(self.detector_id, self.destination_location)
+		return "Transfer of {} from {} to {} on {}".format(self.detector_id, 
+														self.source_location, 
+														self.destination_location, 
+														self.transfer_datetime)
 
 	def save(self, *args, **kwargs):
 		'''
@@ -84,7 +87,10 @@ class Annealing(models.Model):
 	time 					= models.FloatField('Time (in minutes)')
 
 	def __str__(self):
-		return "Annealing of {} on {}".format(self.detector_id, self.annealing_datetime)
+		return "Annealing of {} on {} at {} Celcius for {} minutes".format(self.detector_id, 
+														self.annealing_datetime,
+														self.temperature,
+														self.time)
 
 class Irradiation(models.Model):
 	'''

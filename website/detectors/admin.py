@@ -1,8 +1,9 @@
 from django.contrib import admin
+from import_export.admin import ImportExportModelAdmin
 from .models import Detector, LocationTransfer, Irradiation, Annealing
 
 
-class DetectorModelAdmin(admin.ModelAdmin):
+class DetectorModelAdmin(ImportExportModelAdmin):
 	'''
 		custom admin model for detectors
 		---> adds search bar and its fields
@@ -10,7 +11,7 @@ class DetectorModelAdmin(admin.ModelAdmin):
 	search_fields = ('id',)
 
 
-class LocationTransferModelAdmin(admin.ModelAdmin):
+class LocationTransferModelAdmin(ImportExportModelAdmin):
 	'''
 		custom admin model for location transfer
 		---> adds the read-only field source location 
@@ -34,7 +35,7 @@ class LocationTransferModelAdmin(admin.ModelAdmin):
 						)
 
 
-class AnnealingModelAdmin(admin.ModelAdmin):
+class AnnealingModelAdmin(ImportExportModelAdmin):
 	'''
 		custom admin model for annealings 
 		---> adds search bar and its fields
@@ -46,7 +47,7 @@ class AnnealingModelAdmin(admin.ModelAdmin):
 						)
 
 
-class IrradiationModelAdmin(admin.ModelAdmin):
+class IrradiationModelAdmin(ImportExportModelAdmin):
 	'''
 		custom admin model for irradiations
 		---> adds search bar and its fields

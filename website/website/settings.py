@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'bootstrap3',
     'crispy_forms',
     'admin_reorder',
-    'tablib',
+    'import_export',
 ]
 
 MIDDLEWARE = [

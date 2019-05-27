@@ -6,7 +6,6 @@ from .models import Detector, LocationTransfer, Annealing, Irradiation
 from .tables import DetectorTable, LocationTransferTable, AnnealingTable, IrradiationTable
 from .filters import DetectorFilter, LocationTransferFilter, AnnealingFilter, IrradiationFilter
 
-from django_tables2 import SingleTableView
 from django.views import View
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView

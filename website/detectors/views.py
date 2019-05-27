@@ -16,7 +16,7 @@ from django_tables2.views import SingleTableMixin
 
 PER_PAGE_ROWS = 25
 
-# Create your views here.
+# Create your class-based views here.
 
 class DetectorView(LoginRequiredMixin, SingleTableMixin, FilterView):
 
@@ -105,6 +105,8 @@ class IrradiationView(GenericDetectorInfoTableView):
 	template_name		= 'irradiation.html'
 	filterset_class		= LocationTransferFilter
 
+
+# Create your function-based views here
 
 @login_required(login_url='login/')
 def more(request, detector_id):

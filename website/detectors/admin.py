@@ -45,6 +45,7 @@ class AnnealingModelAdmin(admin.ModelAdmin):
 						'time__startswith',
 						)
 
+
 class IrradiationModelAdmin(admin.ModelAdmin):
 	'''
 		custom admin model for irradiations

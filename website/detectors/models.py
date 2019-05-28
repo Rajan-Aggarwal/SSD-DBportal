@@ -39,6 +39,10 @@ class Detector(models.Model):
 	def __str__(self):
 		return self.id
 
+	class Meta:
+		ordering = ['-arrival_date']
+
+
 class LocationTransfer(models.Model):
 	'''
 		table storing a detector's location history
@@ -76,6 +80,9 @@ class LocationTransfer(models.Model):
 		# update the detector's current location to destination location
 		return location_transfer
 
+	class Meta:
+		ordering = ['-transfer_datetime']
+
 
 class Annealing(models.Model):
 	'''
@@ -91,6 +98,10 @@ class Annealing(models.Model):
 														self.annealing_datetime,
 														self.temperature,
 														self.time)
+
+	class Meta:
+		ordering = ['-annealing_datetime']
+
 
 class Irradiation(models.Model):
 	'''
@@ -109,3 +120,6 @@ class Irradiation(models.Model):
 		return "Irradiation of {} on {} with {}".format(self.detector_id, 
 													self.irradiation_datetime,
 													self.irradiation_particle)
+
+	class Meta:
+		ordering = ['-irradiation_datetime']

@@ -110,6 +110,8 @@ class IrradiationView(GenericDetectorInfoTableView):
 @login_required(login_url='login/')
 def more(request, detector_id):
 	'''
+		::param request is the user request 
+		::param detector_id is the url parameter
 		view displaying options for each detector entry in the main table
 		leads to different tables and data corresponding to the detector entry for which option "More" was selected
 	'''
@@ -119,6 +121,7 @@ def more(request, detector_id):
 
 def logout_view(request):
 	'''
+		::param request is the user request
 		logout functionality rendering the logout page
 	'''
 	template_name = 'logout.html'

@@ -1,11 +1,14 @@
 from django_tables2 import SingleTableView
 from django_tables2 import RequestConfig
 
-
+############################
 ###NOT UTILIZED AS OF YET###
+############################
+
 class PagedFilteredTableView(SingleTableView):
 	'''
-		In-case default pagination doesn't work
+		In-case default pagination given by django_tables2.SingleTableMixin 
+		(inherited in the generic-view classes) doesn't work
 	'''
 	filter_class 		= None
 	formhelper_class 	= None
@@ -27,4 +30,3 @@ class PagedFilteredTableView(SingleTableView):
 		context = super(PagedFilteredTableView, self).get_context_data()
 		context[self.context_filter_name] = self.filter
 		return context
-		

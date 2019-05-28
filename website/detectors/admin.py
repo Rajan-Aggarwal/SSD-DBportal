@@ -8,6 +8,7 @@ class DetectorModelAdmin(ImportExportModelAdmin):
 		custom admin model for detectors
 		---> adds search bar and its fields
 		---> adds export and import options
+		---> reorder the object list
 	'''
 	search_fields = ('id',)
 

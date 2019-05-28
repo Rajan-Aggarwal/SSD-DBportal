@@ -5,21 +5,20 @@
 {% load bootstrap3 %}
 
 {% block branding %}
-
-<div id="container">
-    <!-- Header -->
-    <div id="header">
-        <div id="branding">
-        	<h1 id="site-name"><a href="/">SSD Database Portal</a></h1>
-        </div>     
-        <div id="user-tools">  
-            <strong>Welcome to the portal.</strong> 
-            <strong>        To add or edit information, login as an 
-        		<a href="{% url 'admin:login' %}">Admin</a></strong> /
-        	<strong> <a href="{% url 'user_logout' %}">Log out</a></strong>	
-        </div>       
+    <div id="container">
+        <!-- Header -->
+        <div id="header">
+            <div id="branding">
+            	<h1 id="site-name"><a href="/">SSD Database Portal</a></h1>
+            </div>     
+            <div id="user-tools">  
+                <strong>Welcome to the portal.</strong> 
+                <strong>        To add or edit information, login as an 
+            		<a href="{% url 'admin:login' %}">Admin</a></strong> /
+            	<strong> <a href="{% url 'user_logout' %}">Log out</a></strong>	
+            </div>       
+        </div>
     </div>
-</div>
 {% endblock %}
 
 {% block pretitle%}

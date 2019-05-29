@@ -1,0 +1,11 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block breadcrumbs %}<div class="breadcrumbs"><a href="/">{% trans 'Home' %}</a></div>{% endblock %}
+{% block pretitle %}{% endblock %}
+
+{% block content %}
+	<p>Location transfers of detector <strong>{{ detector_id }}</strong></p>
+	<p><a href="{% url 'export_location_transfers_csv' detector_id %}">Export as csv</a></p>
+	<p><a href="{% url 'export_location_transfers_xls' detector_id %}">Export as xls</a></p>
+{% endblock %}

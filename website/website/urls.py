@@ -17,9 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls import url
 from django.contrib.auth.views import LoginView
-from detectors.views import (logout_view, more, export_detectors, export_detectors_csv,
-        export_detectors_xls, )                                                                 # function-based views
-from detectors.views import DetectorView, LocationTransferView, AnnealingView, IrradiationView  # class-based views
+from detectors.views import (logout_view, more, 
+        export_detectors, export_detectors_csv, export_detectors_xls, 
+        export_location_transfers, export_location_transfers_csv, export_location_transfers_xls,
+        export_annealings, export_annealings_csv, export_annealings_xls, 
+        export_irradiations, export_irradiations_csv, export_irradiations_xls)                                                                 
+from detectors.views import DetectorView, LocationTransferView, AnnealingView, IrradiationView  
 from detectors.forms import LoginForm
 
 # customize the admin page
@@ -65,5 +68,32 @@ urlpatterns = [
 
     # route enabling the export of detectors table into xls
     url(r'^export_det/xls/$', export_detectors_xls, name='export_detectors_xls'), 
+
+    # route displaying options to export location transfers of the given detector
+    url(r'^more/(?P<detector_id>\w+)/lt/export_lt/$', export_location_transfers, name='export_location_transfers'),
+
+    # route enabling the export of location transfers of the given detector into csv
+    url(r'^more/(?P<detector_id>\w+)/lt/export_lt/csv/$', export_location_transfers_csv, name='export_location_transfers_csv'),
+
+    # route enabling the export of location transfers of the given detector into xls
+    url(r'^more/(?P<detector_id>\w+)/lt/export_lt/xls/$', export_location_transfers_xls, name='export_location_transfers_xls'),
+
+    # route displaying options to export annealings of the given detector
+    url(r'^more/(?P<detector_id>\w+)/an/export_an/$', export_annealings, name='export_annealings'),
+
+    # route enabling the export of annealings of the given detector into csv
+    url(r'^more/(?P<detector_id>\w+)/an/export_an/csv$', export_annealings_csv, name='export_annealings_csv'),
+
+    # route enabling the export of annealings of the given detector into xls
+    url(r'^more/(?P<detector_id>\w+)/an/export_an/xls$', export_annealings_xls, name='export_annealings_xls'),
+
+    # route displaying options to export irradiations of the given detector
+    url(r'^more/(?P<detector_id>\w+)/ir/export_ir/$', export_irradiations, name='export_irradiations'),
+
+    # route enabling the export of irradiations of the given detector into csv
+    url(r'^more/(?P<detector_id>\w+)/ir/export_ir/csv$', export_irradiations_csv, name='export_irradiations_csv'),
+
+    # route enabling the export of irradiations of the given detecotr into xls
+    url(r'^more/(?P<detector_id>\w+)/ir/export_ir/xls$', export_irradiations_xls, name='export_irradiations_xls'),
 
 ]

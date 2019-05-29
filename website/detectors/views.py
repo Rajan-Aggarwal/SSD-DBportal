@@ -14,6 +14,7 @@ from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin
 import csv
 import xlwt
+import datetime 
 
 PER_PAGE_ROWS = 25
 
@@ -135,10 +136,10 @@ def logout_view(request):
 def export_detectors(request):
 	'''
 		::param request is the http user request
-		to show the options to export a table
-		in different formats, to a normal user
+		to show the options to export the detector
+		table in different formats, to a normal user
 	'''
-	template_name = 'export_detectors.html'
+	template_name = 'export/export_detectors.html'
 	print("hallelujah")
 	return render(request, template_name)
 
@@ -150,21 +151,24 @@ def export_detectors_csv(request):
 		export in csv format
 	'''
 	response	= HttpResponse(content_type='text/csv')
-	response['Content-Disposition'] = 'attachment; filename="detectors.csv'
+	response['Content-Disposition'] = 'attachment; filename="detectors.csv"'
 
 	# write the csv file
 	writer 		= csv.writer(response)
+	# write the first row
 	writer.writerow(['id', 'producer', 'project', 'bulk_type', 'type', 'run_number',
 		'wafer_number', 'trec_id', 'area', 'thickness', 'support_wafer_thickness',
 		'resistivity', 'dead_or_alive', 'ssd_responsible', 'arrival_date', 
-		'current_location', 'comment']) # write the first row
+		'current_location', 'comment']) 
 
+	# get all the detectors from the model
 	detectors 	= Detector.objects.all().values_list('id', 'producer', 'project', 'bulk_type', 'type', 'run_number',
 		'wafer_number', 'trec_id', 'area', 'thickness', 'support_wafer_thickness',
 		'resistivity', 'dead_or_alive', 'ssd_responsible', 'arrival_date', 
-		'current_location', 'comment') 	# get all the detectors
+		'current_location', 'comment') 
+	# write all the remaining rows
 	for det in detectors:
-		writer.writerow(det) 			# write all the remaining rows
+		writer.writerow(det) 			
 
 	return response
 
@@ -175,7 +179,7 @@ def export_detectors_xls(request):
 		::param request is the http user request
 		export in xls format
 	'''
-	response	= HttpResponse(content_type='text/csv')
+	response	= HttpResponse(content_type='application/ms-excel')
 	response['Content-Disposition'] = 'attachment; filename="detectors.xls"'
 
 	wb 			= xlwt.Workbook(encoding='utf-8')
@@ -197,18 +201,265 @@ def export_detectors_xls(request):
 
 	# sheet body, remaining rows
 	font_style	= xlwt.XFStyle()
-
+	date_style 	= xlwt.XFStyle()
+	date_style.num_format_str = 'D-MMM-YY'
+	# get all the detectors
 	rows 		= Detector.objects.all().values_list('id', 'producer', 'project', 'bulk_type', 'type', 'run_number',
 		'wafer_number', 'trec_id', 'area', 'thickness', 'support_wafer_thickness',
 		'resistivity', 'dead_or_alive', 'ssd_responsible', 'arrival_date', 
-		'current_location', 'comment')	# get all the detectors
+		'current_location', 'comment')								
+	# write each cell
 	for row in rows:
 		row_num += 1
 		for col_num in range(len(row)):
-			ws.write(row_num, col_num, row[col_num], font_style) # write each cell
+			if columns[col_num] == 'arrival_date':
+				ws.write(row_num, col_num, row[col_num], date_style)
+			else:
+				ws.write(row_num, col_num, row[col_num], font_style) 	
 
 	wb.save(response)
 	return response
 
+
+@login_required(login_url='login/')
+def export_location_transfers(request, detector_id):
+	'''
+		::param request is the http user request
+		::param detector_id is the url param (GET)
+		to show the options to export the location 
+		history of a single detector in different
+		formats, to a normal user
+	'''
+	template_name = 'export/export_location_transfers.html'
+	return render(request, template_name, {'detector_id': detector_id})
+
+
+@login_required(login_url='login/')
+def export_location_transfers_csv(request, detector_id):
+	'''
+		::param request is the http user request
+		::param detector_id is the url param (GET)
+		export in csv format
+	'''
+	response 	= HttpResponse(content_type='text/csv')
+	response['Content-Disposition'] = 'attachment; filename="location_transfers-{}.csv"'.format(detector_id)
+
+	# write the csv file
+	writer 		= csv.writer(response)
+	# write the first row
+	writer.writerow(['transfer_datetime', 'source_location', 'destination_location', 'internal_or_external',
+		'responsible_party', 'comment'])
+
+	# get data from the model
+	location_transfers 			= LocationTransfer.objects.filter(detector_id=detector_id).values_list('transfer_datetime', 
+		'source_location', 'destination_location', 'internal_or_external', 'responsible_party', 'comment')
+	# write all remaining rows
+	for lt in location_transfers:
+		writer.writerow(lt)
+
+	return response
+
+
+@login_required(login_url='login/')
+def export_location_transfers_xls(request, detector_id):
+	'''
+		::param request is the http user request
+		::param detector_id is the url param (GET)
+		export in xls format
+	'''
+	response 	= HttpResponse(content_type='application/ms-excel')
+	response['Content-Disposition'] = 'attachment; filename="location_transfers-{}.xls"'.format(detector_id)
+
+	wb 			= xlwt.Workbook(encoding='utf-8')
+	ws 			= wb.add_sheet('Location transfers')
+
+	# sheet header, first row
+	row_num 	= 0
+
+	font_style				= xlwt.XFStyle()
+	font_style.font.bold 	= True
+
+	columns		= ['transfer_datetime', 'source_location', 'destination_location', 'internal_or_external',
+		'responsible_party', 'comment']
+
+	for col_num in range(len(columns)):
+		ws.write(row_num, col_num, columns[col_num], font_style)
+
+	# sheet body, remaining rows
+	font_style	= xlwt.XFStyle()
+
+	# get data from the model
+	rows 		= LocationTransfer.objects.filter(detector_id=detector_id).values_list('transfer_datetime', 'source_location', 
+		'destination_location', 'internal_or_external', 'responsible_party', 'comment')
+	# write each cell
+	rows = [ [ x.strftime("%Y-%m-%d %H:%M") if isinstance(x, datetime.datetime) else x for x in row ] for row in rows ]
+	for row in rows:
+		row_num += 1
+		for col_num in range(len(row)):
+			ws.write(row_num, col_num, row[col_num], font_style)
+
+	wb.save(response)
+	return response
+
+
+@login_required(login_url='login/')
+def export_annealings(request, detector_id):
+	'''
+		::param request is the http use request
+		::param detector_id the url param (GET)
+		to show the options to export the annealing 
+		history of a single detector in different
+		formats, to a normal user
+	'''
+	template_name = 'export/export_annealings.html'
+	return render(request, template_name, {'detector_id': detector_id})
+
+
+@login_required(login_url='login/')
+def export_annealings_csv(request, detector_id):
+	'''
+		::param request is the http user request
+		::param detector_id is the url param (GET)
+		export in csv format
+	'''
+	response 	= HttpResponse(content_type='text/csv')
+	response['Content-Disposition'] = 'attachment; filename="annealings-{}.csv"'.format(detector_id)
+
+	# write the csv file
+	writer 		= csv.writer(response)
+	# write the first row
+	writer.writerow(['annealing_datetime', 'temperature', 'time'])
+
+	# get data from the model
+	annealings 	= Annealing.objects.filter(detector_id=detector_id).values_list('annealing_datetime', 
+		'temperature', 'time')
+	# write all remaining rows
+	for ann in annealings:
+		writer.writerow(ann)
+
+	return response
+
+
+@login_required(login_url='login/')
+def export_annealings_xls(request, detector_id):
+	'''
+		::param request is the http user request
+		::param detector_id is the url param (GET)
+		export in xls format
+	'''
+	response 	= HttpResponse(content_type='application/ms-excel')
+	response['Content-Disposition'] = 'attachment; filename="annealings-{}.xls"'.format(detector_id)
+
+	wb 			= xlwt.Workbook(encoding='utf-8')
+	ws 			= wb.add_sheet('Annealing history')
+
+	# sheet header, first row
+	row_num 	= 0
+
+	font_style				= xlwt.XFStyle()
+	font_style.font.bold 	= True
+
+	columns		= ['annealing_datetime', 'temperature', 'time']
+
+	for col_num in range(len(columns)):
+		ws.write(row_num, col_num, columns[col_num], font_style)
+
+	# sheet body, remaining rows
+	font_style	= xlwt.XFStyle()
+
+	# get data from the model
+	rows 		= Annealing.objects.filter(detector_id=detector_id).values_list('annealing_datetime', 
+		'temperature', 'time')
+	# write each cell
+	rows = [ [ x.strftime("%Y-%m-%d %H:%M") if isinstance(x, datetime.datetime) else x for x in row ] for row in rows ]
+	for row in rows:
+		row_num += 1
+		for col_num in range(len(row)):
+			ws.write(row_num, col_num, row[col_num], font_style)
+
+	wb.save(response)
+	return response
+
+
+@login_required(login_url='login/')
+def export_irradiations(request, detector_id):
+	'''
+		::param request is the http use request
+		::param detector_id the url param (GET)
+		to show the options to export the irradiation 
+		history of a single detector in different
+		formats, to a normal user
+	'''
+	template_name = 'export/export_irradiations.html'
+	return render(request, template_name, {'detector_id': detector_id})
+
+
+@login_required(login_url='login/')
+def export_irradiations_csv(request, detector_id):
+	'''
+		::param request is the http user request
+		::param detector_id is the url param (GET)
+		export in csv format
+	'''
+	response 		= HttpResponse(content_type='text/csv')
+	response['Content-Disposition'] = 'attachment; filename="irradiations-{}.csv"'.format(detector_id)
+
+	# write the csv file
+	writer 			= csv.writer(response)
+	# write the first row
+	writer.writerow(['location', 'irradiation_particle', 'fluence_or_dose', 'energy_magnitude',
+		'energy_unit', 'hardness_factor', 'irradiation_datetime'])
+
+	# get data from the model
+	irradiations 	= Irradiation.objects.filter(detector_id=detector_id).values_list('location', 'irradiation_particle', 
+		'fluence_or_dose', 'energy_magnitude', 'energy_unit', 'hardness_factor', 'irradiation_datetime')
+	# write all remaining rows
+	for irr in irradiations:
+		writer.writerow(irr)
+
+	return response
+
+
+@login_required(login_url='login/')
+def export_irradiations_xls(request, detector_id):
+	'''
+		::param request is the http user request
+		::param detector_id is the url param (GET)
+		export in xls format
+	'''
+	response 	= HttpResponse(content_type='application/ms-excel')
+	response['Content-Disposition'] = 'attachment; filename="irradiations-{}.xls"'.format(detector_id)
+
+	wb 			= xlwt.Workbook(encoding='utf-8')
+	ws 			= wb.add_sheet('Irradiaton history')
+
+	# sheet header, first row
+	row_num 	= 0
+
+	font_style				= xlwt.XFStyle()
+	font_style.font.bold 	= True
+
+	columns		= ['location', 'irradiation_particle', 'fluence_or_dose', 'energy_magnitude',
+		'energy_unit', 'hardness_factor', 'irradiation_datetime']
+
+	for col_num in range(len(columns)):
+		ws.write(row_num, col_num, columns[col_num], font_style)
+
+	# sheet body, remaining rows
+	font_style	= xlwt.XFStyle()
+
+	# get data from the model
+	rows 		= Irradiation.objects.filter(detector_id=detector_id).values_list('location', 
+		'irradiation_particle', 'fluence_or_dose', 'energy_magnitude','energy_unit', 'hardness_factor', 
+		'irradiation_datetime')
+	# write each cell
+	rows = [ [ x.strftime("%Y-%m-%d %H:%M") if isinstance(x, datetime.datetime) else x for x in row ] for row in rows ]
+	for row in rows:
+		row_num += 1
+		for col_num in range(len(row)):
+			ws.write(row_num, col_num, row[col_num], font_style)
+
+	wb.save(response)
+	return response
 
 

@@ -5,13 +5,14 @@ from django_tables2 import RequestConfig
 from .models import Detector, LocationTransfer, Annealing, Irradiation
 from .tables import DetectorTable, LocationTransferTable, AnnealingTable, IrradiationTable
 from .filters import DetectorFilter, LocationTransferFilter, AnnealingFilter, IrradiationFilter
-
+from django.http import HttpResponse
 from django.views import View
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin
+import csv
 
 PER_PAGE_ROWS = 25
 
@@ -127,3 +128,30 @@ def logout_view(request):
 	template_name = 'logout.html'
 	logout(request)
 	return render(request, template_name)
+
+
+@login_required(login_url='login/')
+def export_detectors(request):
+	'''
+		::param request is the user request
+		to allow a normal to export the whole 
+		table of detectors without being an admin
+	'''
+	response	= HttpResponse(content_type='text/csv')
+	response['Content-Disposition'] = 'attachment; filename="detectors.csv'
+
+	# write the csv file
+	writer 		= csv.writer(response)
+	writer.writerow(['id', 'producer', 'project', 'bulk_type', 'type', 'run_number',
+		'wafer_number', 'trec_id', 'area', 'thickness', 'support_wafer_thickness',
+		'resistivity', 'dead_or_alive', 'ssd_responsible', 'arrival_date', 
+		'current_location', 'comment']) # write the first row
+
+	detectors 	= Detector.objects.all().values_list('id', 'producer', 'project', 'bulk_type', 'type', 'run_number',
+		'wafer_number', 'trec_id', 'area', 'thickness', 'support_wafer_thickness',
+		'resistivity', 'dead_or_alive', 'ssd_responsible', 'arrival_date', 
+		'current_location', 'comment') 	# get all the detectors
+	for det in detectors:
+		writer.writerow(det) 			# write all the remaining rows
+
+	return response

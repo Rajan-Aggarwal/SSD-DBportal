@@ -17,8 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls import url
 from django.contrib.auth.views import LoginView
-from detectors.views import logout_view, more # function-based views
-from detectors.views import DetectorView, LocationTransferView, AnnealingView, IrradiationView # class-based views
+from detectors.views import logout_view, more, export_detectors                                 # function-based views
+from detectors.views import DetectorView, LocationTransferView, AnnealingView, IrradiationView  # class-based views
 from detectors.forms import LoginForm
 
 # customize the admin page
@@ -51,9 +51,12 @@ urlpatterns = [
     url(r'^more/(?P<detector_id>\w+)/ir$', IrradiationView.as_view(), name='irradiation'),
 
     # home page enlisting all the detectors in the database 
-    url(r'', DetectorView.as_view(), name='home'),
+    url(r'^$', DetectorView.as_view(), name='home'),
 
     # route enabling the search filter on each of the tables 
     url(r'^search/$', DetectorView.as_view(), name='search'),
+
+    # route enabling the export of detector table into csv
+    url(r'^export_det/$', export_detectors, name='export_detectors'),
 
 ]

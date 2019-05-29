@@ -17,7 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls import url
 from django.contrib.auth.views import LoginView
-from detectors.views import logout_view, more, export_detectors                                 # function-based views
+from detectors.views import (logout_view, more, export_detectors, export_detectors_csv,
+        export_detectors_xls, )                                                                 # function-based views
 from detectors.views import DetectorView, LocationTransferView, AnnealingView, IrradiationView  # class-based views
 from detectors.forms import LoginForm
 
@@ -56,7 +57,13 @@ urlpatterns = [
     # route enabling the search filter on each of the tables 
     url(r'^search/$', DetectorView.as_view(), name='search'),
 
-    # route enabling the export of detector table into csv
+    # route displaying options to export detectors 
     url(r'^export_det/$', export_detectors, name='export_detectors'),
+
+    # route enabling the export of detectors table into csv
+    url(r'^export_det/csv/$', export_detectors_csv, name='export_detectors_csv'),
+
+    # route enabling the export of detectors table into xls
+    url(r'^export_det/xls/$', export_detectors_xls, name='export_detectors_xls'), 
 
 ]

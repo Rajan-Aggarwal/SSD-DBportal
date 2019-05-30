@@ -105,7 +105,7 @@ class IrradiationView(GenericDetectorInfoTableView):
 	table_class			= IrradiationTable
 	model 				= Irradiation
 	template_name		= 'irradiation.html'
-	filterset_class		= LocationTransferFilter
+	filterset_class		= IrradiationFilter
 
 
 # Create your function-based views here

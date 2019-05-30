@@ -77,7 +77,6 @@ class LocationTransfer(models.Model):
 		self.source_location 	= Detector.objects.get(pk=self.detector_id).current_location			# make the source same as current location
 		location_transfer 		= super(LocationTransfer, self).save(*args, **kwargs)
 		Detector.objects.filter(pk=self.detector_id).update(current_location=self.destination_location) 
-		# update the detector's current location to destination location
 		return location_transfer
 
 	class Meta:

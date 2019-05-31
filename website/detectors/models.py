@@ -20,12 +20,12 @@ class Detector(models.Model):
 	area 					= models.FloatField('Area (in cm sq)', blank=True, null=True)
 	thickness 				= models.FloatField('Thickness (in micrometer)', blank=True, null=True)
 	support_wafer_thickness = models.FloatField('Support wafer thickness (in micrometer)', blank=True, null=True)
-	resistivity 			= models.FloatField('Resistivity (in ohm-cm)',blank=True, null=True)
+	resistivity 			= models.FloatField('Resistivity (in ohm-cm)', blank=True, null=True)
 	dead_or_alive 			= models.CharField('Dead/Alive', max_length=10, choices= [
 																			('Dead', 'Dead'), 
 																			('Alive', 'Alive'),
 																			])
-	ssd_responsible 		= models.CharField('Person responsible for the detector',max_length=256)
+	ssd_responsible 		= models.CharField('Person responsible for the detector', max_length=256)
 	arrival_date 			= models.DateField(default=date.today)
 	current_location 		= models.CharField(max_length=256)
 	comment 				= models.TextField(max_length=1024, blank=True)

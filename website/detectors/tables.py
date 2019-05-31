@@ -2,7 +2,7 @@ import django_tables2 as tables
 from django_tables2.utils import A
 from .models import Detector, LocationTransfer, Annealing, Irradiation
 
-EMPTY_TEXT = 'There is no entry matching the given criteria'
+EMPTY_TEXT = 'There is no entry matching the given criteria'	# message shown when any table is empty
 
 class DetectorTable(tables.Table):
 
@@ -64,6 +64,17 @@ class IrradiationTable(tables.Table):
 	'''
 		the table displaying all the irradiation history for a given detector
 	'''
+
+	def render_fluence_or_dose(self, value):
+		'''
+			::param value is the value this
+			func will get from the model field
+			fluence_or_dose.
+
+			changes the display of decimal field 
+			to scientific notation
+		'''
+		return '{:.2E}'.format(value)
 
 	class Meta:
 		model 		= Irradiation

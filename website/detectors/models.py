@@ -21,9 +21,9 @@ class Detector(models.Model):
 	thickness 				= models.FloatField('Thickness (in micrometer)', blank=True, null=True)
 	support_wafer_thickness = models.FloatField('Support wafer thickness (in micrometer)', blank=True, null=True)
 	resistivity 			= models.FloatField('Resistivity (in ohm-cm)',blank=True, null=True)
-	dead_or_alive 			= models.CharField('Dead/Alive', max_length=1, choices= [
-																			('D', 'Dead'), 
-																			('A', 'Alive'),
+	dead_or_alive 			= models.CharField('Dead/Alive', max_length=10, choices= [
+																			('Dead', 'Dead'), 
+																			('Alive', 'Alive'),
 																			])
 	ssd_responsible 		= models.CharField('Person responsible for the detector',max_length=256)
 	arrival_date 			= models.DateField(default=date.today)
@@ -107,7 +107,7 @@ class Irradiation(models.Model):
 	detector_id 			= models.ForeignKey('Detector', on_delete=models.CASCADE)
 	location 				= models.CharField(max_length=256)
 	irradiation_particle 	= models.CharField('Particle used for radiation', max_length=256)
-	fluence_or_dose 		= models.DecimalField('Fluence/Dose', max_digits=20, decimal_places=10)
+	fluence_or_dose 		= models.DecimalField('Fluence/Dose', max_digits=100, decimal_places=50)
 	energy_magnitude 		= models.FloatField('Energy')
 	energy_unit 			= models.CharField('Unit of energy', max_length=10)
 	hardness_factor			= models.FloatField(blank=True, null=True)

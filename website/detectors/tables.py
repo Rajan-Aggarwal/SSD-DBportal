@@ -22,7 +22,7 @@ class DetectorTable(tables.Table):
 			function to set what the link column displays as the
 			link for the hyper-link
 		'''
-		return "More"
+		return 'More'
 
 	class Meta:
 		model 		= Detector

@@ -158,3 +158,8 @@ LOGIN_URL = '/login/'
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 
 LOGIN_REDIRECT_URL = '/'
+
+# date formats
+
+DATE_FORMAT         = '%d/%m/%Y'
+DATE_INPUT_FORMAT   = '%d/%m/%Y'

@@ -30,7 +30,7 @@ class LocationTransferFilter(django_filters.FilterSet):
 		filter for the location transfer history (used in the search bar)
 	'''
 
-	transfer_datetime 		= django_filters.DateTimeFilter(label='Date and time:', lookup_expr='icontains')
+	transfer_date 			= django_filters.DateTimeFilter(label='Date:', lookup_expr='exact')
 	source_location 		= django_filters.CharFilter(label='Initial location:', lookup_expr='icontains')
 	destination_location	= django_filters.CharFilter(label='Destination location:', lookup_expr='icontains')
 	internal_or_external	= django_filters.CharFilter(label='Internal or External:', lookup_expr='iexact')
@@ -38,7 +38,7 @@ class LocationTransferFilter(django_filters.FilterSet):
 
 	class Meta:
 		model 	= LocationTransfer
-		fields 	= ['transfer_datetime', 'source_location', 'destination_location',
+		fields 	= ['transfer_date', 'source_location', 'destination_location',
 					'internal_or_external', 'responsible_party', ]
 
 
@@ -48,13 +48,13 @@ class AnnealingFilter(django_filters.FilterSet):
 		filter for the annealing history (used in the seach bar)
 	'''
 
-	annealing_datetime	= django_filters.DateTimeFilter(label='Date and time:', lookup_expr='icontains')
+	annealing_date		= django_filters.DateTimeFilter(label='Date:', lookup_expr='exact')
 	temperature			= django_filters.NumberFilter(label='Temperature:', lookup_expr='exact')
 	time 				= django_filters.NumberFilter(label='Time:', lookup_expr='exact')
 
 	class Meta:
 		model 	= Annealing
-		fields 	= ['annealing_datetime', 'time', 'temperature', ]
+		fields 	= ['annealing_date', 'time', 'temperature', ]
 
 
 class IrradiationFilter(django_filters.FilterSet):
@@ -66,11 +66,11 @@ class IrradiationFilter(django_filters.FilterSet):
 	location 				= django_filters.CharFilter(label='Location:', lookup_expr='icontains')
 	irradiation_particle 	= django_filters.CharFilter(label='Particle:', lookup_expr='icontains')
 	fluence_or_dose 		= django_filters.NumberFilter(label='Fluence/Dose:', lookup_expr='exact')
-	irradiation_datetime 	= django_filters.DateTimeFilter(label='Date and time:', lookup_expr='exact')
+	irradiation_date 		= django_filters.DateTimeFilter(label='Date:', lookup_expr='exact')
 	energy_magnitude 		= django_filters.NumberFilter(label='Energy magnitude:', lookup_expr='exact')
 	hardness_factor 		= django_filters.NumberFilter(label='Hardness factor:', lookup_expr='exact')
 
 	class Meta:
 		model 	= Irradiation
-		fields	= ['location', 'irradiation_particle', 'fluence_or_dose', 'irradiation_datetime',
+		fields	= ['location', 'irradiation_particle', 'fluence_or_dose', 'irradiation_date',
 					'energy_magnitude', 'hardness_factor', ]

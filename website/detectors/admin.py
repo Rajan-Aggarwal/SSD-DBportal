@@ -22,7 +22,7 @@ class LocationTransferModelAdmin(ImportExportModelAdmin):
 	'''
 
 	fields 			= ['detector_id', 
-						'transfer_datetime', 
+						'transfer_date', 
 						'source_location',
 						'destination_location',
 						'internal_or_external',
@@ -31,7 +31,7 @@ class LocationTransferModelAdmin(ImportExportModelAdmin):
 						]
 	readonly_fields = ['source_location']
 	search_fields 	= ('detector_id__id', 
-						'transfer_datetime',
+						'transfer_date',
 						'source_location',
 						'destination_location',
 						'internal_or_external',
@@ -46,7 +46,7 @@ class AnnealingModelAdmin(ImportExportModelAdmin):
 		---> adds export and import options
 	'''
 	search_fields = ('detector_id__id',
-						'annealing_datetime',
+						'annealing_date',
 						'temperature',
 						'time',
 						)
@@ -61,7 +61,7 @@ class IrradiationModelAdmin(ImportExportModelAdmin):
 	search_fields = ('detector_id__id',
 						'location',
 						'irradiation_particle',
-						'irradiation_datetime',
+						'irradiation_date',
 						)
 
 

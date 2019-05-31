@@ -42,7 +42,7 @@ class LocationTransferTable(tables.Table):
 		attrs		= {'class': 'paleblue'}
 		empty_text	= EMPTY_TEXT
 		exclude		= ('id', 'detector_id',)
-		ordering	= ['-transfer_datetime']
+		ordering	= ['-transfer_date']
 
 
 class AnnealingTable(tables.Table):
@@ -56,7 +56,7 @@ class AnnealingTable(tables.Table):
 		attrs 		= {'class': 'paleblue'}
 		empty_text 	= EMPTY_TEXT
 		exclude 	= ('id', 'detector_id',)
-		ordering 	= ['-annealing_datetime']
+		ordering 	= ['-annealing_date']
 
 
 class IrradiationTable(tables.Table):
@@ -81,6 +81,6 @@ class IrradiationTable(tables.Table):
 		attrs 		= {'class': 'paleblue'}
 		empty_text 	= EMPTY_TEXT
 		exclude 	= ('id', 'detector_id',)
-		ordering 	= ['-irradiation_datetime']
+		ordering 	= ['-irradiation_date']
 
 		

@@ -1,6 +1,6 @@
 from django.db import models
 from django.shortcuts import get_object_or_404
-from datetime import date, datetime
+from datetime import date
 
 # by default each field is mandatory
 # says blank=True, otherwise
@@ -42,7 +42,7 @@ class LocationTransfer(models.Model):
 		table storing a detector's location history
 	'''
 	detector_id 			= models.ForeignKey('Detector', on_delete=models.CASCADE)
-	transfer_datetime 		= models.DateTimeField('Date and time', default=datetime.now)
+	transfer_date  			= models.DateField('Date', default=date.today)
 	# non-editable field source_location (auto-fill as current location of the detector)
 	source_location 		= models.CharField('From', default='The current location of this detector (auto-fill)', 
 												max_length=256, 
@@ -63,7 +63,7 @@ class LocationTransfer(models.Model):
 		return "Transfer of {} from {} to {} on {}".format(self.detector_id, 
 														self.source_location, 
 														self.destination_location, 
-														self.transfer_datetime)
+														self.transfer_date)
 
 	def save(self, *args, **kwargs):
 		'''
@@ -78,7 +78,7 @@ class LocationTransfer(models.Model):
 		return location_transfer
 
 	class Meta:
-		ordering = ['-transfer_datetime']
+		ordering = ['-transfer_date']
 
 
 class Annealing(models.Model):
@@ -86,18 +86,18 @@ class Annealing(models.Model):
 		table storing a detector's annealing history
 	'''
 	detector_id 			= models.ForeignKey('Detector', on_delete=models.CASCADE)
-	annealing_datetime 		= models.DateTimeField('Date and time', default=datetime.now)
+	annealing_date 			= models.DateTimeField('Date', default=date.today)
 	temperature 			= models.FloatField('Temp (in Celcius)')
 	time 					= models.FloatField('Time (in minutes)')
 
 	def __str__(self):
 		return "Annealing of {} on {} at {} Celcius for {} minutes".format(self.detector_id, 
-														self.annealing_datetime,
+														self.annealing_date,
 														self.temperature,
 														self.time)
 
 	class Meta:
-		ordering = ['-annealing_datetime']
+		ordering = ['-annealing_date']
 
 
 class Irradiation(models.Model):
@@ -111,12 +111,12 @@ class Irradiation(models.Model):
 	energy_magnitude 		= models.FloatField('Energy')
 	energy_unit 			= models.CharField('Unit of energy', max_length=10)
 	hardness_factor			= models.FloatField(blank=True, null=True)
-	irradiation_datetime 	= models.DateTimeField('Date and time', default=datetime.now)
+	irradiation_date 		= models.DateField('Date', default=date.today)
 
 	def __str__(self):
 		return "Irradiation of {} on {} with {}".format(self.detector_id, 
-													self.irradiation_datetime,
+													self.irradiation_date,
 													self.irradiation_particle)
 
 	class Meta:
-		ordering = ['-irradiation_datetime']
+		ordering = ['-irradiation_date']

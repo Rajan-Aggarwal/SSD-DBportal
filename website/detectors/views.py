@@ -14,7 +14,6 @@ from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin
 import csv
 import xlwt
-import datetime 
 
 PER_PAGE_ROWS = 25
 
@@ -247,11 +246,11 @@ def export_location_transfers_csv(request, detector_id):
 	# write the csv file
 	writer 		= csv.writer(response)
 	# write the first row
-	writer.writerow(['transfer_datetime', 'source_location', 'destination_location', 'internal_or_external',
+	writer.writerow(['transfer_date', 'source_location', 'destination_location', 'internal_or_external',
 		'responsible_party', 'comment'])
 
 	# get data from the model
-	location_transfers 			= LocationTransfer.objects.filter(detector_id=detector_id).values_list('transfer_datetime', 
+	location_transfers 			= LocationTransfer.objects.filter(detector_id=detector_id).values_list('transfer_date', 
 		'source_location', 'destination_location', 'internal_or_external', 'responsible_party', 'comment')
 	# write all remaining rows
 	for lt in location_transfers:
@@ -279,7 +278,7 @@ def export_location_transfers_xls(request, detector_id):
 	font_style				= xlwt.XFStyle()
 	font_style.font.bold 	= True
 
-	columns		= ['transfer_datetime', 'source_location', 'destination_location', 'internal_or_external',
+	columns		= ['transfer_date', 'source_location', 'destination_location', 'internal_or_external',
 		'responsible_party', 'comment']
 
 	for col_num in range(len(columns)):
@@ -287,16 +286,21 @@ def export_location_transfers_xls(request, detector_id):
 
 	# sheet body, remaining rows
 	font_style	= xlwt.XFStyle()
+	date_style 	= xlwt.XFStyle()
+	date_style.num_format_str = 'DD-MMM-YY'
+
 
 	# get data from the model
-	rows 		= LocationTransfer.objects.filter(detector_id=detector_id).values_list('transfer_datetime', 'source_location', 
+	rows 		= LocationTransfer.objects.filter(detector_id=detector_id).values_list('transfer_date', 'source_location', 
 		'destination_location', 'internal_or_external', 'responsible_party', 'comment')
 	# write each cell
-	rows = [ [ x.strftime("%Y-%m-%d %H:%M") if isinstance(x, datetime.datetime) else x for x in row ] for row in rows ]
 	for row in rows:
 		row_num += 1
 		for col_num in range(len(row)):
-			ws.write(row_num, col_num, row[col_num], font_style)
+			if columns[col_num] == 'transfer_date':
+				ws.write(row_num, col_num, row[col_num], date_style)
+			else:
+				ws.write(row_num, col_num, row[col_num], font_style)
 
 	wb.save(response)
 	return response
@@ -328,10 +332,10 @@ def export_annealings_csv(request, detector_id):
 	# write the csv file
 	writer 		= csv.writer(response)
 	# write the first row
-	writer.writerow(['annealing_datetime', 'temperature', 'time'])
+	writer.writerow(['annealing_date', 'temperature', 'time'])
 
 	# get data from the model
-	annealings 	= Annealing.objects.filter(detector_id=detector_id).values_list('annealing_datetime', 
+	annealings 	= Annealing.objects.filter(detector_id=detector_id).values_list('annealing_date', 
 		'temperature', 'time')
 	# write all remaining rows
 	for ann in annealings:
@@ -359,23 +363,27 @@ def export_annealings_xls(request, detector_id):
 	font_style				= xlwt.XFStyle()
 	font_style.font.bold 	= True
 
-	columns		= ['annealing_datetime', 'temperature', 'time']
+	columns		= ['annealing_date', 'temperature', 'time']
 
 	for col_num in range(len(columns)):
 		ws.write(row_num, col_num, columns[col_num], font_style)
 
 	# sheet body, remaining rows
 	font_style	= xlwt.XFStyle()
+	date_style 	= xlwt.XFStyle()
+	date_style.num_format_str = 'DD-MMM-YY'
 
 	# get data from the model
-	rows 		= Annealing.objects.filter(detector_id=detector_id).values_list('annealing_datetime', 
+	rows 		= Annealing.objects.filter(detector_id=detector_id).values_list('annealing_date', 
 		'temperature', 'time')
 	# write each cell
-	rows = [ [ x.strftime("%Y-%m-%d %H:%M") if isinstance(x, datetime.datetime) else x for x in row ] for row in rows ]
 	for row in rows:
 		row_num += 1
 		for col_num in range(len(row)):
-			ws.write(row_num, col_num, row[col_num], font_style)
+			if columns[col_num] == 'annealing_date':
+				ws.write(row_num, col_num, row[col_num], date_style)
+			else:
+				ws.write(row_num, col_num, row[col_num], font_style)
 
 	wb.save(response)
 	return response
@@ -408,11 +416,11 @@ def export_irradiations_csv(request, detector_id):
 	writer 			= csv.writer(response)
 	# write the first row
 	writer.writerow(['location', 'irradiation_particle', 'fluence_or_dose', 'energy_magnitude',
-		'energy_unit', 'hardness_factor', 'irradiation_datetime'])
+		'energy_unit', 'hardness_factor', 'irradiation_date'])
 
 	# get data from the model
 	irradiations 	= Irradiation.objects.filter(detector_id=detector_id).values_list('location', 'irradiation_particle', 
-		'fluence_or_dose', 'energy_magnitude', 'energy_unit', 'hardness_factor', 'irradiation_datetime')
+		'fluence_or_dose', 'energy_magnitude', 'energy_unit', 'hardness_factor', 'irradiation_date')
 	# write all remaining rows
 	for irr in irradiations:
 		writer.writerow(irr)
@@ -440,24 +448,28 @@ def export_irradiations_xls(request, detector_id):
 	font_style.font.bold 	= True
 
 	columns		= ['location', 'irradiation_particle', 'fluence_or_dose', 'energy_magnitude',
-		'energy_unit', 'hardness_factor', 'irradiation_datetime']
+		'energy_unit', 'hardness_factor', 'irradiation_date']
 
 	for col_num in range(len(columns)):
 		ws.write(row_num, col_num, columns[col_num], font_style)
 
 	# sheet body, remaining rows
 	font_style	= xlwt.XFStyle()
+	date_style 	= xlwt.XFStyle()
+	date_style.num_format_str = 'DD-MMM-YY'
 
 	# get data from the model
 	rows 		= Irradiation.objects.filter(detector_id=detector_id).values_list('location', 
 		'irradiation_particle', 'fluence_or_dose', 'energy_magnitude','energy_unit', 'hardness_factor', 
-		'irradiation_datetime')
+		'irradiation_date')
 	# write each cell
-	rows = [ [ x.strftime("%Y-%m-%d %H:%M") if isinstance(x, datetime.datetime) else x for x in row ] for row in rows ]
 	for row in rows:
 		row_num += 1
 		for col_num in range(len(row)):
-			ws.write(row_num, col_num, row[col_num], font_style)
+			if columns[col_num] == 'irradiation_date':
+				ws.write(row_num, col_num, row[col_num], date_style)
+			else:
+				ws.write(row_num, col_num, row[col_num], font_style)
 
 	wb.save(response)
 	return response

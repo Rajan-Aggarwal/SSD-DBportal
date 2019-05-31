@@ -9,32 +9,26 @@ class Detector(models.Model):
 	'''
 		refers to the main table
 	'''
-	# detector properties
-	id 				= models.CharField('Detector name or ID', max_length=256, primary_key=True) # sensor name 
-	producer 		= models.CharField(max_length=256)
-	project 		= models.CharField(max_length=256)
-	bulk_type 		= models.CharField(max_length=256)
-	type 			= models.CharField('Sensor type', max_length=256) # refers to the sensor type
-	run_number 		= models.CharField(max_length=256)
-	wafer_number 	= models.CharField(max_length=256)
-	trec_id 		= models.CharField('TREC ID', max_length=256, blank=True, null=True)
-
-	# detector characteristics
+	id 						= models.CharField('Detector name or ID', max_length=256, primary_key=True) # sensor name 
+	producer 				= models.CharField(max_length=256)
+	project 				= models.CharField(max_length=256)
+	bulk_type 				= models.CharField(max_length=256)
+	type 					= models.CharField('Sensor type', max_length=256) # refers to the sensor type
+	run_number 				= models.CharField(max_length=256)
+	wafer_number 			= models.CharField(max_length=256)
+	trec_id 				= models.CharField('TREC ID', max_length=256, blank=True, null=True)
 	area 					= models.FloatField('Area (in cm sq)', blank=True, null=True)
 	thickness 				= models.FloatField('Thickness (in micrometer)', blank=True, null=True)
 	support_wafer_thickness = models.FloatField('Support wafer thickness (in micrometer)', blank=True, null=True)
 	resistivity 			= models.FloatField('Resistivity (in ohm-cm)',blank=True, null=True)
-
-	# detector status
-	dead_or_alive = models.CharField(max_length=1, choices= [
-											('D', 'Dead'), ('A', 'Alive')])
-	# local information 
-	ssd_responsible 	= models.CharField('Person responsible for the detector',max_length=256)
-	arrival_date 		= models.DateField(default=date.today)
-	current_location 	= models.CharField(max_length=256)
-
-	# description
-	comment 			= models.TextField(max_length=1024, blank=True)
+	dead_or_alive 			= models.CharField('Dead/Alive', max_length=1, choices= [
+																			('D', 'Dead'), 
+																			('A', 'Alive'),
+																			])
+	ssd_responsible 		= models.CharField('Person responsible for the detector',max_length=256)
+	arrival_date 			= models.DateField(default=date.today)
+	current_location 		= models.CharField(max_length=256)
+	comment 				= models.TextField(max_length=1024, blank=True)
 
 	def __str__(self):
 		return self.id
@@ -49,15 +43,19 @@ class LocationTransfer(models.Model):
 	'''
 	detector_id 			= models.ForeignKey('Detector', on_delete=models.CASCADE)
 	transfer_datetime 		= models.DateTimeField('Date and time', default=datetime.now)
+	# non-editable field source_location (auto-fill as current location of the detector)
 	source_location 		= models.CharField('From', default='The current location of this detector (auto-fill)', 
 												max_length=256, 
-												editable=False,
+												editable=False, 
 												)	
-	# non-editable since source location can only be the current location of the detector
 	destination_location 	= models.CharField('To', max_length=256)
-	internal_or_external 	= models.CharField(max_length=10, choices = [
-												('External', 'External'),
-												('Internal', 'Internal')])
+	internal_or_external 	= models.CharField('Internal/External', 
+												max_length=10, 
+												choices = [
+													('External', 'External'),
+													('Internal', 'Internal'),
+													]
+												)
 	responsible_party 		= models.CharField('Person undertaking the transfer', max_length=256, blank=True)
 	comment		 			= models.TextField(max_length=1024, blank=True)
 
@@ -109,7 +107,7 @@ class Irradiation(models.Model):
 	detector_id 			= models.ForeignKey('Detector', on_delete=models.CASCADE)
 	location 				= models.CharField(max_length=256)
 	irradiation_particle 	= models.CharField('Particle used for radiation', max_length=256)
-	fluence_or_dose 		= models.DecimalField(max_digits=20, decimal_places=10)
+	fluence_or_dose 		= models.DecimalField('Fluence/Dose', max_digits=20, decimal_places=10)
 	energy_magnitude 		= models.FloatField('Energy')
 	energy_unit 			= models.CharField('Unit of energy', max_length=10)
 	hardness_factor			= models.FloatField(blank=True, null=True)

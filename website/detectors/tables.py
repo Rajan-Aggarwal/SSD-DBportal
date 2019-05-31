@@ -10,8 +10,18 @@ class DetectorTable(tables.Table):
 		the table to display all the detectors in the home page
 	'''
 
-	more = tables.LinkColumn('more', args=[A('pk')], orderable=False, empty_values=()) # add a hyper-link to more.html enlisting other tables
+	# add a hyper-link to more.html enlisting other tables
+	more = tables.LinkColumn('more', verbose_name='More information', 
+								args=[A('pk')], 
+								orderable=False, 
+								empty_values=(),
+								) 
+
 	def render_more(self):
+		'''
+			function to set what the link column displays as the
+			link for the hyper-link
+		'''
 		return "More"
 
 	class Meta:

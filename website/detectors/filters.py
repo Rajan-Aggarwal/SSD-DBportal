@@ -15,13 +15,13 @@ class DetectorFilter(django_filters.FilterSet):
 	current_location 	= django_filters.CharFilter(label='Current location:', lookup_expr='icontains')
 	ssd_responsible 	= django_filters.CharFilter(label='Responsible person:', lookup_expr='icontains')
 	dead_or_alive 		= django_filters.CharFilter(label='Dead or Alive:', lookup_expr='iexact')
-	arrival_date 		= django_filters.DateFilter(label='Arrival date:', lookup_expr='iexact')
+	arrival_date 		= django_filters.DateFilter(label='Arrival date:', lookup_expr='exact')
 
 	class Meta:
 		model 	= Detector
 		fields 	= ['id', 'trec_id', 'producer', 'project',
-				'run_number', 'current_location','ssd_responsible',
-				'dead_or_alive', ]
+					'run_number', 'current_location','ssd_responsible',
+					'dead_or_alive', ]
 
 
 class LocationTransferFilter(django_filters.FilterSet):
@@ -49,8 +49,8 @@ class AnnealingFilter(django_filters.FilterSet):
 	'''
 
 	annealing_datetime	= django_filters.DateTimeFilter(label='Date and time:', lookup_expr='icontains')
-	temperature			= django_filters.NumberFilter(label='Temperature:', lookup_expr='icontains')
-	time 				= django_filters.NumberFilter(label='Time:', lookup_expr='icontains')
+	temperature			= django_filters.NumberFilter(label='Temperature:', lookup_expr='exact')
+	time 				= django_filters.NumberFilter(label='Time:', lookup_expr='exact')
 
 	class Meta:
 		model 	= Annealing
@@ -65,10 +65,10 @@ class IrradiationFilter(django_filters.FilterSet):
 
 	location 				= django_filters.CharFilter(label='Location:', lookup_expr='icontains')
 	irradiation_particle 	= django_filters.CharFilter(label='Particle:', lookup_expr='icontains')
-	fluence_or_dose 		= django_filters.NumberFilter(label='Fluence/Dose:', lookup_expr='iexact')
-	irradiation_datetime 	= django_filters.DateTimeFilter(label='Date and time:', lookup_expr='iexact')
-	energy_magnitude 		= django_filters.NumberFilter(label='Energy magnitude:', lookup_expr='iexact')
-	hardness_factor 		= django_filters.NumberFilter(label='Hardness factor:', lookup_expr='iexact')
+	fluence_or_dose 		= django_filters.NumberFilter(label='Fluence/Dose:', lookup_expr='exact')
+	irradiation_datetime 	= django_filters.DateTimeFilter(label='Date and time:', lookup_expr='exact')
+	energy_magnitude 		= django_filters.NumberFilter(label='Energy magnitude:', lookup_expr='exact')
+	hardness_factor 		= django_filters.NumberFilter(label='Hardness factor:', lookup_expr='exact')
 
 	class Meta:
 		model 	= Irradiation

@@ -20,6 +20,7 @@ class LocationTransferModelAdmin(ImportExportModelAdmin):
 		---> adds search bar and its fields
 		---> adds export and import options
 	'''
+
 	fields 			= ['detector_id', 
 						'transfer_datetime', 
 						'source_location',
@@ -30,7 +31,7 @@ class LocationTransferModelAdmin(ImportExportModelAdmin):
 						]
 	readonly_fields = ['source_location']
 	search_fields 	= ('detector_id__id', 
-						'transfer_datetime__iexact',
+						'transfer_datetime',
 						'source_location',
 						'destination_location',
 						'internal_or_external',
@@ -45,9 +46,9 @@ class AnnealingModelAdmin(ImportExportModelAdmin):
 		---> adds export and import options
 	'''
 	search_fields = ('detector_id__id',
-						'annealing_datetime__iexact',
-						'temperature__startswith',
-						'time__startswith',
+						'annealing_datetime',
+						'temperature',
+						'time',
 						)
 
 
@@ -60,8 +61,9 @@ class IrradiationModelAdmin(ImportExportModelAdmin):
 	search_fields = ('detector_id__id',
 						'location',
 						'irradiation_particle',
-						'irradiation_datetime__iexact',
+						'irradiation_datetime',
 						)
+
 
 
 # register your models here

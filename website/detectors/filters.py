@@ -30,7 +30,7 @@ class LocationTransferFilter(django_filters.FilterSet):
 		filter for the location transfer history (used in the search bar)
 	'''
 
-	transfer_date 			= django_filters.DateTimeFilter(label='Date:', lookup_expr='exact')
+	transfer_date 			= django_filters.DateFilter(label='Date:', lookup_expr='exact')
 	source_location 		= django_filters.CharFilter(label='Initial location:', lookup_expr='icontains')
 	destination_location	= django_filters.CharFilter(label='Destination location:', lookup_expr='icontains')
 	internal_or_external	= django_filters.CharFilter(label='Internal or External:', lookup_expr='iexact')
@@ -48,7 +48,7 @@ class AnnealingFilter(django_filters.FilterSet):
 		filter for the annealing history (used in the seach bar)
 	'''
 
-	annealing_date		= django_filters.DateTimeFilter(label='Date:', lookup_expr='exact')
+	annealing_date		= django_filters.DateFilter(label='Date:', lookup_expr='exact')
 	temperature			= django_filters.NumberFilter(label='Temperature:', lookup_expr='exact')
 	time 				= django_filters.NumberFilter(label='Time:', lookup_expr='exact')
 
@@ -66,7 +66,7 @@ class IrradiationFilter(django_filters.FilterSet):
 	location 				= django_filters.CharFilter(label='Location:', lookup_expr='icontains')
 	irradiation_particle 	= django_filters.CharFilter(label='Particle:', lookup_expr='icontains')
 	fluence_or_dose 		= django_filters.NumberFilter(label='Fluence/Dose:', lookup_expr='exact')
-	irradiation_date 		= django_filters.DateTimeFilter(label='Date:', lookup_expr='exact')
+	irradiation_date 		= django_filters.DateFilter(label='Date:', lookup_expr='exact')
 	energy_magnitude 		= django_filters.NumberFilter(label='Energy magnitude:', lookup_expr='exact')
 	hardness_factor 		= django_filters.NumberFilter(label='Hardness factor:', lookup_expr='exact')
 

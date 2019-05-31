@@ -65,7 +65,6 @@ class IrradiationModelAdmin(ImportExportModelAdmin):
 						)
 
 
-
 # register your models here
 # admin.site.register(ModelName, ModelAdminName[optional])
 admin.site.register(Detector, DetectorModelAdmin)

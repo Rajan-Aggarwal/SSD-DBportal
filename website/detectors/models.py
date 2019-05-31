@@ -63,7 +63,7 @@ class LocationTransfer(models.Model):
 		return "Transfer of {} from {} to {} on {}".format(self.detector_id, 
 														self.source_location, 
 														self.destination_location, 
-														self.transfer_date)
+														self.transfer_date.strftime('%d/%m/%Y'))
 
 	def save(self, *args, **kwargs):
 		'''
@@ -86,13 +86,13 @@ class Annealing(models.Model):
 		table storing a detector's annealing history
 	'''
 	detector_id 			= models.ForeignKey('Detector', on_delete=models.CASCADE)
-	annealing_date 			= models.DateTimeField('Date', default=date.today)
+	annealing_date 			= models.DateField('Date', default=date.today)
 	temperature 			= models.FloatField('Temp (in Celcius)')
 	time 					= models.FloatField('Time (in minutes)')
 
 	def __str__(self):
 		return "Annealing of {} on {} at {} Celcius for {} minutes".format(self.detector_id, 
-														self.annealing_date,
+														self.annealing_date.strftime('%d/%m/%Y'),
 														self.temperature,
 														self.time)
 
@@ -115,7 +115,7 @@ class Irradiation(models.Model):
 
 	def __str__(self):
 		return "Irradiation of {} on {} with {}".format(self.detector_id, 
-													self.irradiation_date,
+													self.irradiation_date.strftime('%d/%m/%Y'),
 													self.irradiation_particle)
 
 	class Meta:

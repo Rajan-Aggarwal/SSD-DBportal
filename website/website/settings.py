@@ -139,9 +139,9 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
-USE_I18N = True
+USE_I18N = False
 
-USE_L10N = True
+USE_L10N = False
 
 USE_TZ = True
 
@@ -161,5 +161,6 @@ LOGIN_REDIRECT_URL = '/'
 
 # date formats
 
-DATE_FORMAT         = '%d/%m/%Y'
-DATE_INPUT_FORMAT   = '%d/%m/%Y'
+DATE_FORMAT             = 'd/m/Y'
+SHORT_DATE_FORMAT       = 'd/m/Y'
+DATE_INPUT_FORMATS      = ['%d/%m/%Y',]

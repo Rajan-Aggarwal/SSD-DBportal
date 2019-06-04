@@ -14,7 +14,7 @@ class Detector(models.Model):
 	project 				= models.CharField(max_length=256)
 	bulk_type 				= models.CharField(max_length=256)
 	type 					= models.CharField('Sensor type', max_length=256) # refers to the sensor type
-	run_number 				= models.CharField(max_length=256)
+	run_number 				= models.CharField(max_length=256, blank=True, null=True)
 	wafer_number 			= models.CharField(max_length=256)
 	trec_id 				= models.CharField('TREC ID', max_length=256, blank=True, null=True)
 	area 					= models.FloatField('Area (in cm sq)', blank=True, null=True)
@@ -106,7 +106,7 @@ class Irradiation(models.Model):
 	'''
 	detector_id 			= models.ForeignKey('Detector', on_delete=models.CASCADE)
 	location 				= models.CharField(max_length=256)
-	irradiation_particle 	= models.CharField('Particle used for radiation', max_length=256)
+	irradiation_particle 	= models.CharField('Particle used for irradiation', max_length=256)
 	fluence_or_dose 		= models.DecimalField('Fluence/Dose', max_digits=100, decimal_places=50)
 	energy_magnitude 		= models.FloatField('Energy')
 	energy_unit 			= models.CharField('Unit of energy', max_length=10)

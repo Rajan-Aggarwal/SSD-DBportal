@@ -24,6 +24,8 @@ from detectors.views import (logout_view, more,
         export_irradiations, export_irradiations_csv, export_irradiations_xls)                                                                 
 from detectors.views import DetectorView, LocationTransferView, AnnealingView, IrradiationView  
 from detectors.forms import LoginForm
+from django.conf import settings
+from django.conf.urls.static import static
 
 # customize the admin page
 admin.site.site_header 	= 'SSD Administration'
@@ -96,4 +98,4 @@ urlpatterns = [
     # route enabling the export of irradiations of the given detecotr into xls
     url(r'^more/(?P<detector_id>\w+)/ir/export_ir/xls$', export_irradiations_xls, name='export_irradiations_xls'),
 
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -25,13 +25,14 @@ SECRET_KEY = 'o1tuvr^@o^h9y&9x7!sb179o3_r2!7qr4rl#qva%!dj)#lt&vz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# Add URL and IP addresses of your server here
+ALLOWED_HOSTS = ['ssddb.cern.ch', ]
 
 # Add static folder to STATIC_DIRS
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
+# STATICFILES_DIRS = [
+#    os.path.join(BASE_DIR, 'static'),
+# ]
 
 # Application definition
 
@@ -149,7 +150,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL  = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/') 
 
 # Redirect to the login URL to access any file 
 

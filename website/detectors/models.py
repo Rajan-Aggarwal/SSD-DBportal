@@ -108,6 +108,7 @@ class Irradiation(models.Model):
 	location 				= models.CharField(max_length=256)
 	irradiation_particle 	= models.CharField('Particle used for irradiation', max_length=256)
 	fluence_or_dose 		= models.DecimalField('Fluence/Dose', max_digits=100, decimal_places=50)
+	fd_unit 				= models.CharField('Unit of fluence/dose', max_length=10) 
 	energy_magnitude 		= models.FloatField('Energy')
 	energy_unit 			= models.CharField('Unit of energy', max_length=10)
 	hardness_factor			= models.FloatField(blank=True, null=True)

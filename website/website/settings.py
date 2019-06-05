@@ -26,7 +26,7 @@ SECRET_KEY = 'o1tuvr^@o^h9y&9x7!sb179o3_r2!7qr4rl#qva%!dj)#lt&vz'
 DEBUG = True
 
 # Add URL and IP addresses of your server here
-ALLOWED_HOSTS = ['ssddb.cern.ch', ]
+ALLOWED_HOSTS = ['ssddb.cern.ch', 'localhost', ]
 
 # Add static folder to STATIC_DIRS
 

@@ -43,16 +43,16 @@ urlpatterns = [
     url(r'^logout/$', logout_view, name='user_logout'),
 
     # page showing more info about each detector
-    url(r'^more/(?P<detector_id>\w+)/$', more, name='more'),
+    url(r'^more/(?P<detector_id>.+)/$', more, name='more'),
 
     # page showing the table enlisting the location transfer history of a given detector
-    url(r'^more/(?P<detector_id>\w+)/lt$', LocationTransferView.as_view(), name='location_transfer'),
+    url(r'^more/(?P<detector_id>.+)/lt$', LocationTransferView.as_view(), name='location_transfer'),
 
     # page showing the table enlisting the annealing history of a given detector
-    url(r'^more/(?P<detector_id>\w+)/an$', AnnealingView.as_view(), name='annealing'),
+    url(r'^more/(?P<detector_id>.+)/an$', AnnealingView.as_view(), name='annealing'),
 
     # page showing the table enlisting the irradiation history of a given detector
-    url(r'^more/(?P<detector_id>\w+)/ir$', IrradiationView.as_view(), name='irradiation'),
+    url(r'^more/(?P<detector_id>.+)/ir$', IrradiationView.as_view(), name='irradiation'),
 
     # home page enlisting all the detectors in the database 
     url(r'^$', DetectorView.as_view(), name='home'),
@@ -70,30 +70,30 @@ urlpatterns = [
     url(r'^export_det/xls/$', export_detectors_xls, name='export_detectors_xls'), 
 
     # route displaying options to export location transfers of the given detector
-    url(r'^more/(?P<detector_id>\w+)/lt/export_lt/$', export_location_transfers, name='export_location_transfers'),
+    url(r'^more/(?P<detector_id>.+)/lt/export_lt/$', export_location_transfers, name='export_location_transfers'),
 
     # route enabling the export of location transfers of the given detector into csv
-    url(r'^more/(?P<detector_id>\w+)/lt/export_lt/csv/$', export_location_transfers_csv, name='export_location_transfers_csv'),
+    url(r'^more/(?P<detector_id>.+)/lt/export_lt/csv/$', export_location_transfers_csv, name='export_location_transfers_csv'),
 
     # route enabling the export of location transfers of the given detector into xls
-    url(r'^more/(?P<detector_id>\w+)/lt/export_lt/xls/$', export_location_transfers_xls, name='export_location_transfers_xls'),
+    url(r'^more/(?P<detector_id>.+)/lt/export_lt/xls/$', export_location_transfers_xls, name='export_location_transfers_xls'),
 
     # route displaying options to export annealings of the given detector
-    url(r'^more/(?P<detector_id>\w+)/an/export_an/$', export_annealings, name='export_annealings'),
+    url(r'^more/(?P<detector_id>.+)/an/export_an/$', export_annealings, name='export_annealings'),
 
     # route enabling the export of annealings of the given detector into csv
-    url(r'^more/(?P<detector_id>\w+)/an/export_an/csv$', export_annealings_csv, name='export_annealings_csv'),
+    url(r'^more/(?P<detector_id>.+)/an/export_an/csv$', export_annealings_csv, name='export_annealings_csv'),
 
     # route enabling the export of annealings of the given detector into xls
-    url(r'^more/(?P<detector_id>\w+)/an/export_an/xls$', export_annealings_xls, name='export_annealings_xls'),
+    url(r'^more/(?P<detector_id>.+)/an/export_an/xls$', export_annealings_xls, name='export_annealings_xls'),
 
     # route displaying options to export irradiations of the given detector
-    url(r'^more/(?P<detector_id>\w+)/ir/export_ir/$', export_irradiations, name='export_irradiations'),
+    url(r'^more/(?P<detector_id>.+)/ir/export_ir/$', export_irradiations, name='export_irradiations'),
 
     # route enabling the export of irradiations of the given detector into csv
-    url(r'^more/(?P<detector_id>\w+)/ir/export_ir/csv$', export_irradiations_csv, name='export_irradiations_csv'),
+    url(r'^more/(?P<detector_id>.+)/ir/export_ir/csv$', export_irradiations_csv, name='export_irradiations_csv'),
 
     # route enabling the export of irradiations of the given detecotr into xls
-    url(r'^more/(?P<detector_id>\w+)/ir/export_ir/xls$', export_irradiations_xls, name='export_irradiations_xls'),
+    url(r'^more/(?P<detector_id>.+)/ir/export_ir/xls$', export_irradiations_xls, name='export_irradiations_xls'),
 
 ]

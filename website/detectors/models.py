@@ -28,7 +28,7 @@ class Detector(models.Model):
 	ssd_responsible 		= models.CharField('Person responsible for the detector', max_length=256)
 	arrival_date 			= models.DateField(default=date.today)
 	current_location 		= models.CharField(max_length=256)
-	comment 				= models.TextField(max_length=1024, blank=True)
+	comment 				= models.TextField(max_length=1024, blank=True, null=True)
 
 	def __str__(self):
 		return self.id
@@ -56,7 +56,7 @@ class LocationTransfer(models.Model):
 													('Internal', 'Internal'),
 													]
 												)
-	responsible_party 		= models.CharField('Person undertaking the transfer', max_length=256, blank=True)
+	responsible_party 		= models.CharField('Person undertaking the transfer', max_length=256, blank=True, null=True)
 	comment		 			= models.TextField(max_length=1024, blank=True)
 
 	def __str__(self):
@@ -109,8 +109,8 @@ class Irradiation(models.Model):
 	irradiation_particle 	= models.CharField('Particle used for irradiation', max_length=256)
 	fluence_or_dose 		= models.DecimalField('Fluence/Dose', max_digits=100, decimal_places=50)
 	fd_unit 				= models.CharField('Unit of fluence/dose', max_length=10) 
-	energy_magnitude 		= models.FloatField('Energy')
-	energy_unit 			= models.CharField('Unit of energy', max_length=10)
+	energy_magnitude 		= models.FloatField('Energy', blank=True, null=True)
+	energy_unit 			= models.CharField('Unit of energy', max_length=10, blank=True, null=True)
 	hardness_factor			= models.FloatField(blank=True, null=True)
 	irradiation_date 		= models.DateField('Date', default=date.today)
 

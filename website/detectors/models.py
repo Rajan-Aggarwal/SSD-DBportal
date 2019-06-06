@@ -24,6 +24,7 @@ class Detector(models.Model):
 	dead_or_alive 			= models.CharField('Dead/Alive', max_length=10, choices= [
 																			('Dead', 'Dead'), 
 																			('Alive', 'Alive'),
+																			('Unknown', 'Unknown'),
 																			])
 	ssd_responsible 		= models.CharField('Person responsible for the detector', max_length=256)
 	arrival_date 			= models.DateField(default=date.today)

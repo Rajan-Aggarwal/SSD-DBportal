@@ -2,6 +2,7 @@ from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 from .models import Detector, LocationTransfer, Irradiation, Annealing
 
+# create your custom admin models here
 
 class DetectorModelAdmin(ImportExportModelAdmin):
 	'''
@@ -9,8 +10,10 @@ class DetectorModelAdmin(ImportExportModelAdmin):
 		---> adds search bar and its fields
 		---> adds export and import options
 		---> reorder the object list
+		---> allow 'save as new' functionality to duplicate a record
 	'''
-	search_fields = ('id',)
+	search_fields 	= ('id',)
+	save_as 		= True		
 
 
 class LocationTransferModelAdmin(ImportExportModelAdmin):
@@ -19,6 +22,7 @@ class LocationTransferModelAdmin(ImportExportModelAdmin):
 		---> adds the read-only field source location 
 		---> adds search bar and its fields
 		---> adds export and import options
+		---> allow 'save as new' functionality to duplicate a record
 	'''
 
 	fields 			= ['detector_id', 
@@ -37,6 +41,7 @@ class LocationTransferModelAdmin(ImportExportModelAdmin):
 						'internal_or_external',
 						'responsible_party',
 						)
+	save_as 		= True
 
 
 class AnnealingModelAdmin(ImportExportModelAdmin):
@@ -44,12 +49,14 @@ class AnnealingModelAdmin(ImportExportModelAdmin):
 		custom admin model for annealings 
 		---> adds search bar and its fields
 		---> adds export and import options
+		---> allow 'save as new' functionality to duplicate a record
 	'''
-	search_fields = ('detector_id__id',
+	search_fields 	= ('detector_id__id',
 						'annealing_date',
 						'temperature',
 						'time',
 						)
+	save_as 		= True
 
 
 class IrradiationModelAdmin(ImportExportModelAdmin):
@@ -57,12 +64,14 @@ class IrradiationModelAdmin(ImportExportModelAdmin):
 		custom admin model for irradiations
 		---> adds search bar and its fields
 		---> adds export and import options
+		---> allow 'save as new' functionality to duplicate a record
 	'''
-	search_fields = ('detector_id__id',
+	search_fields 	= ('detector_id__id',
 						'location',
 						'irradiation_particle',
 						'irradiation_date',
 						)
+	save_as 		= True
 
 
 # register your models here

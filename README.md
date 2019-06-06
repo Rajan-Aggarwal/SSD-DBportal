@@ -1,4 +1,4 @@
-# SSD-DBportal v 1.0
+# SSD-DBportal v 1.1
 
 SSD-DBportal is a web portal to access the inventory of various detectors used in SSD operations.
 

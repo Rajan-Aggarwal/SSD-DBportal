@@ -415,12 +415,12 @@ def export_irradiations_csv(request, detector_id):
 	# write the csv file
 	writer 			= csv.writer(response)
 	# write the first row
-	writer.writerow(['location', 'irradiation_particle', 'fluence_or_dose', 'energy_magnitude',
+	writer.writerow(['location', 'irradiation_particle', 'fluence_or_dose', 'fd_unit', 'energy_magnitude',
 		'energy_unit', 'hardness_factor', 'irradiation_date'])
 
 	# get data from the model
 	irradiations 	= Irradiation.objects.filter(detector_id=detector_id).values_list('location', 'irradiation_particle', 
-		'fluence_or_dose', 'energy_magnitude', 'energy_unit', 'hardness_factor', 'irradiation_date')
+		'fluence_or_dose', 'fd_unit', 'energy_magnitude', 'energy_unit', 'hardness_factor', 'irradiation_date')
 	# write all remaining rows
 	for irr in irradiations:
 		writer.writerow(irr)
@@ -447,7 +447,7 @@ def export_irradiations_xls(request, detector_id):
 	font_style				= xlwt.XFStyle()
 	font_style.font.bold 	= True
 
-	columns		= ['location', 'irradiation_particle', 'fluence_or_dose', 'energy_magnitude',
+	columns		= ['location', 'irradiation_particle', 'fluence_or_dose', 'fd_unit', 'energy_magnitude',
 		'energy_unit', 'hardness_factor', 'irradiation_date']
 
 	for col_num in range(len(columns)):
@@ -460,7 +460,7 @@ def export_irradiations_xls(request, detector_id):
 
 	# get data from the model
 	rows 		= Irradiation.objects.filter(detector_id=detector_id).values_list('location', 
-		'irradiation_particle', 'fluence_or_dose', 'energy_magnitude','energy_unit', 'hardness_factor', 
+		'irradiation_particle', 'fluence_or_dose', 'fd_unit', 'energy_magnitude','energy_unit', 'hardness_factor', 
 		'irradiation_date')
 	# write each cell
 	for row in rows:

@@ -17,6 +17,10 @@ import xlwt
 
 PER_PAGE_ROWS = 25
 
+# for development only
+
+ROOT = '<root_script_func>'
+
 # Create your class-based views here.
 
 class DetectorView(LoginRequiredMixin, SingleTableMixin, FilterView):
@@ -474,4 +478,29 @@ def export_irradiations_xls(request, detector_id):
 	wb.save(response)
 	return response
 
+
+@login_required(login_url='login/')
+def measurement_index(request, detector_id):
+	'''
+		::param request is the http user request
+		::param detector_id is the url param (GET)
+		shows the different kind of measurements
+		done on the detectors with the number
+		of each measurements
+	'''
+	template_name 		= 'measurement_index.html'
+	measurement_dict 	= {
+							'CV': ROOT,
+							'IV': ROOT,
+							'Red_Top_TCT': ROOT,
+							'Red_Bottom_TCT': ROOT,
+							'IR_Top_TCT': ROOT,
+							'IR_Bottom_TCT': ROOT,
+							'Edge_TCT': ROOT,
+						}
+	context 			= {
+							'detector_id': detector_id,
+							'measurement_dict': measurement_dict,
+						}
+	return render(request, template_name, context)
 

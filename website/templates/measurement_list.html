@@ -22,9 +22,10 @@
 {% block pretitle %}{% endblock %}
 
 {% block content %}
-    <p>More information available for the detector <strong>{{ detector_id }}</strong>.</p>
-    <p><a href="{% url 'location_transfer' detector_id %}">Click here to view its location history</a></p>
-    <p><a href="{% url 'annealing' detector_id %}">Click here to view its annealing history</a></p>
-    <p><a href="{% url 'irradiation' detector_id %}">Click here to view its irradiation history</a></p>
-    <p><a href="{% url 'measurement_index' detector_id %}">Click here to view its measurements</a></p>
+    <p>List of <strong>{{ type }}</strong> measurements on <strong>{{ detector_id }}</strong>.</p>
+    <ul>
+        {% for dt in datetime_list %}
+            <li>{{ dt|date:'d-m-Y H:i' }}</li>
+        {% endfor %}
+    </ul>
 {% endblock %}

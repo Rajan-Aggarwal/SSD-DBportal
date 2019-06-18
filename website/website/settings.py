@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'admin_reorder',
     'import_export',
+    'django.contrib.admindocs',
 ]
 
 MIDDLEWARE = [

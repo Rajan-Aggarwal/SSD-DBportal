@@ -2,12 +2,19 @@ from django.db import models
 from django.shortcuts import get_object_or_404
 from datetime import date
 
-# by default each field is mandatory
-# says blank=True, otherwise
+# create your models/database-tables here
 
 class Detector(models.Model):
 	'''
-		refers to the main table
+		Detector(id, producer, project, bulk_type, type, run_number, wafer_number, trec_id, area, thickness, 
+		support_wafer_thickness, resistivity, dead_or_alive, ssd_responsible, arrival_date, current_location,
+		comment).
+
+		It is the main table storing all the detectors and its information. Each such detector object/row maybe
+		linked with serveral other rows in LocationTransfer, Annealing or Irradiation table with a foreign-key.
+
+		Each field is mandatory by default. Make blank=True and null=True (attributes of the field) to change that. 
+		To add or update a field, refer to https://docs.djangoproject.com/en/2.2/topics/db/models/#fields.
 	'''
 	id 						= models.CharField('Detector name or ID', max_length=256, primary_key=True) # sensor name 
 	producer 				= models.CharField(max_length=256)
@@ -40,7 +47,20 @@ class Detector(models.Model):
 
 class LocationTransfer(models.Model):
 	'''
-		table storing a detector's location history
+		LocationTransfer(detector_id, transfer_date, source_location, destination_location, internal_or_external,
+		responsible_party, comment)
+
+		It is the table presenting the location tranfer history of detectors. Hence, each row/object is 
+		linked with the Detector table using detector_id as a foreign-key. Thus it presents a many-to-one
+		relationship. A primary-key for each row is added by default by django-models. 
+
+		Each field is mandatory by default. Make blank=True and null=True (attributes of the field) to change that. 
+		To add or update a field, refer to https://docs.djangoproject.com/en/2.2/topics/db/models/#fields.
+
+		The save method of this table is overriden. It upadates the current_location of
+		the detector automatically as one saves a location transfer row. Moreover, the source_location field
+		is a non-editable field (editable=False), and the source location is always same as the current location
+		of the detector before it being updated by the saving of the new row.
 	'''
 	detector_id 			= models.ForeignKey('Detector', on_delete=models.CASCADE)
 	transfer_date  			= models.DateField('Date', default=date.today)
@@ -73,7 +93,7 @@ class LocationTransfer(models.Model):
 			--> call the save method
 			--> changes the current_location of detector, once a location transfer is done
 		'''
-		self.source_location 	= Detector.objects.get(pk=self.detector_id).current_location			# make the source same as current location
+		self.source_location 	= Detector.objects.get(pk=self.detector_id).current_location
 		location_transfer 		= super(LocationTransfer, self).save(*args, **kwargs)
 		Detector.objects.filter(pk=self.detector_id).update(current_location=self.destination_location) 
 		return location_transfer
@@ -84,7 +104,14 @@ class LocationTransfer(models.Model):
 
 class Annealing(models.Model):
 	'''
-		table storing a detector's annealing history
+		Annealing(detector_id, annealing_date, temperature, time)
+
+		It is the table presenting the annealing history of detectors. Hence, each row/object is linked 
+		with the Detector table using the detector_id as a foreign key. Thus it presents a many-to-one 
+		relationship. A primary-key for each row is added by default by django-models. 
+
+		Each field is mandatory by default. Make blank=True and null=True (attributes of the field) to change that. 
+		To add or update a field, refer to https://docs.djangoproject.com/en/2.2/topics/db/models/#fields.
 	'''
 	detector_id 			= models.ForeignKey('Detector', on_delete=models.CASCADE)
 	annealing_date 			= models.DateField('Date', default=date.today)
@@ -103,7 +130,15 @@ class Annealing(models.Model):
 
 class Irradiation(models.Model):
 	'''
-		table storing a detector's irradiation history
+		Irradiation(detector_id, location, irradiation_particle, fluence_or_does, fd_unit, energy_magnitude,
+		energy_unit, hardness factor, irradiation_date)
+
+		It is the table presenting the irradiation history of detectors. Hence, each row/object is linked 
+		with the Detector table using the detector_id as a foreign key. Thus it presents a many-to-one 
+		relationship. A primary-key for each row is added by default by django-models.
+
+		Each field is mandatory by default. Make blank=True and null=True (attributes of the field) to change that. 
+		To add or update a field, refer to https://docs.djangoproject.com/en/2.2/topics/db/models/#fields.
 	'''
 	detector_id 			= models.ForeignKey('Detector', on_delete=models.CASCADE)
 	location 				= models.CharField(max_length=256)

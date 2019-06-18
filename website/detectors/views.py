@@ -22,9 +22,17 @@ PER_PAGE_ROWS = 25
 class DetectorView(LoginRequiredMixin, SingleTableMixin, FilterView):
 
 	'''
-		generic view for the detector table
-			--> generates a table (use render_table in the template) using django-tables2
-			--> creates a small filter for you using django-filters
+		class DetectorView(LoginRequieredMixin, SingleTableMixin, FilterView)
+
+		A generic view for the detector table showing the Detector table/model.
+		This view inherits 3 classes: (1) LoginRequiredMixin for login restriction, 
+		(2) SingleTableMixin to publish the table, and
+		(3) FilterView to add filters.
+
+		It generates a table (use render_table in the template) using django-tables2.
+
+			--> creates a small filter using django-filters
+
 			--> paginates using django-tables2
 	'''
 
@@ -38,11 +46,29 @@ class DetectorView(LoginRequiredMixin, SingleTableMixin, FilterView):
 class GenericDetectorInfoTableView(LoginRequiredMixin, SingleTableMixin, FilterView):
 
 	'''
-		(This is an abstract view class: is not used for any routes)
-		generic view for the all the tables in the more information section for each detector
-			--> generates a table (use render_table in the template) using django-tables2
+		class GenericDetectorInfoTableView(LoginRequiredMixin, SingleTableMixin, FilterView)
+
+		IMPORTANT NOTE: This is an abstract view class: is not used for any actual routes
+
+		A generic class-based abstract view for the all the tables in the more information section for each detector.
+		This view inherits 3 classes: (1) LoginRequiredMixin for login restriction,
+		(2) SingleTableMixin to publish the table, and
+		(3) FilterView to add filters.
+
+
+		It generates a table (use render_table in the template) using django-tables2.
+
 			--> creates a small filter using django-filters
+
 			--> paginates using django-tables2
+
+		It overrides:
+
+			--> get method to get the url param (GET) detector_id
+
+			--> get_query_set method to filter the table rows acc. to the detector_id
+
+			--> get_context_data to update the context sent to the template
 	'''
 
 	paginate_by = 20 # set pagination rows to 20
@@ -74,7 +100,34 @@ class GenericDetectorInfoTableView(LoginRequiredMixin, SingleTableMixin, FilterV
 class LocationTransferView(GenericDetectorInfoTableView):
 
 	'''
-		generic view for the location transfer table
+		class LocationTransferView(GenericDetectorInfoTableView)
+
+		A generic class-based view for to show the LocationTransfer table rows of a given detector id. 
+		It inherits GenericDetectorInfoTableView whose description is as follows: 
+
+			class GenericDetectorInfoTableView(LoginRequiredMixin, SingleTableMixin, FilterView)
+
+			IMPORTANT NOTE: This is an abstract view class: is not used for any actual routes
+
+			A generic class-based abstract view for the all the tables in the more information section for each detector.
+			This view inherits 3 classes: (1) LoginRequiredMixin for login restriction,
+			(2) SingleTableMixin to publish the table, and
+			(3) FilterView to add filters.
+
+
+			It generates a table (use render_table in the template) using django-tables2.
+
+				--> creates a small filter using django-filters
+
+				--> paginates using django-tables2
+
+			It overrides:
+
+				--> get method to get the url param (GET) detector_id
+
+				--> get_query_set method to filter the table rows acc. to the detector_id
+
+				--> get_context_data to update the context sent to the template
 	'''
 
 	table_class			= LocationTransferTable
@@ -86,7 +139,34 @@ class LocationTransferView(GenericDetectorInfoTableView):
 class AnnealingView(GenericDetectorInfoTableView):
 
 	'''
-		generic view for the annealing table
+		class AnnealingView(GenericDetectorInfoTableView)
+
+		A generic class-based view for to show the Annealing table rows of a given detector id. 
+		It inherits GenericDetectorInfoTableView whose description is as follows: 
+
+			class GenericDetectorInfoTableView(LoginRequiredMixin, SingleTableMixin, FilterView)
+
+			IMPORTANT NOTE: This is an abstract view class: is not used for any actual routes
+
+			A generic class-based abstract view for the all the tables in the more information section for each detector.
+			This view inherits 3 classes: (1) LoginRequiredMixin for login restriction,
+			(2) SingleTableMixin to publish the table, and
+			(3) FilterView to add filters.
+
+
+			It generates a table (use render_table in the template) using django-tables2.
+
+				--> creates a small filter using django-filters
+
+				--> paginates using django-tables2
+
+			It overrides:
+
+				--> get method to get the url param (GET) detector_id
+
+				--> get_query_set method to filter the table rows acc. to the detector_id
+
+				--> get_context_data to update the context sent to the template
 	'''
 
 	table_class			= AnnealingTable
@@ -98,7 +178,34 @@ class AnnealingView(GenericDetectorInfoTableView):
 class IrradiationView(GenericDetectorInfoTableView):
 
 	'''
-		generic view for the irradiation table
+		class IrradiationView(GenericDetectorInfoTableView)
+
+		A generic class-based view for to show the Irradiation table rows of a given detector id. 
+		It inherits GenericDetectorInfoTableView whose description is as follows: 
+
+			class GenericDetectorInfoTableView(LoginRequiredMixin, SingleTableMixin, FilterView)
+
+			IMPORTANT NOTE: This is an abstract view class: is not used for any actual routes
+
+			A generic class-based abstract view for the all the tables in the more information section for each detector.
+			This view inherits 3 classes: (1) LoginRequiredMixin for login restriction,
+			(2) SingleTableMixin to publish the table, and
+			(3) FilterView to add filters.
+
+
+			It generates a table (use render_table in the template) using django-tables2.
+
+				--> creates a small filter using django-filters
+
+				--> paginates using django-tables2
+
+			It overrides:
+
+				--> get method to get the url param (GET) detector_id
+
+				--> get_query_set method to filter the table rows acc. to the detector_id
+
+				--> get_context_data to update the context sent to the template
 	'''
 
 	table_class			= IrradiationTable
@@ -112,10 +219,14 @@ class IrradiationView(GenericDetectorInfoTableView):
 @login_required(login_url='login/')
 def more(request, detector_id):
 	'''
+		def more(request, detector_id)
+
 		::param request is the http user request 
+
 		::param detector_id is the url parameter
-		view displaying options for each detector entry in the main table
-		leads to different tables and data corresponding to the detector entry for which option "More" was selected
+
+		A function-based view displaying options for each detector entry in the main table. 
+		One can select to view annealing history etc of a given detector. 
 	'''
 	template_name = 'more.html'
 	return render(request, template_name, {'detector_id': detector_id})
@@ -123,8 +234,12 @@ def more(request, detector_id):
 
 def logout_view(request):
 	'''
+		def logout_view(request)
+
 		::param request is the http user request
-		logout functionality rendering the logout page
+
+		A function-based view to give the logout functionality 
+		by deleting the session and rendering the logout page.
 	'''
 	template_name = 'logout.html'
 	logout(request)
@@ -134,9 +249,12 @@ def logout_view(request):
 @login_required(login_url='login/')
 def export_detectors(request):
 	'''
+		def export_detectors(request)
+
 		::param request is the http user request
-		to show the options to export the detector
-		table in different formats, to a normal user
+
+		A function-based view to show the options to export Detector
+		table in different formats.
 	'''
 	template_name = 'export/export_detectors.html'
 	print("hallelujah")
@@ -146,14 +264,17 @@ def export_detectors(request):
 @login_required(login_url='login/')
 def export_detectors_csv(request):
 	'''
+		def export_detectors_csv(request)
+
 		::param request is the http user request
-		export in csv format
+
+		A function-based view to export the Detector table in the csv format.
 	'''
-	response	= HttpResponse(content_type='text/csv')
+	response = HttpResponse(content_type='text/csv')
 	response['Content-Disposition'] = 'attachment; filename="detectors.csv"'
 
 	# write the csv file
-	writer 		= csv.writer(response)
+	writer = csv.writer(response)
 	# write the first row
 	writer.writerow(['id', 'producer', 'project', 'bulk_type', 'type', 'run_number',
 		'wafer_number', 'trec_id', 'area', 'thickness', 'support_wafer_thickness',
@@ -161,7 +282,7 @@ def export_detectors_csv(request):
 		'current_location', 'comment']) 
 
 	# get all the detectors from the model
-	detectors 	= Detector.objects.all().values_list('id', 'producer', 'project', 'bulk_type', 'type', 'run_number',
+	detectors = Detector.objects.all().values_list('id', 'producer', 'project', 'bulk_type', 'type', 'run_number',
 		'wafer_number', 'trec_id', 'area', 'thickness', 'support_wafer_thickness',
 		'resistivity', 'dead_or_alive', 'ssd_responsible', 'arrival_date', 
 		'current_location', 'comment') 
@@ -175,8 +296,11 @@ def export_detectors_csv(request):
 @login_required(login_url='login/')
 def export_detectors_xls(request):
 	'''
+		def export_detectors_xls(request)
+
 		::param request is the http user request
-		export in xls format
+
+		A function-based view to export the Detector table in the xls format.
 	'''
 	response	= HttpResponse(content_type='application/ms-excel')
 	response['Content-Disposition'] = 'attachment; filename="detectors.xls"'
@@ -223,11 +347,14 @@ def export_detectors_xls(request):
 @login_required(login_url='login/')
 def export_location_transfers(request, detector_id):
 	'''
+		def export_location_transfer(request, detector_id)
+
 		::param request is the http user request
+
 		::param detector_id is the url param (GET)
-		to show the options to export the location 
-		history of a single detector in different
-		formats, to a normal user
+
+		A function-based view to show the options to export LocationTransfer
+		rows of a given detector_id in different formats.
 	'''
 	template_name = 'export/export_location_transfers.html'
 	return render(request, template_name, {'detector_id': detector_id})
@@ -236,21 +363,26 @@ def export_location_transfers(request, detector_id):
 @login_required(login_url='login/')
 def export_location_transfers_csv(request, detector_id):
 	'''
+		def export_location_transfers_csv(request, detector_id)
+
 		::param request is the http user request
+
 		::param detector_id is the url param (GET)
-		export in csv format
+
+		A function-based view to export the LocationTransfer rows of a given detector_id
+		in the csv format.
 	'''
-	response 	= HttpResponse(content_type='text/csv')
+	response = HttpResponse(content_type='text/csv')
 	response['Content-Disposition'] = 'attachment; filename="location_transfers-{}.csv"'.format(detector_id)
 
 	# write the csv file
-	writer 		= csv.writer(response)
+	writer 	= csv.writer(response)
 	# write the first row
 	writer.writerow(['transfer_date', 'source_location', 'destination_location', 'internal_or_external',
 		'responsible_party', 'comment'])
 
 	# get data from the model
-	location_transfers 			= LocationTransfer.objects.filter(detector_id=detector_id).values_list('transfer_date', 
+	location_transfers = LocationTransfer.objects.filter(detector_id=detector_id).values_list('transfer_date', 
 		'source_location', 'destination_location', 'internal_or_external', 'responsible_party', 'comment')
 	# write all remaining rows
 	for lt in location_transfers:
@@ -262,9 +394,14 @@ def export_location_transfers_csv(request, detector_id):
 @login_required(login_url='login/')
 def export_location_transfers_xls(request, detector_id):
 	'''
+		def export_location_transfers_xls(request, detector_id)
+
 		::param request is the http user request
+
 		::param detector_id is the url param (GET)
-		export in xls format
+
+		A function-based view to export LocationTransfer rows of a given detector_id
+		in the xls format.
 	'''
 	response 	= HttpResponse(content_type='application/ms-excel')
 	response['Content-Disposition'] = 'attachment; filename="location_transfers-{}.xls"'.format(detector_id)
@@ -309,11 +446,15 @@ def export_location_transfers_xls(request, detector_id):
 @login_required(login_url='login/')
 def export_annealings(request, detector_id):
 	'''
+		def export_annealings(request, detector_id)
+
 		::param request is the http use request
+
 		::param detector_id the url param (GET)
-		to show the options to export the annealing 
-		history of a single detector in different
-		formats, to a normal user
+
+		A function-based view to show the options to export the
+		Annealing table rows for a given detector_id in different
+		formats. 
 	'''
 	template_name = 'export/export_annealings.html'
 	return render(request, template_name, {'detector_id': detector_id})
@@ -322,9 +463,14 @@ def export_annealings(request, detector_id):
 @login_required(login_url='login/')
 def export_annealings_csv(request, detector_id):
 	'''
+		def export_annealings_csv(request, detector_id)
+
 		::param request is the http user request
+
 		::param detector_id is the url param (GET)
-		export in csv format
+
+		A function-based view to export the Annealing table rows for a given detector_id
+		in the csv format.
 	'''
 	response 	= HttpResponse(content_type='text/csv')
 	response['Content-Disposition'] = 'attachment; filename="annealings-{}.csv"'.format(detector_id)
@@ -347,9 +493,14 @@ def export_annealings_csv(request, detector_id):
 @login_required(login_url='login/')
 def export_annealings_xls(request, detector_id):
 	'''
+		def export_annealings_xls(request, detector_id)
+
 		::param request is the http user request
+
 		::param detector_id is the url param (GET)
-		export in xls format
+		
+		A function-based view to export the Annealing table rows of a given detector_id
+		in the xls format. 
 	'''
 	response 	= HttpResponse(content_type='application/ms-excel')
 	response['Content-Disposition'] = 'attachment; filename="annealings-{}.xls"'.format(detector_id)
@@ -392,11 +543,14 @@ def export_annealings_xls(request, detector_id):
 @login_required(login_url='login/')
 def export_irradiations(request, detector_id):
 	'''
+		def export_irradiations(request, detector_id)
+
 		::param request is the http use request
+
 		::param detector_id the url param (GET)
-		to show the options to export the irradiation 
-		history of a single detector in different
-		formats, to a normal user
+
+		A function-based view to show the options to export the Irradiation 
+		table rows of the given detector_id in different formats.
 	'''
 	template_name = 'export/export_irradiations.html'
 	return render(request, template_name, {'detector_id': detector_id})
@@ -405,9 +559,14 @@ def export_irradiations(request, detector_id):
 @login_required(login_url='login/')
 def export_irradiations_csv(request, detector_id):
 	'''
+		def export_irradiations_csv(request, detector_id)
+
 		::param request is the http user request
+
 		::param detector_id is the url param (GET)
-		export in csv format
+
+		A function-based view to export the Irradiation table rows of the given detector_id 
+		in the csv format.
 	'''
 	response 		= HttpResponse(content_type='text/csv')
 	response['Content-Disposition'] = 'attachment; filename="irradiations-{}.csv"'.format(detector_id)
@@ -431,9 +590,14 @@ def export_irradiations_csv(request, detector_id):
 @login_required(login_url='login/')
 def export_irradiations_xls(request, detector_id):
 	'''
+		def export_irradiations_xls(request, detector_id)
+
 		::param request is the http user request
+
 		::param detector_id is the url param (GET)
-		export in xls format
+
+		A function-based view to export the Irradiation table rows of the given detector_id
+		in the xls format.
 	'''
 	response 	= HttpResponse(content_type='application/ms-excel')
 	response['Content-Disposition'] = 'attachment; filename="irradiations-{}.xls"'.format(detector_id)

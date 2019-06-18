@@ -16,6 +16,7 @@ Including another URLconf
 
 from django.contrib import admin
 from django.conf.urls import url
+from django.urls import include
 from django.contrib.auth.views import LoginView
 from detectors.views import (logout_view, more, 
         export_detectors, export_detectors_csv, export_detectors_xls, 
@@ -34,10 +35,13 @@ admin.site.index_title	= ''
 
 # url routing end-points 
 urlpatterns = [
+    
+    # admin documentation page
+    url(r'^admin/docs/', include('django.contrib.admindocs.urls')),
 
     # main admin page
     url(r'^admin/', admin.site.urls, name='admin'),
-
+ 
     # login page for the normal user
     url(r'^login/$', LoginView.as_view(), {'template_name': 'login.html', 'authentication_form': LoginForm}, name='user_login'),
 

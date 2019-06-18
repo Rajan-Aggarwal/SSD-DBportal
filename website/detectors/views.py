@@ -12,10 +12,17 @@ from django.views.generic.list import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin
+from datetime import datetime
 import csv
 import xlwt
 
 PER_PAGE_ROWS = 25
+
+# for development only#######
+#############################
+from random import randint
+ROOT = '<root_script_func>'
+#############################
 
 # Create your class-based views here.
 
@@ -637,5 +644,74 @@ def export_irradiations_xls(request, detector_id):
 
 	wb.save(response)
 	return response
+
+
+@login_required(login_url='login/')
+def measurement_index(request, detector_id):
+	'''
+		::param request is the http user request
+		::param detector_id is the url param (GET)
+		shows the different kind of measurements
+		done on the detectors with the number
+		of each measurements
+	'''
+	template_name 		= 'measurement_index.html'
+	measurement_dict 	= {
+							'CV': ROOT,
+							'IV': ROOT,
+							'Red_Top_TCT': ROOT,
+							'Red_Bottom_TCT': ROOT,
+							'IR_Top_TCT': ROOT,
+							'IR_Bottom_TCT': ROOT,
+							'Edge_TCT': ROOT,
+						}
+	context 			= {
+							'detector_id': detector_id,
+							'measurement_dict': measurement_dict,
+						}
+	return render(request, template_name, context)
+
+
+# measurement type string conversion dictionary
+type_string_conv = {
+					'cv': 'CV',
+					'iv': 'IV',
+					'red_top_tct': 'Red Top TCT',
+					'red_bottom_tct': 'Red Bottom TCT',
+					'ir_top_tct': 'IR Top TCT',
+					'ir_bottom_tct': 'IT Bottom TCT',
+					'edge_tct': 'Edge TCT',				
+				}
+
+@login_required(login_url='login/')
+def measurement_list(request, detector_id, type):
+	'''
+		::param request is the http user request
+		::param detector_id is the the url param (GET)
+		::param type is the url param (GET) suggesting
+		the type of measurement list the user wants
+
+		shows the date and time (clickable to downloads a png)
+		of each measurement on detector 'detector_id' and 
+		of type 'type'
+	'''
+	template_name 		= 'measurement_list.html'
+	datetime_list 		= []
+
+	####TO BE REPLACED WITH MARCOS SCRIPT####
+	#########################################	
+	for i in range(randint(1, 50)):
+		datetime_list.append(datetime.now())
+	##########################################
+	##########################################
+
+	context 			= {
+							'detector_id': detector_id,
+							'type': type_string_conv[type],
+							'datetime_list': datetime_list,
+						}
+
+	return render(request, template_name, context)
+
 
 

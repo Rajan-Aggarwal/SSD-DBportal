@@ -1,0 +1,35 @@
+{% extends "admin/base_site.html" %}
+
+{% block branding %}
+
+<div id="container">
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">     
+			<h1 id="site-name"><a href="/">SSD Database Portal</a></h1>
+        </div>
+        <div id="user-tools">
+            <strong>Welcome to the portal.</strong> 
+            <strong>        To add or edit information, login as an 
+        		<a href="{% url 'admin:login' %}">Admin</a></strong> /
+        	<strong> <a href="{% url 'user_logout' %}">Log out</a></strong>	
+        </div>     
+    </div>
+</div>
+{% endblock %}
+
+
+{% block pretitle %}{% endblock %}
+
+{% block content %}
+    <p>List of measurements done on <strong>{{ detector_id }}</strong>.</p>
+    <ul>
+        <li><p><a href="{% url 'measurement_list' detector_id "cv" %}">CV</a> ({{measurement_dict.CV}})</p></li>
+        <li><p><a href="{% url 'measurement_list' detector_id "iv" %}">IV</a> ({{measurement_dict.IV}})</p></li>
+        <li><p><a href="{% url 'measurement_list' detector_id "red_top_tct" %}">Red Top TCT</a> ({{measurement_dict.Red_Top_TCT}})</p></li>
+        <li><p><a href="{% url 'measurement_list' detector_id "red_bottom_tct" %}">Red Bottom TCT</a> ({{measurement_dict.Red_Bottom_TCT}})</p></li>
+        <li><p><a href="{% url 'measurement_list' detector_id "ir_top_tct" %}">IR Top TCT</a> ({{measurement_dict.IR_Top_TCT}})</p></li>
+        <li><p><a href="{% url 'measurement_list' detector_id "ir_bottom_tct" %}">IR Bottom TCT</a> ({{measurement_dict.IR_Bottom_TCT}})</p></li>
+        <li><p><a href="{% url 'measurement_list' detector_id "edge_tct" %}">Edge TCT</a> ({{measurement_dict.Edge_TCT}})</p></li>
+    </ul>
+{% endblock %}

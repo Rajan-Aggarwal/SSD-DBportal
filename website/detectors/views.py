@@ -649,11 +649,15 @@ def export_irradiations_xls(request, detector_id):
 @login_required(login_url='login/')
 def measurement_index(request, detector_id):
 	'''
+		def measurement_index(request, detector_id)
+
 		::param request is the http user request
+
 		::param detector_id is the url param (GET)
-		shows the different kind of measurements
-		done on the detectors with the number
-		of each measurements
+
+		A function-based view to show the different kinds of measurements
+		done on detector_id with the number of each measurements (given
+		by root scripts)
 	'''
 	template_name 		= 'measurement_index.html'
 	measurement_dict 	= {
@@ -686,14 +690,17 @@ type_string_conv = {
 @login_required(login_url='login/')
 def measurement_list(request, detector_id, type):
 	'''
+		def measurement_list(request, detector_id, type)
+
 		::param request is the http user request
+
 		::param detector_id is the the url param (GET)
+
 		::param type is the url param (GET) suggesting
 		the type of measurement list the user wants
 
-		shows the date and time (clickable to downloads a png)
-		of each measurement on detector 'detector_id' and 
-		of type 'type'
+		A function-based view to show the date and time (clickable to download a file)
+		of each measurement on detector 'detector_id' and of type 'type'
 	'''
 	template_name 		= 'measurement_list.html'
 	datetime_list 		= []
@@ -712,6 +719,12 @@ def measurement_list(request, detector_id, type):
 						}
 
 	return render(request, template_name, context)
+
+
+@login_required(login_url='login/')
+def download_measurement(request, detector_id, type, datetime):
+	image_data = open('/tmp/root-images/SamplePNGImage_100kbmb.png', 'rb').read()
+	return HttpResponse(image_data, content_type='image/png')
 
 
 

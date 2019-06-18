@@ -12,6 +12,10 @@ An admin is able to do CRUD operations on all information, i.e, he can register 
 
 It runs officially under Django 2.2.1 and Python 3
 
+# Additions from the previous version
+
+1. Add documentation
+
 # Third party applications used
 
 1. django-tables2

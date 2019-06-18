@@ -24,3 +24,4 @@ It runs officially under Django 2.2.1 and Python 3
 4. bootstrap3
 5. crispy-forms
 6. admin-reorder
+7. django-docutils

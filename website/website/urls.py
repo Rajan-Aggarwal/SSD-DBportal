@@ -33,7 +33,13 @@ admin.site.index_title	= ''
 
 # url routing end-points 
 urlpatterns = [
+    
+    # admin documentation page
+    url(r'^admin/docs/', include('django.contrib.admindocs.urls')),
 
+    # main admin page
+    url(r'^admin/', admin.site.urls, name='admin'),
+ 
     # login page for the normal user
     url(r'^login/$', LoginView.as_view(), {'template_name': 'login.html', 'authentication_form': LoginForm}, name='user_login'),
 
@@ -93,11 +99,5 @@ urlpatterns = [
 
     # route enabling the export of irradiations of the given detecotr into xls
     url(r'^more/(?P<detector_id>[\w-]+)/ir/export_ir/xls$', export_irradiations_xls, name='export_irradiations_xls'),
-
-    # admin documentation page
-    url(r'^admin/docs/', include('django.contrib.admindocs.urls')),
-
-    # main admin page
-    url(r'^admin/', admin.site.urls, name='admin'),
 
 ]

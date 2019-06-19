@@ -25,7 +25,7 @@
     <p>List of <strong>{{ type }}</strong> measurements on <strong>{{ detector_id }}</strong>.</p>
     <ul>
         {% for dt in datetime_list %}
-            <li>{{ dt|date:'d-m-Y H:i' }}</li>
+            <li><a href="{% url 'get_measurement' detector_id type dt %}" target="_blank">{{ dt }}</a></li>
         {% endfor %}
     </ul>
 {% endblock %}

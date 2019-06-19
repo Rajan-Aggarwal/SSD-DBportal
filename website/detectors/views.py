@@ -5,7 +5,7 @@ from django_tables2 import RequestConfig
 from .models import Detector, LocationTransfer, Annealing, Irradiation
 from .tables import DetectorTable, LocationTransferTable, AnnealingTable, IrradiationTable
 from .filters import DetectorFilter, LocationTransferFilter, AnnealingFilter, IrradiationFilter
-from django.http import HttpResponse
+from django.http import HttpResponse, FileResponse, Http404
 from django.views import View
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
@@ -645,6 +645,11 @@ def export_irradiations_xls(request, detector_id):
 	wb.save(response)
 	return response
 
+############################################################
+
+####################DUMMY FUNCTIONS#########################
+
+############################################################
 
 @login_required(login_url='login/')
 def measurement_index(request, detector_id):
@@ -694,7 +699,7 @@ def measurement_list(request, detector_id, type):
 
 		::param request is the http user request
 
-		::param detector_id is the the url param (GET)
+		::param detector_id is the url param (GET)
 
 		::param type is the url param (GET) suggesting
 		the type of measurement list the user wants
@@ -708,7 +713,7 @@ def measurement_list(request, detector_id, type):
 	####TO BE REPLACED WITH MARCOS SCRIPT####
 	#########################################	
 	for i in range(randint(1, 50)):
-		datetime_list.append(datetime.now())
+		datetime_list.append(datetime.now().strftime('%d-%m-%Y::%H:%M'))
 	##########################################
 	##########################################
 
@@ -722,9 +727,26 @@ def measurement_list(request, detector_id, type):
 
 
 @login_required(login_url='login/')
-def download_measurement(request, detector_id, type, datetime):
-	image_data = open('/tmp/root-images/SamplePNGImage_100kbmb.png', 'rb').read()
-	return HttpResponse(image_data, content_type='image/png')
+def get_measurement(request, detector_id, type, datetime):
+	'''
+		get_measurement(request, detector_id, type, datetime)
+
+		::param request is the http user request
+
+		::param detector_id is the url param (GET)
+
+		::param type is the url param (GET) suggesting the
+		type of measurement it is
+
+		::param datetime is the url param(GET)
+
+		A function-based view to open the measurement file in a new tab
+		when clicked on a datetime link in the measurement_list page
+		of each type
+	'''
+	return FileResponse(open('/home/raaggarw/Downloads/DBRequirements.pdf', 'rb'), 
+			content_type='application/pdf')
 
 
-
+#################################################################
+#################################################################

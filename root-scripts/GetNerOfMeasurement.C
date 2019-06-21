@@ -1,8 +1,26 @@
+/* Example: 
+
+./GetNerOfMeasurement 3D-7781-DET-5-Pad_u_25x50 iv
+
+*/
+#include <iostream>   
+#include <string> 
+
+#include "TString.h"
+#include "TSystem.h"
+#include "TFile.h"
+#include "TTree.h"
+#include "TError.h"
+
+using namespace std;
+
 void GetNerOfMeasurement( string detid , string meastype ) {
    
-   gSystem->Load("TIV_cpp.so");   
-   gSystem->Load("TCV_cpp.so");   
+   //gSystem->Load("TIV_cpp.so");   
+   //gSystem->Load("TCV_cpp.so");   
 
+   gErrorIgnoreLevel = kError;
+   
    //Convert input to TStrings
    TString MeasType = TString( meastype );
    TString DetID    = TString( detid );
@@ -31,3 +49,8 @@ void GetNerOfMeasurement( string detid , string meastype ) {
    
 }
 
+int main (int argc , char *argv[] ) {
+
+   GetNerOfMeasurement( string(argv[1]) , string(argv[2]) ) ;
+   
+}

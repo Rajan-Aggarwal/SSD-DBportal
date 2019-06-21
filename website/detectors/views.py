@@ -5,6 +5,7 @@ from django_tables2 import RequestConfig
 from .models import Detector, LocationTransfer, Annealing, Irradiation
 from .tables import DetectorTable, LocationTransferTable, AnnealingTable, IrradiationTable
 from .filters import DetectorFilter, LocationTransferFilter, AnnealingFilter, IrradiationFilter
+from .utils import get_ner_of_meas, get_list_of_datetimes, create_measurement_pdf
 from django.http import HttpResponse, FileResponse, Http404
 from django.views import View
 from django.views.generic.base import TemplateView
@@ -15,7 +16,7 @@ from django_tables2.views import SingleTableMixin
 from datetime import datetime
 import csv
 import xlwt
-from .utils import get_ner_of_meas, get_list_of_datetimes
+from pathlib import Path
 
 PER_PAGE_ROWS = 25
 
@@ -702,10 +703,14 @@ def measurement_list(request, detector_id, meastype):
 	template_name 		= 'measurement_list.html'
 	datetime_list 		= get_list_of_datetimes(detector_id, meastype)
 
+	#if datetime is None
+
 	context 			= {
 							'detector_id': detector_id,
 							'meastype': meastype,
 							'datetime_list': datetime_list,
+							'no_entry_msg': 'No {} measurements available' \
+									' for this detector'.format(meastype.upper()),
 						}
 
 	return render(request, template_name, context)
@@ -729,6 +734,13 @@ def get_measurement(request, detector_id, meastype, datetime):
 		when clicked on a datetime link in the measurement_list page
 		of each type
 	'''
-	return FileResponse(open('/home/raaggarw/Downloads/DBRequirements.pdf', 'rb'), 
+	pdf_name = "{}{}{}.pdf".format(detector_id,meastype,datetime)
+	pdf_path = '/home/raaggarw/ssd-dbportal/tmp/pdfs/'
+	pdf_file = Path('{}{}'.format(pdf_path, pdf_name))
+
+	if not pdf_file.is_file():
+		create_measurement_pdf(detector_id, meastype, datetime)
+
+	return FileResponse(open('{}{}'.format(pdf_path, pdf_name), 'rb'), 
 			content_type='application/pdf')
 

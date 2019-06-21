@@ -1,15 +1,33 @@
 /*
-    .L GetPlotCVIV.C
-    GetPlotCVIV("3D-7781-DET-5-Pad_u_25x50" ,"15-5-2017::17:43:4","cv")
+    ./GetPlotCVIV "3D-7781-DET-5-Pad_u_25x50" "cv" "15-5-2017::17:43:4"
+    
+    Or:
+    root -l -q -b "GetPlotCVIV.C(\"3D-7781-DET-5-Pad_u_25x50\" ,\"cv\",\"15-5-2017::17:43:4\")"
+
 */
+
+#include <iostream>   
+#include <string> 
 
 #include "TIV.h"
 #include "TCV.h"
+#include "TString.h"
+#include "TSystem.h"
+#include "TFile.h"
+#include "TTree.h"
+#include "TDatime.h"
+#include "TCanvas.h"
+#include "TError.h"
 
-void GetPlotCVIV( string detid , string date , string meastype ) {
+using namespace std;
 
-   gSystem->Load("TIV_cpp.so");   
-   gSystem->Load("TCV_cpp.so");   
+void GetPlotCVIV( string detid , string meastype , string date ) {
+
+   //Do not show warnings, just errors
+   gErrorIgnoreLevel = kError;
+
+   //gSystem->Load("TIV_cpp.so");   
+   //gSystem->Load("TCV_cpp.so");   
 
    //Convert input to TStrings
    TString DetID    = TString( detid );
@@ -58,4 +76,10 @@ void GetPlotCVIV( string detid , string date , string meastype ) {
    //htemp->GetXaxis()->SetTitle( Xtit ) ;   htemp->GetYaxis()->SetTitle( Ytit ) ;
    TString pdfnm = TString("~/ssd-dbportal/tmp/pdfs/") + DetID + MeasType + Date + ".pdf" ;
    c1->Print( pdfnm );
+}
+
+int main( int argc , char *argv[] ) {
+
+   GetPlotCVIV( string(argv[1]) , string(argv[2]) , string(argv[3]) ) ;
+   return 0; 
 }

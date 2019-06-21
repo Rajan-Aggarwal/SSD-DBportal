@@ -1,11 +1,11 @@
 from django_tables2 import SingleTableView
 from django_tables2 import RequestConfig
 import subprocess
-
+import getpass
 
 # root utils
 
-ROOT_WORK_DIR = '/home/raaggarw/ssd-dbportal/root-scripts'
+ROOT_WORK_DIR = '/home/{}/ssd-dbportal/root-scripts'.format(getpass.getuser())
 
 def get_ner_of_meas(detector_id, meastype):
 	'''
@@ -17,14 +17,9 @@ def get_ner_of_meas(detector_id, meastype):
 		done on detector_id
 	'''
 
-	command = ['root', '-b', '-l', '-q',
-				'GetNerOfMeasurement.C(\"{}\",\"{}\")'.format(
-														detector_id,
-														meastype)]
+	command = ['./GetNerOfMeasurement', detector_id, meastype]
 	output 	= subprocess.check_output(command, cwd=ROOT_WORK_DIR)
-
-	# output is of the form b'\n<ner>\n'
-	ner 	= output.decode('utf-8')[1] 
+	ner 	= output.decode('utf-8')
 	return ner
 
 
@@ -32,27 +27,44 @@ def get_list_of_datetimes(detector_id, meastype):
 	'''
 		::param detector_id is the id of the detector
 		
-		::param type is the type of measurement
+		::param meastype is the type of measurement
 
 		To return a list of datetimes of measurement of type
 		meastype on detector_id
 	'''
 
-	command = ['root', '-b', '-l', '-q',
-				'GetListOfDates.C(\"{}\",\"{}\")'.format(
-													detector_id,
-													meastype)]
-	output 	= subprocess.check_output(command, cwd=ROOT_WORK_DIR)
-
-	# get it in list of strings format
-	datetime_list = output.decode('utf-8').split('\n')[1:-1]
+	command = ['./GetListOfDates', detector_id, meastype]
+	try:
+		output 	= subprocess.check_output(command, cwd=ROOT_WORK_DIR)
+		# get it in a list of strings format
+		datetime_list = output.decode('utf-8').split('\n')[1:-1]
+	except:
+		datetime_list = None
+	
 	return datetime_list
 
 
+def create_measurement_pdf(detector_id, meastype, datetime):
+	'''
+		::param detector_id is the id of the detector
 
-############################
-###NOT UTILIZED AS OF YET###
-############################
+		::param meastype is the type of measurement
+
+		::param datetime is the date and time of the measurement
+
+		To generate a pdf of root measurements and store it in 
+		~/ssddb-portal/tmp/pdfs
+	'''
+	command = ['./GetPlotCVIV', detector_id, meastype, datetime]
+	subprocess.run(command, cwd=ROOT_WORK_DIR)
+
+
+
+
+# THIS CODE HAS NOT BEEN UTILIZED; USE IT IN CASE PAGINATION FAILS #
+####################################################################
+####################################################################
+####################################################################
 
 class PagedFilteredTableView(SingleTableView):
 	'''

@@ -6,17 +6,32 @@
    
    root -l
    .L GetListOfDates.C
-   GetListOfDates("3D-7781-DET-5-Pad_u_25x50","cv")
+   GetListOfDates "3D-7781-DET-5-Pad_u_25x50" "cv"
    
 */   
+
+#include <iostream>   
+#include <string> 
+
+#include "TString.h"
+#include "TSystem.h"
+#include "TFile.h"
+#include "TTree.h"
+#include "TBranch.h"
+#include "TEntryList.h"
+#include "TEntryListArray.h"
+#include "TError.h"
 
 #include "TIV.h"
 #include "TCV.h"
 
+using namespace std;
+
 void GetListOfDates( string detid , string meastype ) {
 
-   gSystem->Load("TIV_cpp.so");   
-   gSystem->Load("TCV_cpp.so");   
+
+   //Do not show warnings, just errors
+   gErrorIgnoreLevel = kError;
 
    //Convert input to TStrings
    TString DetID    = TString( detid );
@@ -66,4 +81,9 @@ void GetListOfDates( string detid , string meastype ) {
    tree->SetEventList(0);
    
    
+}
+
+int main( int argc , char *argv[] ) {
+   
+   GetListOfDates( string(argv[1]) , string(argv[2]) ) ;
 }

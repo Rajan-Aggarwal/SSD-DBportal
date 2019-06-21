@@ -18,8 +18,11 @@ def get_ner_of_meas(detector_id, meastype):
 	'''
 
 	command = ['./GetNerOfMeasurement', detector_id, meastype]
-	output 	= subprocess.check_output(command, cwd=ROOT_WORK_DIR)
-	ner 	= output.decode('utf-8')
+	try:
+		output 	= subprocess.check_output(command, cwd=ROOT_WORK_DIR)
+		ner 	= output.decode('utf-8')
+	except:
+		ner 	= 0
 	return ner
 
 

@@ -21,3 +21,9 @@ media
 
 # Django-testing
 .coverage
+
+# pdfs
+
+/tmp
+/tmp/pdfs
+*.pdf

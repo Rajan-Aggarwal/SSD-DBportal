@@ -17,6 +17,7 @@ from datetime import datetime
 import csv
 import xlwt
 from pathlib import Path
+import getpass
 
 PER_PAGE_ROWS = 25
 
@@ -735,7 +736,7 @@ def get_measurement(request, detector_id, meastype, datetime):
 		of each type
 	'''
 	pdf_name = "{}{}{}.pdf".format(detector_id,meastype,datetime)
-	pdf_path = '/home/raaggarw/ssd-dbportal/tmp/pdfs/'
+	pdf_path = '/home/{}/ssd-dbportal/tmp/pdfs/'.format(getpass.getuser())
 	pdf_file = Path('{}{}'.format(pdf_path, pdf_name))
 
 	if not pdf_file.is_file():

@@ -121,6 +121,15 @@
 ./TCV_cpp.so: /usr/local/include/root/TMatrixDSparse.h
 ./TCV_cpp.so: /usr/local/include/root/TMatrixDSparsefwd.h
 ./TCV_cpp.so: /usr/local/include/root/TLine.h
+./TCV_cpp.so: /usr/local/include/root/Math/Interpolator.h
+./TCV_cpp.so: /usr/local/include/root/Math/InterpolationTypes.h
+./TCV_cpp.so: /usr/local/include/root/Math/Polynomial.h
+./TCV_cpp.so: /usr/local/include/root/Math/ParamFunction.h
+./TCV_cpp.so: /usr/local/include/root/Math/IParamFunction.h
+./TCV_cpp.so: /usr/local/include/root/Math/IFunction.h
+./TCV_cpp.so: /usr/local/include/root/Math/IFunctionfwd.h
+./TCV_cpp.so: /usr/local/include/root/Math/IParamFunctionfwd.h
+./TCV_cpp.so: /usr/local/include/root/Math/Util.h
 ./TCV_cpp.so: /usr/local/include/root/TGraphSmooth.h
 ./TCV_cpp.so: /usr/local/include/root/TMarker.h
 ./TCV_cpp.so: /usr/local/include/root/TGaxis.h

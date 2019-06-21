@@ -15,6 +15,7 @@ from django_tables2.views import SingleTableMixin
 from datetime import datetime
 import csv
 import xlwt
+from .utils import get_ner_of_meas, get_list_of_datetimes
 
 PER_PAGE_ROWS = 25
 
@@ -666,15 +667,15 @@ def measurement_index(request, detector_id):
 	'''
 	template_name 		= 'measurement_index.html'
 	measurement_dict 	= {
-							'CV': ROOT,
-							'IV': ROOT,
-							'Red_Top_TCT': ROOT,
-							'Red_Bottom_TCT': ROOT,
-							'IR_Top_TCT': ROOT,
-							'IR_Bottom_TCT': ROOT,
-							'Edge_TCT': ROOT,
-							'Top_TPA_TCT': ROOT,
-							'Edge_TPA_TCT': ROOT,
+							'CV': get_ner_of_meas(detector_id, 'cv'),
+							'IV': get_ner_of_meas(detector_id, 'iv'),
+							# 'Red_Top_TCT': ROOT,
+							# 'Red_Bottom_TCT': ROOT,
+							# 'IR_Top_TCT': ROOT,
+							# 'IR_Bottom_TCT': ROOT,
+							# 'Edge_TCT': ROOT,
+							# 'Top_TPA_TCT': ROOT,
+							# 'Edge_TPA_TCT': ROOT,
 						}
 	context 			= {
 							'detector_id': detector_id,
@@ -684,33 +685,26 @@ def measurement_index(request, detector_id):
 
 
 @login_required(login_url='login/')
-def measurement_list(request, detector_id, type):
+def measurement_list(request, detector_id, meastype):
 	'''
-		def measurement_list(request, detector_id, type)
+		def measurement_list(request, detector_id, meastype)
 
 		::param request is the http user request
 
 		::param detector_id is the url param (GET)
 
-		::param type is the url param (GET) suggesting
+		::param meastype is the url param (GET) suggesting
 		the type of measurement list the user wants
 
 		A function-based view to show the date and time (clickable to download a file)
-		of each measurement on detector 'detector_id' and of type 'type'
+		of each measurement on detector 'detector_id' and of type 'meastype'
 	'''
 	template_name 		= 'measurement_list.html'
-	datetime_list 		= []
-
-	####TO BE REPLACED WITH MARCOS SCRIPT####
-	#########################################	
-	for i in range(randint(1, 50)):
-		datetime_list.append(datetime.now().strftime('%d-%m-%Y::%H:%M'))
-	##########################################
-	##########################################
+	datetime_list 		= get_list_of_datetimes(detector_id, meastype)
 
 	context 			= {
 							'detector_id': detector_id,
-							'type': type,
+							'meastype': meastype,
 							'datetime_list': datetime_list,
 						}
 
@@ -718,7 +712,7 @@ def measurement_list(request, detector_id, type):
 
 
 @login_required(login_url='login/')
-def get_measurement(request, detector_id, type, datetime):
+def get_measurement(request, detector_id, meastype, datetime):
 	'''
 		get_measurement(request, detector_id, type, datetime)
 
@@ -738,6 +732,3 @@ def get_measurement(request, detector_id, type, datetime):
 	return FileResponse(open('/home/raaggarw/Downloads/DBRequirements.pdf', 'rb'), 
 			content_type='application/pdf')
 
-
-#################################################################
-#################################################################

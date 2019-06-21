@@ -1,7 +1,7 @@
-int GetNerOfMeasurement( string detid , string meastype ) {
+void GetNerOfMeasurement( string detid , string meastype ) {
    
-   //gSystem->Load("~/apps/CVIV/TIV_cpp.so");   
-   //gSystem->Load("~/apps/CVIV/TCV_cpp.so");   
+   gSystem->Load("TIV_cpp.so");   
+   gSystem->Load("TCV_cpp.so");   
 
    //Convert input to TStrings
    TString MeasType = TString( meastype );
@@ -25,6 +25,9 @@ int GetNerOfMeasurement( string detid , string meastype ) {
    //Get Ner of Measurements of type meastype
    int Ner = tree->Draw( what , sel ,"goff");
    
-   return Ner ;
+   cout << Ner << endl;
+   
+   //return Ner ;
    
 }
+

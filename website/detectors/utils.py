@@ -1,5 +1,54 @@
 from django_tables2 import SingleTableView
 from django_tables2 import RequestConfig
+import subprocess
+
+
+# root utils
+
+ROOT_WORK_DIR = '/home/raaggarw/ssd-dbportal/root-scripts'
+
+def get_ner_of_meas(detector_id, meastype):
+	'''
+		::param detector_id is the id of the detector
+
+		::param type is the type of measurement
+
+		To return the number of 'type' readings 
+		done on detector_id
+	'''
+
+	command = ['root', '-b', '-l', '-q',
+				'GetNerOfMeasurement.C(\"{}\",\"{}\")'.format(
+														detector_id,
+														meastype)]
+	output 	= subprocess.check_output(command, cwd=ROOT_WORK_DIR)
+
+	# output is of the form b'\n<ner>\n'
+	ner 	= output.decode('utf-8')[1] 
+	return ner
+
+
+def get_list_of_datetimes(detector_id, meastype):
+	'''
+		::param detector_id is the id of the detector
+		
+		::param type is the type of measurement
+
+		To return a list of datetimes of measurement of type
+		meastype on detector_id
+	'''
+
+	command = ['root', '-b', '-l', '-q',
+				'GetListOfDates.C(\"{}\",\"{}\")'.format(
+													detector_id,
+													meastype)]
+	output 	= subprocess.check_output(command, cwd=ROOT_WORK_DIR)
+
+	# get it in list of strings format
+	datetime_list = output.decode('utf-8').split('\n')[1:-1]
+	return datetime_list
+
+
 
 ############################
 ###NOT UTILIZED AS OF YET###

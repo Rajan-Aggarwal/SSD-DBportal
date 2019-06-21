@@ -4,12 +4,8 @@ import subprocess
 
 WORKING_DIR = '/home/raaggarw/ssd-dbportal/root-scripts'
 COMMAND 	= ['root', '-b', '-l', '-q', 
-	'./GetNerOfMeasurement.C(\"3D-7781-DET-3-Pad_u_25x50\",\"cv\")'
+	'./GetListOfDates.C(\"3D-7781-DET-3-Pad_u_25x50\",\"iv\")'
 	,]
 
-try:
-	output = subprocess.check_output(COMMAND, cwd=WORKING_DIR)
-except Exception as e:
-	output = str(e.output)
-
-print(output)
+output = subprocess.check_output(COMMAND, cwd=WORKING_DIR)
+print(output.decode('utf-8').split('\n')[1:-1])

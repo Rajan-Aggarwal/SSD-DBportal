@@ -673,6 +673,8 @@ def measurement_index(request, detector_id):
 							'IR_Top_TCT': ROOT,
 							'IR_Bottom_TCT': ROOT,
 							'Edge_TCT': ROOT,
+							'Top_TPA_TCT': ROOT,
+							'Edge_TPA_TCT': ROOT,
 						}
 	context 			= {
 							'detector_id': detector_id,
@@ -680,17 +682,6 @@ def measurement_index(request, detector_id):
 						}
 	return render(request, template_name, context)
 
-
-# measurement type string conversion dictionary
-type_string_conv = {
-					'cv': 'CV',
-					'iv': 'IV',
-					'red_top_tct': 'Red Top TCT',
-					'red_bottom_tct': 'Red Bottom TCT',
-					'ir_top_tct': 'IR Top TCT',
-					'ir_bottom_tct': 'IT Bottom TCT',
-					'edge_tct': 'Edge TCT',				
-				}
 
 @login_required(login_url='login/')
 def measurement_list(request, detector_id, type):
@@ -719,7 +710,7 @@ def measurement_list(request, detector_id, type):
 
 	context 			= {
 							'detector_id': detector_id,
-							'type': type_string_conv[type],
+							'type': type,
 							'datetime_list': datetime_list,
 						}
 

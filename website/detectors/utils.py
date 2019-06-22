@@ -23,7 +23,7 @@ def get_ner_of_meas(detector_id, meastype):
 		ner 	= output.decode('utf-8')
 	except Exception as e:
 		print(e) 
-		ner 	= 0
+		ner 	= '0 '
 	return ner[:-1]
 
 

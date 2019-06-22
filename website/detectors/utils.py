@@ -21,9 +21,10 @@ def get_ner_of_meas(detector_id, meastype):
 	try:
 		output 	= subprocess.check_output(command, cwd=ROOT_WORK_DIR)
 		ner 	= output.decode('utf-8')
-	except:
+	except Exception as e:
+		print(e) 
 		ner 	= 0
-	return ner
+	return ner[:-1]
 
 
 def get_list_of_datetimes(detector_id, meastype):
@@ -41,7 +42,8 @@ def get_list_of_datetimes(detector_id, meastype):
 		output 	= subprocess.check_output(command, cwd=ROOT_WORK_DIR)
 		# get it in a list of strings format
 		datetime_list = output.decode('utf-8').split('\n')[1:-1]
-	except:
+	except Exception as e:
+		print(e)
 		datetime_list = None
 	
 	return datetime_list
@@ -59,7 +61,10 @@ def create_measurement_pdf(detector_id, meastype, datetime):
 		~/ssddb-portal/tmp/pdfs
 	'''
 	command = ['./GetPlotCVIV', detector_id, meastype, datetime]
-	subprocess.run(command, cwd=ROOT_WORK_DIR)
+	try:
+		subprocess.run(command, cwd=ROOT_WORK_DIR)
+	except Exception as e:
+		print(e)
 
 
 

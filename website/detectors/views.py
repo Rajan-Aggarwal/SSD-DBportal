@@ -704,11 +704,9 @@ def measurement_list(request, detector_id, meastype):
 	template_name 		= 'measurement_list.html'
 	datetime_list 		= get_list_of_datetimes(detector_id, meastype)
 
-	#if datetime is None
-
 	context 			= {
 							'detector_id': detector_id,
-							'meastype': meastype,
+							'meastype': meastype.upper(),
 							'datetime_list': datetime_list,
 							'no_entry_msg': 'No {} measurements available' \
 									' for this detector'.format(meastype.upper()),

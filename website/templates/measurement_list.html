@@ -1,0 +1,35 @@
+{% extends "admin/base_site.html" %}
+
+{% block branding %}
+
+<div id="container">
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">     
+			<h1 id="site-name"><a href="/">SSD Database Portal</a></h1>
+        </div>
+        <div id="user-tools">
+            <strong>Welcome to the portal.</strong> 
+            <strong>        To add or edit information, login as an 
+        		<a href="{% url 'admin:login' %}">Admin</a></strong> /
+        	<strong> <a href="{% url 'user_logout' %}">Log out</a></strong>	
+        </div>     
+    </div>
+</div>
+{% endblock %}
+
+
+{% block pretitle %}{% endblock %}
+
+{% block content %}
+    <p>List of <strong>{{ meastype }}</strong> measurements on <strong>{{ detector_id }}</strong>.</p>
+    <ul>
+        {% if datetime_list is None %}
+            ({{ no_entry_msg }})
+        {% else %}
+            {% for dt in datetime_list %}
+                <li><a href="{% url 'get_measurement' detector_id meastype dt %}" target="_blank">{{ dt }}</a></li>
+            {% endfor %}
+        {% endif %}
+    </ul>
+{% endblock %}

@@ -22,7 +22,8 @@ from detectors.views import (logout_view, more,
         export_detectors, export_detectors_csv, export_detectors_xls, 
         export_location_transfers, export_location_transfers_csv, export_location_transfers_xls,
         export_annealings, export_annealings_csv, export_annealings_xls, 
-        export_irradiations, export_irradiations_csv, export_irradiations_xls)                                                                 
+        export_irradiations, export_irradiations_csv, export_irradiations_xls,
+        measurement_index, measurement_list, get_measurement)                                                                 
 from detectors.views import DetectorView, LocationTransferView, AnnealingView, IrradiationView  
 from detectors.forms import LoginForm
 from django.conf import settings
@@ -101,5 +102,15 @@ urlpatterns = [
 
     # route enabling the export of irradiations of the given detecotr into xls
     url(r'^more/(?P<detector_id>[\w-]+)/ir/export_ir/xls$', export_irradiations_xls, name='export_irradiations_xls'),
+
+    # route listing the different types of measurements done on a detector
+    url(r'^more/(?P<detector_id>[\w-]+)/measure/$', measurement_index, name='measurement_index'),
+
+    # route listing the dates of a particular type of measurement on a particular detector
+    url(r'^more/(?P<detector_id>[\w-]+)/measure/(?P<meastype>[\w-]+)/$', measurement_list, name='measurement_list'),
+
+    # route downloading the graph of a measurement provided by the root script
+    url(r'^more/(?P<detector_id>[\w-]+)/measure/(?P<meastype>[\w-]+)/(?P<datetime>(\d+)-(\d+)-(\d+)::(\d+):(\d+):(\d+))/$', 
+        get_measurement, name='get_measurement'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

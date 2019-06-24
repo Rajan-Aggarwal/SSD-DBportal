@@ -5,17 +5,27 @@ from django_tables2 import RequestConfig
 from .models import Detector, LocationTransfer, Annealing, Irradiation
 from .tables import DetectorTable, LocationTransferTable, AnnealingTable, IrradiationTable
 from .filters import DetectorFilter, LocationTransferFilter, AnnealingFilter, IrradiationFilter
-from django.http import HttpResponse
+from .utils import get_ner_of_meas, get_list_of_datetimes, create_measurement_pdf
+from django.http import HttpResponse, FileResponse, Http404
 from django.views import View
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin
+from datetime import datetime
 import csv
 import xlwt
+from pathlib import Path
+import getpass
 
 PER_PAGE_ROWS = 25
+
+# for development only#######
+#############################
+from random import randint
+ROOT = '<root_script_func>'
+#############################
 
 # Create your class-based views here.
 
@@ -638,4 +648,105 @@ def export_irradiations_xls(request, detector_id):
 	wb.save(response)
 	return response
 
+############################################################
+
+####################DUMMY FUNCTIONS#########################
+
+############################################################
+
+@login_required(login_url='login/')
+def measurement_index(request, detector_id):
+	'''
+		def measurement_index(request, detector_id)
+
+		::param request is the http user request
+
+		::param detector_id is the url param (GET)
+
+		A function-based view to show the different kinds of measurements
+		done on detector_id with the number of each measurements (given
+		by root scripts)
+	'''
+	template_name 		= 'measurement_index.html'
+	measurement_dict 	= {
+							'CV': get_ner_of_meas(detector_id, 'cv'),
+							'IV': get_ner_of_meas(detector_id, 'iv'),
+							# 'Red_Top_TCT': ROOT,
+							# 'Red_Bottom_TCT': ROOT,
+							# 'IR_Top_TCT': ROOT,
+							# 'IR_Bottom_TCT': ROOT,
+							# 'Edge_TCT': ROOT,
+							# 'Top_TPA_TCT': ROOT,
+							# 'Edge_TPA_TCT': ROOT,
+						}
+	context 			= {
+							'detector_id': detector_id,
+							'measurement_dict': measurement_dict,
+						}
+	return render(request, template_name, context)
+
+
+@login_required(login_url='login/')
+def measurement_list(request, detector_id, meastype):
+	'''
+		def measurement_list(request, detector_id, meastype)
+
+		::param request is the http user request
+
+		::param detector_id is the url param (GET)
+
+		::param meastype is the url param (GET) suggesting
+		the type of measurement list the user wants
+
+		A function-based view to show the date and time (clickable to download a file)
+		of each measurement on detector 'detector_id' and of type 'meastype'
+	'''
+	template_name 		= 'measurement_list.html'
+	datetime_list 		= get_list_of_datetimes(detector_id, meastype)
+
+	#if datetime is None
+
+	context 			= {
+							'detector_id': detector_id,
+							'meastype': meastype,
+							'datetime_list': datetime_list,
+							'no_entry_msg': 'No {} measurements available' \
+									' for this detector'.format(meastype.upper()),
+						}
+
+	return render(request, template_name, context)
+
+
+@login_required(login_url='login/')
+def get_measurement(request, detector_id, meastype, datetime):
+	'''
+		get_measurement(request, detector_id, type, datetime)
+
+		::param request is the http user request
+
+		::param detector_id is the url param (GET)
+
+		::param type is the url param (GET) suggesting the
+		type of measurement it is
+
+		::param datetime is the url param(GET)
+
+		A function-based view to open the measurement file in a new tab
+		when clicked on a datetime link in the measurement_list page
+		of each type
+	'''
+	pdf_name = "{}{}{}.pdf".format(detector_id,meastype,datetime)
+
+	if getpass.getuser() == 'root':
+		pdf_path = '/home/ubuntu/ssd-dbportal/tmp/pdfs/'
+	else:
+		pdf_path = '/home/{}/ssd-dbportal/tmp/pdfs/'.format(getpass.getuser())
+		
+	pdf_file = Path('{}{}'.format(pdf_path, pdf_name))
+
+	if not pdf_file.is_file():
+		create_measurement_pdf(detector_id, meastype, datetime)
+
+	return FileResponse(open('{}{}'.format(pdf_path, pdf_name), 'rb'), 
+			content_type='application/pdf')
 

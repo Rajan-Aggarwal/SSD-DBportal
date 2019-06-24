@@ -8,6 +8,7 @@
 
 #include <iostream>   
 #include <string> 
+#include <unistd.h>
 
 #include "TIV.h"
 #include "TCV.h"
@@ -74,7 +75,14 @@ void GetPlotCVIV( string detid , string meastype , string date ) {
     tree->Draw( whatp , sel , "lsame" )   ;
    }
    //htemp->GetXaxis()->SetTitle( Xtit ) ;   htemp->GetYaxis()->SetTitle( Ytit ) ;
-   TString pdfnm = TString("~/ssd-dbportal/tmp/pdfs/") + DetID + MeasType + Date + ".pdf" ;
+   std::string name;
+   name = getlogin();
+   TString pdfnm;
+   if (name.compare("root") == 0) {
+      pdfnm = TString("/home/ubuntu/ssd-dbportal/tmp/pdfs/") + DetID + MeasType + Date + ".pdf" ;
+   } else {
+      pdfnm = TString("/home/") + TString(name) + TString("/ssd-dbportal/tmp/pdfs/") + DetID + MeasType + Date + ".pdf" ;
+   }
    c1->Print( pdfnm );
 }
 

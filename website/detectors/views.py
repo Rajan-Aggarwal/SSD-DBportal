@@ -706,7 +706,7 @@ def measurement_list(request, detector_id, meastype):
 
 	context 			= {
 							'detector_id': detector_id,
-							'meastype': meastype.upper(),
+							'meastype': meastype,
 							'datetime_list': datetime_list,
 							'no_entry_msg': 'No {} measurements available' \
 									' for this detector'.format(meastype.upper()),

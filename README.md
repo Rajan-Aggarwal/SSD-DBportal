@@ -1,4 +1,4 @@
-# SSD-DBportal v 1.2
+# SSD-DBportal v 2.0
 
 SSD-DBportal is a web portal to access the inventory of various detectors used in SSD operations.
 
@@ -14,7 +14,7 @@ It runs officially under Django 2.2.1 and Python 3
 
 # Additions from the previous version
 
-1. Add documentation
+1. Add ROOT measurement - CV and IV for each detector
 
 # Third party applications used
 

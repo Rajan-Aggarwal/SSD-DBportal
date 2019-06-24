@@ -40,9 +40,9 @@ def get_list_of_datetimes(detector_id, meastype):
     output  = subprocess.check_output(command, cwd=ROOT_WORK_DIR)
 
     # get it in a list of strings format
-    datetime_list = output.decode('utf-8').split('\n')[1:-1]
+    datetime_list = output.decode('utf-8').split('\n')[:-1]
   except:
     datetime_list = []
   return datetime_list
 
-print(get_ner_of_meas('LGADs_CNM_11748_W5_DB16','cv'))
+print(get_list_of_datetimes('LGADs_CNM_11748_W5_DB17','iv'))

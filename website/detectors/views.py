@@ -736,7 +736,12 @@ def get_measurement(request, detector_id, meastype, datetime):
 		of each type
 	'''
 	pdf_name = "{}{}{}.pdf".format(detector_id,meastype,datetime)
-	pdf_path = '/home/{}/ssd-dbportal/tmp/pdfs/'.format(getpass.getuser())
+
+	if getpass.getuser() == 'root':
+		pdf_path = '/home/ubuntu/ssd-dbportal/tmp/pdfs/'
+	else:
+		pdf_path = '/home/{}/ssd-dbportal/tmp/pdfs/'.format(getpass.getuser())
+		
 	pdf_file = Path('{}{}'.format(pdf_path, pdf_name))
 
 	if not pdf_file.is_file():

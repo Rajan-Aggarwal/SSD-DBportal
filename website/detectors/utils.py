@@ -5,7 +5,19 @@ import getpass
 
 # root utils
 
-ROOT_WORK_DIR = '/home/{}/ssd-dbportal/root-scripts'.format(getpass.getuser())
+def get_root_work_dir():
+	'''
+		determine which directory to use
+		acc. to whether this is dev env
+		or deployment env
+	'''
+
+	if getpass.getuser() == 'root':
+		root_work_dir = '/home/ubuntu/ssd-dbportal/root-scripts'
+	else:
+		root_work_dir = '/home/{}/ssd-dbportal/root-scripts'.format(getpass.getuser())
+	return root_work_dir
+
 
 def get_ner_of_meas(detector_id, meastype):
 	'''
@@ -19,7 +31,7 @@ def get_ner_of_meas(detector_id, meastype):
 
 	command = ['./GetNerOfMeasurement', detector_id, meastype]
 	try:
-		output 	= subprocess.check_output(command, cwd=ROOT_WORK_DIR)
+		output 	= subprocess.check_output(command, cwd=get_root_work_dir())
 		ner 	= output.decode('utf-8')
 	except Exception as e:
 		print(e) 
@@ -39,7 +51,7 @@ def get_list_of_datetimes(detector_id, meastype):
 
 	command = ['./GetListOfDates', detector_id, meastype]
 	try:
-		output 	= subprocess.check_output(command, cwd=ROOT_WORK_DIR)
+		output 	= subprocess.check_output(command, cwd=get_root_work_dir())
 		# get it in a list of strings format
 		datetime_list = output.decode('utf-8').split('\n')[1:-1]
 	except Exception as e:
@@ -62,7 +74,7 @@ def create_measurement_pdf(detector_id, meastype, datetime):
 	'''
 	command = ['./GetPlotCVIV', detector_id, meastype, datetime]
 	try:
-		subprocess.run(command, cwd=ROOT_WORK_DIR)
+		subprocess.run(command, cwd=get_root_work_dir())
 	except Exception as e:
 		print(e)
 

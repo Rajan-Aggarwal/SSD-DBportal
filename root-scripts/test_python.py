@@ -2,7 +2,7 @@ import subprocess
 import getpass
 import os
 
-ROOT_WORK_DIR = '/home/{}/ssd-dbportal/root-scripts'.format(getpass.getuser())
+ROOT_WORK_DIR = '/home/ubuntu/ssd-dbportal/root-scripts'
 
 
 def get_ner_of_meas(detector_id, meastype):
@@ -15,9 +15,12 @@ def get_ner_of_meas(detector_id, meastype):
     done on detector_id
   '''
 
-  command = ['./GetNerOfMeasurement', detector_id, meastype]
-  output  = subprocess.check_output(command, cwd=ROOT_WORK_DIR)
+  command = ['sudo', 'ROOTSYS=/usr/local', 'LD_LIBRARY_PATH=/usr/local/lib/root', './GetNerOfMeasurement', detector_id, meastype]
+  try:
+    output=subprocess.check_output(command, cwd=ROOT_WORK_DIR)
   # output is of the form b'\n<ner>\n'
+  except Exception as e:
+    print(e)
   ner     = output.decode('utf-8')
   return ner
 
@@ -42,4 +45,4 @@ def get_list_of_datetimes(detector_id, meastype):
     datetime_list = []
   return datetime_list
 
-print(get_list_of_datetimes('gfdsgdgfsfg','cv'))
+print(get_ner_of_meas('LGADs_CNM_11748_W5_DB16','cv'))

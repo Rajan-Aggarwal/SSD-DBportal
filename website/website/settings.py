@@ -25,7 +25,7 @@ SECRET_KEY = 'o1tuvr^@o^h9y&9x7!sb179o3_r2!7qr4rl#qva%!dj)#lt&vz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ssddb.cern.ch', ]
+ALLOWED_HOSTS = ['ssddb.cern.ch', 'localhost', ]
 
 # Add static folder to STATIC_DIRS
 

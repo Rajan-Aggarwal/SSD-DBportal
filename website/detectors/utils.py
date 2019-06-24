@@ -53,7 +53,7 @@ def get_list_of_datetimes(detector_id, meastype):
 	try:
 		output 	= subprocess.check_output(command, cwd=get_root_work_dir())
 		# get it in a list of strings format
-		datetime_list = output.decode('utf-8').split('\n')[1:-1]
+		datetime_list = output.decode('utf-8').split('\n')[:-1]
 	except Exception as e:
 		print(e)
 		datetime_list = None

@@ -22,7 +22,7 @@
 {% block pretitle %}{% endblock %}
 
 {% block content %}
-    <p>List of <strong>{{ meastype }}</strong> measurements on <strong>{{ detector_id }}</strong>.</p>
+    <p>List of <strong>{{ meastype|upper }}</strong> measurements on <strong>{{ detector_id }}</strong>.</p>
     <ul>
         {% if datetime_list is None %}
             ({{ no_entry_msg }})

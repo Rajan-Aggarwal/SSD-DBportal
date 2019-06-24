@@ -1,3 +1,3 @@
 #!/bin/sh
 
-rm ~/ssd-dbportal/tmp/pdfs/*
+rm -f ~/ssd-dbportal/tmp/pdfs/*

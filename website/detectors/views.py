@@ -13,7 +13,6 @@ from django.views.generic.list import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin
-from dal import autocomplete
 from datetime import datetime
 import csv
 import xlwt
@@ -107,7 +106,7 @@ class LocationTransferView(GenericDetectorInfoTableView):
 	'''
 		class LocationTransferView(GenericDetectorInfoTableView)
 
-		A generic class-based view to show the LocationTransfer table rows of a given detector id. 
+		A generic class-based view for to show the LocationTransfer table rows of a given detector id. 
 		It inherits GenericDetectorInfoTableView whose description is as follows: 
 
 			class GenericDetectorInfoTableView(LoginRequiredMixin, SingleTableMixin, FilterView)
@@ -146,7 +145,7 @@ class AnnealingView(GenericDetectorInfoTableView):
 	'''
 		class AnnealingView(GenericDetectorInfoTableView)
 
-		A generic class-based view to show the Annealing table rows of a given detector id. 
+		A generic class-based view for to show the Annealing table rows of a given detector id. 
 		It inherits GenericDetectorInfoTableView whose description is as follows: 
 
 			class GenericDetectorInfoTableView(LoginRequiredMixin, SingleTableMixin, FilterView)
@@ -185,7 +184,7 @@ class IrradiationView(GenericDetectorInfoTableView):
 	'''
 		class IrradiationView(GenericDetectorInfoTableView)
 
-		A generic class-based view to show the Irradiation table rows of a given detector id. 
+		A generic class-based view for to show the Irradiation table rows of a given detector id. 
 		It inherits GenericDetectorInfoTableView whose description is as follows: 
 
 			class GenericDetectorInfoTableView(LoginRequiredMixin, SingleTableMixin, FilterView)
@@ -217,47 +216,6 @@ class IrradiationView(GenericDetectorInfoTableView):
 	model 				= Irradiation
 	template_name		= 'irradiation.html'
 	filterset_class		= IrradiationFilter
-
-
-class LocationAutocomplete(LoginRequiredMixin, autocomplete.Select2ListView):
-
-	'''
-		class DetectorAutocomplete((autocomplete.Select2ListView)
-
-		A class-based view for allowing autompletion of current_location
-		field of the Detector table.
-		It inherits LoginRequiredMixin for user authentication
-		It inherits autocomplete.Select2ListView, from a pre-installed app
-		from the django-autocomplete-light module.
-	'''
-
-	def get_list(self):
-		suggestion_list 	= []
-		current_locations 	= Detector.objects.values_list('current_location')
-		for cur_loc in current_locations:
-			suggestion_list.append(cur_loc)
-		return suggestion_list
-
-
-class PersonAutocomplete(LoginRequiredMixin, autocomplete.Select2ListView):
-
-	'''
-		class PersonAutocomplete(LoginRequiredMixin, autocomplete.Select2ListView)
-
-		A class-based view for allowing autompletion of ssd_responsible
-		field of the Detector table.
-		It inherits LoginRequiredMixin for user authentication
-		It inherits autocomplete.Select2ListView, from a pre-installed app
-		from the django-autcomplete-light module.
-	'''
-
-	def get_list(self):
-		suggestion_list = []
-		ssd_people		= Detector.objects.values_list('ssd_responsible')
-		for person in ssd_people:
-			suggestion_list.append(person)
-		return suggestion_list
-
 
 
 # Create your function-based views here
@@ -684,6 +642,11 @@ def export_irradiations_xls(request, detector_id):
 	wb.save(response)
 	return response
 
+############################################################
+
+####################DUMMY FUNCTIONS#########################
+
+############################################################
 
 @login_required(login_url='login/')
 def measurement_index(request, detector_id):
@@ -803,4 +766,7 @@ def get_measurement(request, detector_id, meastype, datetime):
 	return FileResponse(open('{}{}'.format(pdf_path, pdf_name), 'rb'), 
 			content_type='application/pdf')
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> master

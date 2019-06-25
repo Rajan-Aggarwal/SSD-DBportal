@@ -702,18 +702,42 @@ def measurement_index(request, detector_id):
 	measurement_dict 	= {
 							'CV': get_ner_of_meas(detector_id, 'cv'),
 							'IV': get_ner_of_meas(detector_id, 'iv'),
-							# 'Red_Top_TCT': ROOT,
-							# 'Red_Bottom_TCT': ROOT,
-							# 'IR_Top_TCT': ROOT,
-							# 'IR_Bottom_TCT': ROOT,
-							# 'Edge_TCT': ROOT,
-							# 'Top_TPA_TCT': ROOT,
-							# 'Edge_TPA_TCT': ROOT,
 						}
 	context 			= {
 							'detector_id': detector_id,
 							'measurement_dict': measurement_dict,
 						}
+	return render(request, template_name, context)
+
+
+@login_required(login_url='login/')
+def tct_index(request, detector_id):
+	'''
+		def tct_index(request, detector_id)
+
+		::param request is the http user request
+
+		::param detector_id is the url param (GET)
+
+		A function-based view to show to different kinds of tct
+		measurements available for a detector with id 'detector_id' 
+	'''
+	template_name 		= 'tct_index.html'
+
+	ROOT = "<marcosscript>" # development proc
+	measurement_dict 	= { 
+							'Red_Top_TCT': ROOT,
+							'Red_Bottom_TCT': ROOT,
+							'IR_Top_TCT': ROOT,
+							'IR_Bottom_TCT': ROOT,
+							'Edge_TCT': ROOT,
+							'TPA_TCT': ROOT,
+						}
+	context 			= {
+							'detector_id': detector_id,
+							'measurement_dict': measurement_dict
+						}
+
 	return render(request, template_name, context)
 
 
@@ -749,7 +773,7 @@ def measurement_list(request, detector_id, meastype):
 @login_required(login_url='login/')
 def get_measurement(request, detector_id, meastype, datetime):
 	'''
-		get_measurement(request, detector_id, type, datetime)
+		def get_measurement(request, detector_id, type, datetime)
 
 		::param request is the http user request
 
@@ -778,6 +802,5 @@ def get_measurement(request, detector_id, meastype, datetime):
 
 	return FileResponse(open('{}{}'.format(pdf_path, pdf_name), 'rb'), 
 			content_type='application/pdf')
-
 
 

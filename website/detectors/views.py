@@ -641,12 +641,7 @@ def export_irradiations_xls(request, detector_id):
 
 	wb.save(response)
 	return response
-
-############################################################
-
-####################DUMMY FUNCTIONS#########################
-
-############################################################
+	
 
 @login_required(login_url='login/')
 def measurement_index(request, detector_id):

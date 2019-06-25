@@ -21,12 +21,6 @@ import getpass
 
 PER_PAGE_ROWS = 25
 
-# for development only#######
-#############################
-from random import randint
-ROOT = '<root_script_func>'
-#############################
-
 # Create your class-based views here.
 
 class DetectorView(LoginRequiredMixin, SingleTableMixin, FilterView):

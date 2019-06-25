@@ -37,8 +37,6 @@ STATICFILES_DIRS = [
 
 INSTALLED_APPS = [
     'detectors',
-    'dal',
-    'dal_select2',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

@@ -1,7 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 from .models import Detector, LocationTransfer, Irradiation, Annealing
-from .forms import DetectorForm
 
 # create your custom admin models here
 
@@ -13,7 +12,6 @@ class DetectorModelAdmin(ImportExportModelAdmin):
 		---> reorder the object list
 		---> allow 'save as new' functionality to duplicate a record
 	'''
-	form 			= DetectorForm
 	search_fields 	= ('id',)
 	save_as 		= True		
 

@@ -23,8 +23,9 @@ from detectors.views import (logout_view, more,
         export_location_transfers, export_location_transfers_csv, export_location_transfers_xls,
         export_annealings, export_annealings_csv, export_annealings_xls, 
         export_irradiations, export_irradiations_csv, export_irradiations_xls,
-        measurement_index, measurement_list, get_measurement)                                                                 
-from detectors.views import DetectorView, LocationTransferView, AnnealingView, IrradiationView  
+        measurement_index, measurement_list, get_measurement, )                                                                 
+from detectors.views import (DetectorView, LocationTransferView, AnnealingView, IrradiationView,
+        LocationAutocomplete, PersonAutocomplete, )  
 from detectors.forms import LoginForm
 
 # customize the admin page
@@ -110,5 +111,11 @@ urlpatterns = [
     # route downloading the graph of a measurement provided by the root script
     url(r'^more/(?P<detector_id>[\w-]+)/measure/(?P<meastype>[\w-]+)/(?P<datetime>(\d+)-(\d+)-(\d+)::(\d+):(\d+):(\d+))/$', 
         get_measurement, name='get_measurement'),
+
+    # route for the autocomplete task for locations in the admin forms
+    url(r'^location_autocomplete/$', LocationAutocomplete.as_view(), name='location_autocomplete'),
+
+    # route for the autocomplete task for person responsible in the admin forms
+    url(r'^person_autocomplete/$', PersonAutocomplete.as_view(), name='person_autocomplete'),
 
 ]

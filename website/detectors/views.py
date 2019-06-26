@@ -5,7 +5,8 @@ from django_tables2 import RequestConfig
 from .models import Detector, LocationTransfer, Annealing, Irradiation
 from .tables import DetectorTable, LocationTransferTable, AnnealingTable, IrradiationTable
 from .filters import DetectorFilter, LocationTransferFilter, AnnealingFilter, IrradiationFilter
-from .utils import get_ner_of_meas, get_list_of_datetimes, create_measurement_pdf
+from .utils import (get_ner_of_meas, get_list_of_datetimes, create_measurement_pdf,
+	get_ner_of_meas_tct, get_list_of_files_tct, )
 from django.http import HttpResponse, FileResponse, Http404
 from django.views import View
 from django.views.generic.base import TemplateView
@@ -44,7 +45,7 @@ class DetectorView(LoginRequiredMixin, SingleTableMixin, FilterView):
 	model 				= Detector
 	template_name 		= 'home.html'
 	filterset_class		= DetectorFilter
-	paginate_by 		= 20
+	paginate_by 		= PER_PAGE_ROWS
 
 
 class GenericDetectorInfoTableView(LoginRequiredMixin, SingleTableMixin, FilterView):
@@ -75,7 +76,7 @@ class GenericDetectorInfoTableView(LoginRequiredMixin, SingleTableMixin, FilterV
 			--> get_context_data to update the context sent to the template
 	'''
 
-	paginate_by = 20 # set pagination rows to 20
+	paginate_by = PER_PAGE_ROWS 
 
 	def get(self, request, **kwargs):
 		'''
@@ -660,42 +661,12 @@ def measurement_index(request, detector_id):
 	measurement_dict 	= {
 							'CV': get_ner_of_meas(detector_id, 'cv'),
 							'IV': get_ner_of_meas(detector_id, 'iv'),
+							'TCT': get_ner_of_meas_tct(detector_id, 'tct')
 						}
 	context 			= {
 							'detector_id': detector_id,
 							'measurement_dict': measurement_dict,
 						}
-	return render(request, template_name, context)
-
-
-@login_required(login_url='login/')
-def tct_index(request, detector_id):
-	'''
-		def tct_index(request, detector_id)
-
-		::param request is the http user request
-
-		::param detector_id is the url param (GET)
-
-		A function-based view to show to different kinds of tct
-		measurements available for a detector with id 'detector_id' 
-	'''
-	template_name 		= 'tct_index.html'
-
-	ROOT = "<marcosscript>" # development proc
-	measurement_dict 	= { 
-							'Red_Top_TCT': ROOT,
-							'Red_Bottom_TCT': ROOT,
-							'IR_Top_TCT': ROOT,
-							'IR_Bottom_TCT': ROOT,
-							'Edge_TCT': ROOT,
-							'TPA_TCT': ROOT,
-						}
-	context 			= {
-							'detector_id': detector_id,
-							'measurement_dict': measurement_dict
-						}
-
 	return render(request, template_name, context)
 
 
@@ -761,7 +732,66 @@ def get_measurement(request, detector_id, meastype, datetime):
 	return FileResponse(open('{}{}'.format(pdf_path, pdf_name), 'rb'), 
 			content_type='application/pdf')
 
-<<<<<<< HEAD
 
-=======
->>>>>>> master
+
+@login_required(login_url='login/')
+def tct_index(request, detector_id):
+	'''
+		def tct_index(request, detector_id)
+
+		::param request is the http user request
+
+		::param detector_id is the url param (GET)
+
+		A function-based view to show to different kinds of tct
+		measurements available for a detector with id 'detector_id' 
+	'''
+	template_name 		= 'tct_index.html'
+
+	measurement_dict 	= { 
+							'Red_Top_TCT': get_ner_of_meas_tct(detector_id, 
+								'red_top_tct'),
+							'Red_Bottom_TCT': get_ner_of_meas_tct(detector_id,
+								'red_bottom_tct'),
+							'IR_Top_TCT': get_ner_of_meas_tct(detector_id,
+								'ir_top_tct'),
+							'IR_Bottom_TCT': get_ner_of_meas_tct(detector_id,
+								'ir_bottom_tct'),
+							'Edge_TCT': get_ner_of_meas_tct(detector_id, 'edge_tct'),
+							'TPA_TCT': get_ner_of_meas_tct(detector_id, 'tpa_tct'),
+						}
+	context 			= {
+							'detector_id': detector_id,
+							'measurement_dict': measurement_dict
+						}
+
+	return render(request, template_name, context)
+
+
+@login_required(login_url='login/')
+def tct_list(request, detector_id, meastype):
+	'''
+		def tct_list(request, detector_id, meastype)
+
+		::param request is the http user request
+
+		::param detector_id is the url param (GET)
+
+		::param meastype is the url param (GET) suggesting
+		the type of tct measurement list the user wants
+
+		A function-based view to show the name of file (clickable to download a file)
+		of each measurement on detector 'detector_id' and of type 'meastype'
+	'''
+	template_name 		= 'tct_list.html'
+	file_list 			= get_list_of_files_tct(detector_id, meastype)
+
+	context 			= {
+							'detector_id': detector_id,
+							'meastype': meastype,
+							'file_list': file_list,
+							'no_entry_msg': 'No {} measurements available' \
+								' for this detector'.format(meastype.upper().replace('_', ' ')),
+						}
+
+	return render(request, template_name, context)

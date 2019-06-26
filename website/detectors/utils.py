@@ -79,35 +79,46 @@ def create_measurement_pdf(detector_id, meastype, datetime):
 		print(e)
 
 
-
-
-# THIS CODE HAS NOT BEEN UTILIZED; USE IT IN CASE PAGINATION FAILS #
-####################################################################
-####################################################################
-####################################################################
-
-class PagedFilteredTableView(SingleTableView):
+def get_ner_of_meas_tct(detector_id, meastype):
 	'''
-		In-case default pagination given by django_tables2.SingleTableMixin 
-		(inherited in the generic-view classes) doesn't work
+		::param detector_id is the id of the detector
+
+		::param type is the type of tct measurement
+
+		To return the number of 'type' tct readings 
+		done on detector_id
 	'''
-	filter_class 		= None
-	formhelper_class 	= None
-	context_filter_name = 'filter'
 
-	def get_queryset(self, **kwargs):
-		'''
-			override the get_queryset to allow pagination
-		'''
-		qs 							= super(PagedFilteredTableView, self).get_queryset()
-		self.filter 				= self.filter_class(self.request.GET, queryset=qs)
-		self.filter.form.helper 	= self.formhelper_class()
-		return self.filter.qs
+	command = ['./GetNerOfMeasurement_TCT', detector_id, meastype]
+	try:
+		output 	= subprocess.check_output(command, cwd=get_root_work_dir())
+		ner 	= output.decode('utf-8')
+	except Exception as e:
+		print(e)
+		ner 	= '0 '
+	return ner[:-1]
 
-	def get_context_data(self, **kwargs):
-		'''
-			override the get_context_data to allow pagination
-		'''
-		context = super(PagedFilteredTableView, self).get_context_data()
-		context[self.context_filter_name] = self.filter
-		return context
+
+def get_list_of_files_tct(detector_id, meastype):
+	'''
+		::param detector_id is the id of the detector
+		
+		::param meastype is the type of measurement
+
+		To return a list of files of measurements of tct type
+		meastype on detector_id
+	'''
+
+	command = ['./GetListOfFiles_TCT', detector_id, meastype]
+	try:
+		output 		= subprocess.check_output(command, cwd=get_root_work_dir())
+		# get it in a list of strings format
+		file_list 	= output.decode('utf-8').split('\n')[:-1]
+	except Exception as e:
+		print(e)
+		file_list	= None
+
+	return file_list
+
+
+

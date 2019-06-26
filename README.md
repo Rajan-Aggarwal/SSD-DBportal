@@ -1,4 +1,4 @@
-# SSD-DBportal v 2.0
+# SSD-DBportal v 2.1
 
 SSD-DBportal is a web portal to access the inventory of various detectors used in SSD operations.
 
@@ -12,9 +12,13 @@ An admin is able to do CRUD operations on all information, i.e, he can register 
 
 It runs officially under Django 2.2.1 and Python 3
 
-# Additions from the previous version
+# Additions from the previous version 1.X
 
-1. Add ROOT measurement - CV and IV for each detector
+1. Add ROOT measurement - CV, IV and TCT (no graphs for tct) for each detector
+
+# Additions from the previous version 2.0
+
+1. Add TCT list (without graphs)
 
 # Third party applications used
 
@@ -25,3 +29,4 @@ It runs officially under Django 2.2.1 and Python 3
 5. crispy-forms
 6. admin-reorder
 7. django-docutils
+8. CERN-ROOT

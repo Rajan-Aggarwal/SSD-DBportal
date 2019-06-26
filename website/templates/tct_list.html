@@ -1,4 +1,5 @@
 {% extends "admin/base_site.html" %}
+{% load template_filters %}
 
 {% block branding %}
 
@@ -22,10 +23,14 @@
 {% block pretitle %}{% endblock %}
 
 {% block content %}
-    <p>List of measurements done on <strong>{{ detector_id }}</strong>.</p>
+    <p>List of <strong>{{ meastype|uts_upper }}</strong> measurements on <strong>{{ detector_id }}</strong>.</p>
     <ul>
-        <li><p><a href="{% url 'measurement_list' detector_id "cv" %}">CV</a> ({{measurement_dict.CV}})</p></li>
-        <li><p><a href="{% url 'measurement_list' detector_id "iv" %}">IV</a> ({{measurement_dict.IV}})</p></li>
-        <li><p><a href="{% url 'tct_index' detector_id %}">TCT</a> ({{measurement_dict.TCT}}) </p></li>
+        {% if file_list is None %}
+            ({{ no_entry_msg }})
+        {% else %}
+            {% for file in file_list %}
+                <li>{{ file }}</li>
+            {% endfor %}
+        {% endif %}
     </ul>
 {% endblock %}

@@ -1,6 +1,9 @@
 import django_filters
 from .models import Detector, LocationTransfer, Annealing, Irradiation
 
+
+# write your class based (django_filters based) filters here
+
 class DetectorFilter(django_filters.FilterSet):
 
 	'''

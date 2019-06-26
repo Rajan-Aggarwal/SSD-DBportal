@@ -32,4 +32,19 @@
             {% endfor %}
         {% endif %}
     </ul>
+
+    <div class="pagination">
+        <span class="step-links">
+            <ul>
+                {% if datetime_list.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ datetime_list.previous_page_number }}">&nbsp; previous</a>
+                {% endif %}
+                {% if datetime_list.has_next %}
+                    <a href="?page={{ datetime_list.next_page_number }}">&nbsp; next</a>
+                    <a href="?page={{ datetime_list.paginator.num_pages }}">&nbsp; last &raquo;</a>
+                {% endif %}
+            </ul>
+        </span>
+    </div>
 {% endblock %}

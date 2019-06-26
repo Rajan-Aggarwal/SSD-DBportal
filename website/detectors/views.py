@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.core.paginator import Paginator
 from django_tables2 import RequestConfig
 from .models import Detector, LocationTransfer, Annealing, Irradiation
 from .tables import DetectorTable, LocationTransferTable, AnnealingTable, IrradiationTable
@@ -20,7 +21,8 @@ import xlwt
 from pathlib import Path
 import getpass
 
-PER_PAGE_ROWS = 25
+PER_PAGE_ROWS 		= 25
+PER_PAGE_READINGS 	= 50
 
 # Create your class-based views here.
 
@@ -688,10 +690,15 @@ def measurement_list(request, detector_id, meastype):
 	template_name 		= 'measurement_list.html'
 	datetime_list 		= get_list_of_datetimes(detector_id, meastype)
 
+	# add pagination
+	paginator 			= Paginator(datetime_list, PER_PAGE_READINGS)
+	page 				= request.GET.get('page')
+	pag_datetimes		= paginator.get_page(page)
+
 	context 			= {
 							'detector_id': detector_id,
 							'meastype': meastype,
-							'datetime_list': datetime_list,
+							'datetime_list': pag_datetimes,
 							'no_entry_msg': 'No {} measurements available' \
 									' for this detector'.format(meastype.upper()),
 						}
@@ -786,10 +793,15 @@ def tct_list(request, detector_id, meastype):
 	template_name 		= 'tct_list.html'
 	file_list 			= get_list_of_files_tct(detector_id, meastype)
 
+	# add pagination
+	paginator 			= Paginator(file_list, PER_PAGE_READINGS)
+	page 				= request.GET.get('page')
+	pag_files 			= paginator.get_page(page)
+
 	context 			= {
 							'detector_id': detector_id,
 							'meastype': meastype,
-							'file_list': file_list,
+							'file_list': pag_files,
 							'no_entry_msg': 'No {} measurements available' \
 								' for this detector'.format(meastype.upper().replace('_', ' ')),
 						}

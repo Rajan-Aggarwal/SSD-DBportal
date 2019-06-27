@@ -38,6 +38,7 @@ CFLAGS=`root-config --cflags`
 RCLIBS=`root-config --libs` 
 MYLIBS="TCTSummary.o TMeas.o TMeasHeader.o TWaveform.o TMeasDict.o TMeasHeaderDict.o TCTSummaryDict.o TWaveDict.o"
 MYLIBS2="TCTSummary.o TCTSummaryDict.o TWaveform.o TWaveDict.o"
+MYLIBS3="TMeas.o TMeasHeader.o TWaveform.o TMeasDict.o TMeasHeaderDict.o TWaveDict.o"
 if ( test $BITS = "64" );then
   GC="g++ -g -std=c++0x -Wall -fPIC"
 else
@@ -88,8 +89,22 @@ if (test "$PROG" = "MakeTCTSummary");then
   $GC $CFLAGS -c "$PROG"."$EXT"
   g++ -g $PROG.o $MYLIBS $RCLIBS -lTreePlayer -lMathMore -o $PROG
 
+elif (test "$PROG" = "plot1D_TCT");then
+  $GC $CFLAGS -c $PROG."$EXT"
+  g++ -g $PROG.o TWaveform.o TWaveDict.o $RCLIBS -lTreePlayer -o $PROG
+
+elif (test "$PROG" = "plot2D_TCT");then
+  $GC $CFLAGS -c "$PROG"."$EXT"
+  g++ -g $PROG.o TWaveform.o TWaveDict.o $RCLIBS -lTreePlayer -o $PROG
+
+elif (test "$PROG" = "GetPlot_TCT");then
+  #ex=`ClassesComp`
+  $GC $CFLAGS -c plot1D_TCT.C             #Use EXE=1 here !!!
+  $GC $CFLAGS -c plot2D_TCT.C             #Use EXE=1 here !!!
+  $GC $CFLAGS -c $PROG."$EXT"             #Use EXE=2 here!!
+  g++ -g $PROG.o plot1D_TCT.o plot2D_TCT.o $MYLIBS3 $RCLIBS -lTreePlayer -o $PROG
+
 else
-  ex=`ClassesComp`
   $GC $CFLAGS -c "$PROG"."$EXT"
   g++ -g $PROG.o $MYLIBS2 $RCLIBS -lTreePlayer -lMathMore -o $PROG
 fi

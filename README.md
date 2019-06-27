@@ -16,9 +16,9 @@ It runs officially under Django 2.2.1 and Python 3
 
 1. Add ROOT measurement - CV, IV and TCT (no graphs for tct) for each detector
 
-# Additions from the previous version 2.0
+# Additions from the previous version 2.1
 
-1. Add TCT list (without graphs)
+1. Add TCT measurements (with graphs)
 
 # Third party applications used
 

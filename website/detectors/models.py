@@ -1,6 +1,7 @@
 from django.db import models
 from django.shortcuts import get_object_or_404
 from datetime import date
+from django.core.validators import RegexValidator
 
 # create your models/database-tables here
 
@@ -16,7 +17,13 @@ class Detector(models.Model):
 		Each field is mandatory by default. Make blank=True and null=True (attributes of the field) to change that. 
 		To add or update a field, refer to https://docs.djangoproject.com/en/2.2/topics/db/models/#fields.
 	'''
-	id 						= models.CharField('Detector name or ID', max_length=256, primary_key=True) # sensor name 
+	id 						= models.CharField('Detector name or ID', max_length=256, primary_key=True, 
+												validators=[
+													RegexValidator(regex=r'^[\w-]+$',
+																message='Detector ID cannot have special characters',
+																code='invalid_detector_id'),
+													]
+												) 
 	producer 				= models.CharField(max_length=256)
 	project 				= models.CharField(max_length=256)
 	bulk_type 				= models.CharField(max_length=256)

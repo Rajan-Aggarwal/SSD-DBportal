@@ -7,7 +7,7 @@ from .models import Detector, LocationTransfer, Annealing, Irradiation
 from .tables import DetectorTable, LocationTransferTable, AnnealingTable, IrradiationTable
 from .filters import DetectorFilter, LocationTransferFilter, AnnealingFilter, IrradiationFilter
 from .utils import (get_ner_of_meas, get_list_of_datetimes, create_measurement_pdf,
-	get_ner_of_meas_tct, get_list_of_files_tct, )
+	get_ner_of_meas_tct, get_list_of_files_tct, create_measurement_pdf_tct, )
 from django.http import HttpResponse, FileResponse, Http404
 from django.views import View
 from django.views.generic.base import TemplateView
@@ -730,6 +730,7 @@ def get_measurement(request, detector_id, meastype, datetime):
 	'''
 	pdf_name = "{}{}{}.pdf".format(detector_id,meastype,datetime)
 
+	# during deployment, user will be ubuntu but nginx executes under root
 	if getpass.getuser() == 'root':
 		pdf_path = '/home/ubuntu/ssd-dbportal/tmp/pdfs/'
 	else:
@@ -816,3 +817,38 @@ def tct_list(request, detector_id, meastype):
 						}
 
 	return render(request, template_name, context)
+
+
+@login_required(login_url='login/')
+def get_measurement_tct(request, detector_id, meastype, filename):
+	'''
+		def get_measurement_tct(request, detector_id, meastype, filename)
+
+		::param request is the http user request
+
+		::param detector_id is the url param (GET)
+
+		::param type is the url param (GET) suggesting the
+		type of measurement it is
+
+		::param filename is the url param(GET)
+
+		A function-based view to open the tct measurement file in a new tab
+		when clicked on a filename link in the tct_list page
+		of each type
+	'''
+	pdf_name = "{}.pdf".format(filename)
+
+	# during deployment, user will be ubuntu but nginx executes under root
+	if getpass.getuser() == 'root':
+		pdf_path = '/home/ubuntu/ssd-dbportal/tmp/pdfs/'
+	else:
+		pdf_path = '/home/{}/ssd-dbportal/tmp/pdfs/'.format(getpass.getuser())
+
+	pdf_file = Path('{}{}'.format(pdf_path, pdf_name))
+
+	if not pdf_file.is_file():
+		create_measurement_pdf_tct(filename)
+
+	return FileResponse(open('{}{}'.format(pdf_path, pdf_name), 'rb'), 
+			content_type='application/pdf')

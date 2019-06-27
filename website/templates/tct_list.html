@@ -29,7 +29,7 @@
             ({{ no_entry_msg }})
         {% else %}
             {% for file in file_list %}
-                <li>{{ file }}</li>
+                <li><a href="{% url 'get_measurement_tct' detector_id meastype file %}" target="_blank">{{ file }}</a></li>
             {% endfor %}
         {% endif %}
     </ul>

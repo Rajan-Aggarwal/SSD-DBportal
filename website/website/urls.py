@@ -23,7 +23,8 @@ from detectors.views import (logout_view, more,
         export_location_transfers, export_location_transfers_csv, export_location_transfers_xls,
         export_annealings, export_annealings_csv, export_annealings_xls, 
         export_irradiations, export_irradiations_csv, export_irradiations_xls,
-        measurement_index, measurement_list, get_measurement, tct_index, tct_list, )                                                                 
+        measurement_index, measurement_list, get_measurement, tct_index, tct_list, 
+        get_measurement_tct, )                                                                 
 from detectors.views import DetectorView, LocationTransferView, AnnealingView, IrradiationView                                                              
 from detectors.views import DetectorView, LocationTransferView, AnnealingView, IrradiationView  
 from detectors.forms import LoginForm
@@ -110,6 +111,10 @@ urlpatterns = [
 
     # route listing the dates of a particular tct type of measurement on a particular detector
     url(r'^more/(?P<detector_id>[\w-]+)/measure/tct/(?P<meastype>[\w-]+)/$', tct_list, name='tct_list'),
+
+    # route downloading the graph of a tct measurement provided by the root script
+    url(r'^more/(?P<detector_id>[\w-]+)/measure/tct/(?P<meastype>[\w-]+)/(?P<filename>[\w-]+)$', 
+        get_measurement_tct, name='get_measurement_tct'),
 
     # route listing the dates of a particular type of measurement on a particular detector
     url(r'^more/(?P<detector_id>[\w-]+)/measure/(?P<meastype>[\w-]+)/$', measurement_list, name='measurement_list'),

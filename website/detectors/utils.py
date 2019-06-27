@@ -121,4 +121,15 @@ def get_list_of_files_tct(detector_id, meastype):
 	return file_list
 
 
+def create_measurement_pdf_tct(filename):
+	'''
+		::param filename is the name of the tct meas file
 
+		To generate a pdf of root measurements (tct) and store 
+		it in ~/ssd-dbportal/tmp/pdfs
+	'''
+	command = ['./GetPlot_TCT', filename]
+	try:
+		subprocess.run(command, cwd=get_root_work_dir())
+	except Exception as e:
+		print(e)

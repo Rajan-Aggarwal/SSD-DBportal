@@ -1,9 +1,5 @@
 /*
-    ./GetPlotCVIV "3D-7781-DET-5-Pad_u_25x50" "cv" "15-5-2017::17:43:4"
-    
-    Or:
-    root -l -q -b "GetPlotCVIV.C(\"3D-7781-DET-5-Pad_u_25x50\" ,\"cv\",\"15-5-2017::17:43:4\")"
-
+    ./GetPlot_TCT <filename>
 */
 
 #include <iostream>   

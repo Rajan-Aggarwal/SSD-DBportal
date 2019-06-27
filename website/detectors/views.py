@@ -663,7 +663,7 @@ def measurement_index(request, detector_id):
 	measurement_dict 	= {
 							'CV': get_ner_of_meas(detector_id, 'cv'),
 							'IV': get_ner_of_meas(detector_id, 'iv'),
-							'TCT': get_ner_of_meas_tct(detector_id, 'tct')
+							'TCT': get_ner_of_meas_tct(detector_id, 'tct'),
 						}
 	context 			= {
 							'detector_id': detector_id,
@@ -693,7 +693,11 @@ def measurement_list(request, detector_id, meastype):
 	# add pagination
 	paginator 			= Paginator(datetime_list, PER_PAGE_READINGS)
 	page 				= request.GET.get('page')
-	pag_datetimes		= paginator.get_page(page)
+
+	if datetime_list is not None:
+		pag_datetimes	= paginator.get_page(page)
+	else:
+		pag_datetimes 	= None 
 
 	context 			= {
 							'detector_id': detector_id,
@@ -766,6 +770,7 @@ def tct_index(request, detector_id):
 								'ir_bottom_tct'),
 							'Edge_TCT': get_ner_of_meas_tct(detector_id, 'edge_tct'),
 							'TPA_TCT': get_ner_of_meas_tct(detector_id, 'tpa_tct'),
+							'Timing': get_ner_of_meas_tct(detector_id, 'timing'),
 						}
 	context 			= {
 							'detector_id': detector_id,
@@ -796,7 +801,11 @@ def tct_list(request, detector_id, meastype):
 	# add pagination
 	paginator 			= Paginator(file_list, PER_PAGE_READINGS)
 	page 				= request.GET.get('page')
-	pag_files 			= paginator.get_page(page)
+
+	if file_list is not None:
+		pag_files 		= paginator.get_page(page)
+	else:
+		pag_files		= None
 
 	context 			= {
 							'detector_id': detector_id,

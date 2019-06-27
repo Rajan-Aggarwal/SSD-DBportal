@@ -15,7 +15,8 @@ void GetNerOfMeasurement_TCT( string detid , string meastype ) {
   red_{top,bottom}_tct	
   ir_{top,bottom}_tct	
   edge_tct		
-  tpa_tct			
+  tpa_tct
+  timing			
 
 */   
    //gSystem->Load("~/apps/TRICS/TCTSummary_cpp.so");   
@@ -37,22 +38,25 @@ void GetNerOfMeasurement_TCT( string detid , string meastype ) {
      sel  = TString("sensor.Contains(\"") + DetID.Data()+ TString("\")") ;
    }
    if ( MeasType.EqualTo("red_top_tct")) {
-     sel  = TString("sensor.Contains(\"") + DetID.Data()+ TString("\") && Illum==1 && Lambda==660") ;
+     sel  = TString("sensor.Contains(\"") + DetID.Data()+ TString("\") && Illum==1 && Lambda==660 && Nav>1") ;
    }
    if ( MeasType.EqualTo("red_bottom_tct")) {
-     sel  = TString("sensor.Contains(\"") + DetID.Data()+ TString("\") && Illum==-1 && Lambda==660") ;
+     sel  = TString("sensor.Contains(\"") + DetID.Data()+ TString("\") && Illum==-1 && Lambda==660 && Nav>1") ;
    }
    if ( MeasType.EqualTo("ir_top_tct")) {
-     sel  = TString("sensor.Contains(\"") + DetID.Data()+ TString("\") && Illum==1 && Lambda==1064") ;
+     sel  = TString("sensor.Contains(\"") + DetID.Data()+ TString("\") && Illum==1 && Lambda==1064 && Nav>1") ;
    }
    if ( MeasType.EqualTo("ir_bottom_tct")) {
-     sel  = TString("sensor.Contains(\"") + DetID.Data()+ TString("\") && Illum==-1 && Lambda==1064") ;
+     sel  = TString("sensor.Contains(\"") + DetID.Data()+ TString("\") && Illum==-1 && Lambda==1064 && Nav>1") ;
    }
    if ( MeasType.EqualTo("edge_tct")) {
-     sel  = TString("sensor.Contains(\"") + DetID.Data()+ TString("\") && Illum==0 && Lambda==1064") ;
+     sel  = TString("sensor.Contains(\"") + DetID.Data()+ TString("\") && Illum==0 && Lambda==1064 && Nav>1") ;
    }
    if ( MeasType.EqualTo("tpa_tct")) {
-     sel  = TString("sensor.Contains(\"") + DetID.Data()+ TString("\") && (Setup==6 ||Setup==9)") ;
+     sel  = TString("sensor.Contains(\"") + DetID.Data()+ TString("\") && (Setup==6 ||Setup==9) && Nav>1") ;
+   }
+   if ( MeasType.EqualTo("timing")) {
+     sel  = TString("sensor.Contains(\"") + DetID.Data()+ TString("\") && (Setup==8 || Nav==1)") ;
    }
    
    //Get Ner of Measurements of type meastype

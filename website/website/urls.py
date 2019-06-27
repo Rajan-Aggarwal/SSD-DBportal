@@ -37,7 +37,7 @@ admin.site.index_title	= ''
 urlpatterns = [
     
     # admin documentation page
-    url(r'^admin/docs/', include('django.contrib.admindocs.urls')),
+    url(r'^docs/', include('django.contrib.admindocs.urls')),
 
     # main admin page
     url(r'^admin/', admin.site.urls, name='admin'),

@@ -1,7 +1,3 @@
-/*
-    ./GetPlot_TCT <filename>
-*/
-
 #include <iostream>   
 #include <string> 
 #include <unistd.h>
@@ -16,8 +12,14 @@
 #include "TDatime.h"
 #include "TCanvas.h"
 #include "TError.h"
+#include "TMath.h"
 
-#define OUTDIR "/home/ubuntu/ssd-dbportal/tmp/pdfs/"
+//#define OUTDIR "/home/ubuntu/ssd-dbportal/tmp/pdfs/"
+//#define INDIR "/home/ubuntu/mounts/TCT_DB/"
+
+#define OUTDIR "/home/ssd/tmp/"
+#define INDIR  "/home/ssd/mounts/TCT_DB/"
+
 
 using namespace std;
 extern Int_t  plot1D( TString varexp , TString selection, TString fnm , TString OutDir ) ;
@@ -25,7 +27,7 @@ extern Int_t  plot2D( TString varexp , TString selection, TString fnm , TString 
 
 void GetPlot_TCT( TString fnm ) {
 
-   fnm = "/home/ubuntu/mounts/TCT_DB/" + fnm + ".txt.root" ;
+   fnm = TString(INDIR) + fnm + ".txt.root" ;
    
    TString OutDir = OUTDIR ;
 
@@ -84,10 +86,44 @@ void GetPlot_TCT( TString fnm ) {
    if (Ny>1 && Nz>1 ) what = TString("y:z:Q50") ;
    if ( NV == 1 ) plot2D( what , "" , fnm , OutDir ) ;
    if ( NV > 1 ) {
-      for ( Int_t i= 0 ; i<NV ; i++ ) {
+   
+      //Get filename without extension
+      char* basec   = strdup( fnm.Data() ) ; 
+      char *fname   = basename(basec);
+      TString sname = TString( fname );
+      Int_t idot    = sname.First('.') ;
+      
+      //Clean the disk from existing files (we will concatenate files)
+      TString delnm = TString(OutDir) + sname(0,idot) + TString("*.pdf") ;
+      TString cmd = Form("rm -f ") + delnm  ;
+      gSystem->Exec( cmd ) ;
+      
+      //Run plot2D for each voltage
+      Int_t ANV = ( NV>4)? TMath::Nint(NV/4) : 1 ;
+      for ( Int_t i= 0 ; i<NV ; i=i+ANV ) {
+      
+        //Check there are entries for this voltage (some files may be incomplete)
         sel = Form("Vbias==%f",emh->vVbias[i]);
-	plot2D( what , sel , fnm , OutDir) ;
+	Int_t Nent = tree->Draw("x",sel,"goff");
+	if (Nent>0) {
+	  plot2D( what , sel , fnm , OutDir) ;
+        
+	 //Save file with _iteration
+	 TString fromnm = TString(OutDir) + sname(0,idot) + TString(".pdf") ;
+	 TString tonm   = TString(OutDir) + sname(0,idot) + Form("_%d.pdf",i) ;
+         cmd = Form("mv ") + fromnm +" "+ tonm ;
+	 gSystem->Exec( cmd ) ;
+	}
+	
       }
+      
+      //Concatenate PDFs
+      TString fromnm = TString(OutDir) + sname(0,idot) + TString("_[0-9].pdf ");
+      if ( NV > 9 )  fromnm+=TString(OutDir) + sname(0,idot) + TString("_[1-9][0-9].pdf ") ;
+      TString tonm   = TString(OutDir) + sname(0,idot) + TString(".pdf") ;
+      cmd = Form("pdftk ")+ fromnm + TString(" cat output ") + tonm;
+      gSystem->Exec( cmd ) ;
+      
    }
    
    

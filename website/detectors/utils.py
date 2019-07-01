@@ -29,7 +29,11 @@ def get_ner_of_meas(detector_id, meastype):
 		done on detector_id
 	'''
 
-	command = ['./GetNerOfMeasurement', detector_id, meastype]
+	if meastype == 'tsc':
+		command = ['./GetNerOfTSC', detector_id]
+	else:
+		command = ['./GetNerOfMeasurement', detector_id, meastype]
+
 	try:
 		output 	= subprocess.check_output(command, cwd=get_root_work_dir())
 		ner 	= output.decode('utf-8')
@@ -49,7 +53,11 @@ def get_list_of_datetimes(detector_id, meastype):
 		meastype on detector_id
 	'''
 
-	command = ['./GetListOfDates', detector_id, meastype]
+	if meastype == 'tsc':
+		command = ['./GetListOfFiles_TSC', detector_id]
+	else:		
+		command = ['./GetListOfDates', detector_id, meastype]
+
 	try:
 		output 	= subprocess.check_output(command, cwd=get_root_work_dir())
 		# get it in a list of strings format
@@ -72,7 +80,11 @@ def create_measurement_pdf(detector_id, meastype, datetime):
 		To generate a pdf of root measurements and store it in 
 		~/ssddb-portal/tmp/pdfs
 	'''
-	command = ['./GetPlotCVIV', detector_id, meastype, datetime]
+	if meastype == 'tsc':
+		command = ['./GetPlot_TSC', detector_id, meastype, datetime]
+	else:
+		command = ['./GetPlotCVIV', detector_id, meastype, datetime]
+
 	try:
 		subprocess.run(command, cwd=get_root_work_dir())
 	except Exception as e:

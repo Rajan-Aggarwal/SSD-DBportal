@@ -664,6 +664,7 @@ def measurement_index(request, detector_id):
 							'CV': get_ner_of_meas(detector_id, 'cv'),
 							'IV': get_ner_of_meas(detector_id, 'iv'),
 							'TCT': get_ner_of_meas_tct(detector_id, 'tct'),
+							'TSC': get_ner_of_meas(detector_id, 'tsc'),
 						}
 	context 			= {
 							'detector_id': detector_id,

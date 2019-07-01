@@ -27,5 +27,6 @@
         <li><p><a href="{% url 'measurement_list' detector_id "cv" %}">CV</a> ({{measurement_dict.CV}})</p></li>
         <li><p><a href="{% url 'measurement_list' detector_id "iv" %}">IV</a> ({{measurement_dict.IV}})</p></li>
         <li><p><a href="{% url 'tct_index' detector_id %}">TCT</a> ({{measurement_dict.TCT}}) </p></li>
+        <li><p><a href="{% url 'measurement_list' detector_id "tsc" %}">TSC</a> ({{measurement_dict.TSC}})</p></li>
     </ul>
 {% endblock %}

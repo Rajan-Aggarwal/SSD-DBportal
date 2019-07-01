@@ -14,11 +14,11 @@
 #include "TError.h"
 #include "TMath.h"
 
-//#define OUTDIR "/home/ubuntu/ssd-dbportal/tmp/pdfs/"
-//#define INDIR "/home/ubuntu/mounts/TCT_DB/"
+#define OUTDIR "/home/ubuntu/ssd-dbportal/tmp/pdfs/"
+#define INDIR "/home/ubuntu/mounts/TCT_DB/"
 
-#define OUTDIR "/home/ssd/tmp/"
-#define INDIR  "/home/ssd/mounts/TCT_DB/"
+//#define OUTDIR "/home/ssd/tmp/"
+//#define INDIR  "/home/ssd/mounts/TCT_DB/"
 
 
 using namespace std;
